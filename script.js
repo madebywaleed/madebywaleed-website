@@ -1,6 +1,38 @@
 /* Waleed Khan Agency: one small enhancement.
    The sliding showcase under the hero headline. It is skipped for people who
    prefer reduced motion, and the page reads correctly without JavaScript. */
+/* Smooth wheel scrolling: the page eases to where the wheel points instead of jumping.
+   Desktop mouse and trackpad only. Skipped for touch screens and for people who prefer
+   reduced motion, and it never touches scrollable boxes, zoom or the keyboard. */
+(function () {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.matchMedia("(pointer: coarse)").matches) return;
+  var root = document.documentElement, target = window.scrollY, cur = target, raf = 0;
+  var max = function () { return Math.max(0, root.scrollHeight - window.innerHeight); };
+  var inScrollBox = function (el) {
+    while (el && el !== document.body && el !== root) {
+      var o = window.getComputedStyle(el).overflowY;
+      if ((o === "auto" || o === "scroll") && el.scrollHeight > el.clientHeight + 1) return true;
+      el = el.parentElement;
+    }
+    return false;
+  };
+  var tick = function () {
+    cur += (target - cur) * 0.12;
+    if (Math.abs(target - cur) < 0.5) { cur = target; raf = 0; }
+    window.scrollTo({ top: cur, behavior: "instant" });
+    if (raf) raf = requestAnimationFrame(tick);
+  };
+  window.addEventListener("wheel", function (e) {
+    if (e.ctrlKey || e.defaultPrevented || inScrollBox(e.target)) return;
+    e.preventDefault();
+    var d = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+    if (!raf) { cur = window.scrollY; target = cur; }
+    target = Math.max(0, Math.min(max(), target + d));
+    if (!raf) raf = requestAnimationFrame(tick);
+  }, { passive: false });
+  window.addEventListener("scroll", function () { if (!raf) { cur = target = window.scrollY; } }, { passive: true });
+})();
+
 (function () {
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Header: flat at the top, glass capsule once the page is scrolled.
