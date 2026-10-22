@@ -1,0 +1,43 @@
+/* Made by Waleed: developer theme layered on the shared styles.
+   Black and white stay the base. Android green is the accent. */
+:root {
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --g: #3ddc84;      /* on black */
+  --g-ink: #0a7a3d;  /* on white, readable */
+}
+body { background-image: radial-gradient(rgba(10,10,10,0.07) 1px, transparent 1px); background-size: 22px 22px; background-attachment: fixed; }
+.wordmark, .nav a, .button, .menu summary, .menu nav a, .tag, .note-line, .site-footer, .foot-side, .skip-link { font-family: var(--font-mono); }
+.nav a { font-size: 0.82rem; font-weight: 500; letter-spacing: -0.01em; }
+.button { font-size: 0.82rem; font-weight: 700; }
+.wordmark { font-size: 0.95rem; letter-spacing: -0.04em; }
+.wordmark::after { content: "_"; color: var(--g-ink); margin-left: 0.05em; animation: blink 1.1s steps(1) infinite; }
+.site-header .button { background: var(--black); }
+.site-header .button:hover { background: var(--g-ink); border-color: var(--g-ink); }
+.dot { color: var(--g-ink); }
+.finale .dot, .cta .dot, .site-footer .dot { color: var(--g); -webkit-text-fill-color: var(--g); }
+.eyebrow { font-family: var(--font-mono); font-size: 0.85rem; color: var(--g-ink); margin: 0 0 0.9rem; font-weight: 500; }
+.lead, .support p, .tile > p { font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.6; font-weight: 400; }
+.hero .lead { font-size: clamp(0.95rem, 1.5vw, 1.15rem); }
+.tile { border: 1px solid rgba(10,10,10,0.08); transition: transform .2s, border-color .2s, box-shadow .2s; }
+a.tile:hover { transform: translateY(-3px); border-color: var(--g-ink); box-shadow: 0 0 0 3px rgba(61,220,132,0.25); }
+.tag { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.7rem; }
+.tag::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--g-ink); }
+.site-footer nav { font-family: var(--font-display); }
+.site-footer a:hover { color: var(--g); text-decoration: none; }
+.finale .button.light:hover { background: var(--g); border-color: var(--g); color: var(--black); }
+.support a { color: var(--g-ink); text-underline-offset: 3px; }
+
+/* terminal card */
+.term { margin-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 40rem; background: var(--black); color: #e8e8e6; border-radius: 0.9rem; overflow: hidden; box-shadow: 0 18px 40px -20px rgba(0,0,0,0.5); font-family: var(--font-mono); }
+.term-bar { display: flex; align-items: center; gap: 0.4rem; padding: 0.65rem 0.9rem; background: #1b1b1b; font-size: 0.75rem; color: #9a9a96; }
+.term-bar i { width: 0.65rem; height: 0.65rem; border-radius: 50%; background: #3a3a3a; }
+.term-bar span { margin-left: 0.6rem; }
+.term pre { margin: 0; padding: 1.1rem 1.2rem 1.3rem; font: inherit; font-size: clamp(0.72rem, 1.6vw, 0.9rem); line-height: 1.75; overflow-x: auto; white-space: pre; }
+.term .p { color: var(--g); }
+.term .g { color: var(--g); font-weight: 700; }
+.term .c { color: #7a7a76; }
+.term .cur { display: inline-block; width: 0.6em; height: 1.1em; background: var(--g); vertical-align: text-bottom; animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .wordmark::after, .term .cur { animation: none; } a.tile:hover { transform: none; } }
+.finale .eyebrow, .cta .eyebrow { color: var(--g); }
+@media (max-width: 560px) { .term .c { display: none; } }
