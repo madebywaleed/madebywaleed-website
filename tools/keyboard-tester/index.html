@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Keyboard Tester | Check Every Key, Polling Rate &amp; Rollover - Made by Waleed</title>
+  <meta name="description" content="Free online keyboard tester. Find dead, stuck or double-pressing keys, check rollover, estimate polling rate and input delay. Full-size, TKL, 75% and 60%, ANSI and ISO, Windows and Mac.">
+  <meta property="og:title" content="Keyboard Tester by Made by Waleed">
+  <meta property="og:description" content="Test every key, rollover, double-presses, polling rate and input delay. Free, no sign-up.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/keyboard-tester/">
+  <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/keyboard-tester/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <style>
+/* Layout: a keyboard drawn to scale on a desk surface, settings above it, test readouts in a grid below. */
+:root {
+  --bg: #e9ecf1;
+  --surface: #f7f8fb;
+  --case: #cfd5de;
+  --cap: #fdfdfe;
+  --cap-edge: #b9c1cd;
+  --fg: #1c2330;
+  --muted: #5d6879;
+  --line: #d3d9e2;
+  --done: #2f5bd8;
+  --done-soft: #dbe4fb;
+  --held: #e08a1c;
+  --held-ink: #2a1600;
+  --bad: #d23b3b;
+  --heat: #e2501f;
+  --led-off: #c3cad4;
+  --led-on: #2fb35a;
+  --display: "Instrument Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --u: 40px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a1f28; --case: #252c37; --cap: #2f3744; --cap-edge: #11151b;
+    --fg: #e6ebf3; --muted: #93a0b4; --line: #2c3441;
+    --done: #6e93ff; --done-soft: #23325c; --held: #f0a43a; --held-ink: #231300;
+    --bad: #ff6b6b; --heat: #ff7a45; --led-off: #3a4351; --led-on: #4ade80;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a1f28; --case: #252c37; --cap: #2f3744; --cap-edge: #11151b;
+  --fg: #e6ebf3; --muted: #93a0b4; --line: #2c3441;
+  --done: #6e93ff; --done-soft: #23325c; --held: #f0a43a; --held-ink: #231300;
+  --bad: #ff6b6b; --heat: #ff7a45; --led-off: #3a4351; --led-on: #4ade80;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin: 0; }
+.crumb { font-size: 0.85rem; color: var(--muted); }
+.crumb a, .foot a { color: var(--fg); }
+.foot { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 16px; margin: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--display); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 40px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
+h1 { margin: 0; font-size: 1.9rem; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
+.sub { margin: 4px 0 0; color: var(--muted); max-width: 64ch; }
+.progress { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.count { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 0.95rem; }
+.count b { font-size: 1.35rem; color: var(--done); }
+.bar { width: 140px; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--done); transition: width .2s; }
+button, select {
+  font: 600 0.88rem var(--display); color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; cursor: pointer;
+}
+button:hover, select:hover { border-color: var(--muted); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--done); outline-offset: 2px; }
+button.primary { background: var(--fg); color: var(--surface); border-color: var(--fg); }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.group > .lbl { font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; border-radius: 0; padding: 6px 11px; font-weight: 500; background: transparent; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--surface); font-weight: 600; }
+.leds { display: flex; gap: 12px; font-size: 0.8rem; color: var(--muted); margin-left: auto; }
+.led { display: inline-flex; align-items: center; gap: 6px; }
+.led i { width: 9px; height: 9px; border-radius: 50%; background: var(--led-off); }
+.led.on i { background: var(--led-on); box-shadow: 0 0 6px var(--led-on); }
+.check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; cursor: pointer; }
+
+.deck { overflow-x: auto; border-radius: 14px; }
+.board { position: relative; background: var(--case); border-radius: 14px; padding: calc(var(--u) * 0.35); width: max-content; margin: 0 auto; }
+.keys { position: relative; }
+.k { position: absolute; padding: 3px; }
+.k span {
+  position: relative;
+  display: flex; flex-direction: column; justify-content: space-between;
+  width: 100%; height: 100%;
+  background: var(--cap); border-radius: 6px;
+  border: 1px solid var(--cap-edge); border-bottom-width: 3px;
+  font-family: var(--mono); font-size: calc(var(--u) * 0.26); line-height: 1.1;
+  padding: calc(var(--u) * 0.1) calc(var(--u) * 0.13);
+  color: var(--fg); white-space: pre; overflow: hidden;
+  transition: background .12s, color .12s, transform .05s;
+}
+.k.small span { font-size: calc(var(--u) * 0.2); }
+.k.iso span { clip-path: polygon(0 0, 100% 0, 100% 100%, calc(var(--u) * 0.25) 100%, calc(var(--u) * 0.25) calc(var(--u) - 3px), 0 calc(var(--u) - 3px)); }
+.k.nt span { background: transparent; border-style: dashed; color: var(--muted); }
+.k.done span { background: var(--done-soft); border-color: var(--done); color: var(--done); }
+.k.chat span { box-shadow: inset 0 0 0 2px var(--bad); }
+.k.held span { background: var(--held); border-color: var(--held); color: var(--held-ink); transform: translateY(2px); border-bottom-width: 1px; }
+.heat .k:not(.nt):not(.held) span { background: color-mix(in srgb, var(--heat) calc(var(--h, 0) * 1%), var(--cap)); border-color: var(--cap-edge); color: var(--fg); }
+.heat .k span::after { content: attr(data-n); position: absolute; right: 4px; bottom: 2px; font-size: calc(var(--u) * 0.2); font-weight: 700; }
+
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; border: 1px solid var(--cap-edge); background: var(--cap); }
+.legend .l-done { background: var(--done-soft); border-color: var(--done); }
+.legend .l-held { background: var(--held); border-color: var(--held); }
+.legend .l-chat { box-shadow: inset 0 0 0 2px var(--bad); }
+.legend .l-nt { background: transparent; border-style: dashed; }
+.toast { font-size: 0.88rem; color: var(--done); min-height: 1.3em; margin-top: -10px; }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.span2 { grid-column: span 2; }
+.span3 { grid-column: 1 / -1; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .span2, .span3 { grid-column: auto; } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.panel h2 { margin: 0; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.last { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.big { font-family: var(--mono); font-weight: 700; font-size: 2.2rem; min-width: 2.4ch; padding: 2px 14px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); text-align: center; }
+dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; font-size: 0.88rem; }
+dt { color: var(--muted); }
+dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stat { font-family: var(--mono); font-size: 2.2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat small { font-family: var(--display); font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-left: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--mono); font-size: 0.78rem; padding: 3px 7px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); }
+.chip.on { background: var(--done-soft); border-color: var(--done); color: var(--done); }
+.chip.bad { border-color: var(--bad); color: var(--bad); background: var(--bg); }
+.chip.held { background: var(--held); border-color: var(--held); color: var(--held-ink); }
+.sublbl { font-size: 0.8rem; color: var(--muted); margin: 4px 0 -4px; }
+.empty, .note { color: var(--muted); font-size: 0.86rem; margin: 0; }
+.logwrap { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--surface); color: var(--muted); font-weight: 500; font-family: var(--display); }
+td.up { color: var(--muted); }
+tr.bad td { color: var(--bad); }
+.tag-est { font-size: 0.68rem; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+dl.tight { grid-template-columns: max-content 1fr; }
+.react { width: 100%; min-height: 96px; font-size: 1.05rem; border-radius: 10px; border: 0; }
+.react.idle { background: var(--bg); color: var(--fg); border: 1px dashed var(--muted); }
+.react.wait { background: var(--bad); color: #fff; }
+.react.go { background: var(--led-on); color: #06210f; }
+.tips { color: var(--muted); font-size: 0.86rem; margin: 0; padding-left: 18px; display: grid; gap: 4px; max-width: 90ch; }
+@media (prefers-reduced-motion: reduce) { .k span, .bar i { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="crumb"><a href="/">Made by Waleed</a> / Tools</div>
+  <header>
+    <div>
+      <h1>Keyboard Tester</h1>
+      <p class="sub">Press every key. Keys turn blue once they work and orange while held. The tests below also check rollover, double-pressing switches and auto-repeat.</p>
+    </div>
+    <div class="progress">
+      <div class="count"><b id="nDone">0</b> / <span id="nTotal">0</span> keys</div>
+      <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+      <button id="copy" type="button">Copy report</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="group"><span class="lbl">Size</span>
+      <div class="seg" data-set="size">
+        <button type="button" data-v="100">Full-size</button><button type="button" data-v="tkl">TKL</button><button type="button" data-v="75">75%</button><button type="button" data-v="60">60%</button>
+      </div>
+    </div>
+    <div class="group"><span class="lbl">Layout</span>
+      <div class="seg" data-set="form"><button type="button" data-v="ansi">ANSI (US)</button><button type="button" data-v="iso">ISO (UK/EU)</button></div>
+    </div>
+    <div class="group"><span class="lbl">Keys</span>
+      <div class="seg" data-set="os"><button type="button" data-v="win">Windows</button><button type="button" data-v="mac">Mac</button></div>
+    </div>
+    <div class="group"><span class="lbl">View</span>
+      <div class="seg" data-set="view"><button type="button" data-v="status">Status</button><button type="button" data-v="heat">Heatmap</button></div>
+    </div>
+    <div class="leds" aria-label="Lock keys">
+      <span class="led" id="ledCaps"><i></i>Caps</span>
+      <span class="led" id="ledNum"><i></i>Num</span>
+      <span class="led" id="ledScroll"><i></i>Scroll</span>
+    </div>
+  </div>
+
+  <div class="deck" id="deck">
+    <div class="board"><div class="keys" id="keys"></div></div>
+  </div>
+
+  <div class="legend">
+    <span><i></i>Not pressed yet</span>
+    <span><i class="l-done"></i>Works</span>
+    <span><i class="l-held"></i>Held down now</span>
+    <span><i class="l-chat"></i>Double-pressed (possible chatter)</span>
+    <span><i class="l-nt"></i>Can't be tested in a browser</span>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Last key</h2>
+      <div class="last">
+        <div class="big" id="bigKey">–</div>
+        <dl>
+          <dt>key</dt><dd id="dKey">–</dd>
+          <dt>code</dt><dd id="dCode">–</dd>
+          <dt>keyCode</dt><dd id="dWhich">–</dd>
+          <dt>Side</dt><dd id="dLoc">–</dd>
+          <dt>Held for</dt><dd id="dHold">–</dd>
+          <dt>Auto-repeat</dt><dd id="dRep">hold a key</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Rollover</h2>
+      <div class="stat"><span id="maxHeld">0</span><small>most keys held at once</small></div>
+      <div class="sublbl">Held now</div>
+      <div class="chips" id="heldList"><span class="empty">None</span></div>
+      <p class="note">Press and hold as many keys as you can, for example A S D F J K L together. If some keys don't light up while others are held, the keyboard can't register that many at once (ghosting). Many keyboards stop at 6 keys plus modifiers.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Double-press check
+        <select id="thresh" aria-label="Double-press window">
+          <option value="30">30 ms</option><option value="50" selected>50 ms</option><option value="80">80 ms</option>
+        </select>
+      </h2>
+      <div class="stat"><span id="chatTotal">0</span><small>suspicious presses</small></div>
+      <div class="chips" id="chatList"><span class="empty">None found. Tap each key normally a few times.</span></div>
+      <p class="note">A worn switch can register one tap as two presses. Any press that starts within this window after the same key was released is flagged, because fingers can't tap that fast.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Polling rate <span class="tag-est">estimate</span></h2>
+      <div class="stat"><span id="pollHz">–</span><small id="pollSub">Hz</small></div>
+      <div><button id="pollBtn" type="button" class="primary">Start 5-second test</button></div>
+      <p class="note" id="pollNote">Press start, then roll your fingers quickly across as many keys as you can. The shortest gap between key events shows how often the keyboard reports to the computer. A browser can only tell rates up to about 2000 Hz apart, so 4000 and 8000 Hz keyboards will read as 1000 or 2000 Hz. If the result looks low, run it again and roll faster.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Input delay <span class="tag-est">estimate</span></h2>
+      <dl class="tight">
+        <dt>Key to page</dt><dd id="latPage">–</dd>
+        <dt>Key to next frame</dt><dd id="latFrame">–</dd>
+        <dt>Screen refresh</dt><dd id="fps">measuring…</dd>
+      </dl>
+      <p class="note">Averages of your last 20 presses. This is the time from when the computer received the key until this page handled it and drew it. Delay inside the keyboard and its cable or wireless link can't be seen by a browser.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Reaction time</h2>
+      <button id="react" type="button" class="react idle">Click to start</button>
+      <dl class="tight">
+        <dt>Last</dt><dd id="reactLast">–</dd>
+        <dt>Average of 5</dt><dd id="reactAvg">–</dd>
+      </dl>
+      <p class="note">When the box turns green, press any key. The result includes your own reaction, the keyboard and the screen. Most people score 200–300 ms.</p>
+    </section>
+
+    <section class="panel span3">
+      <h2>Extra keys</h2>
+      <p class="note">Media, browser, F13–F24 and Japanese/Korean keys light up here if your keyboard has them. They don't count toward the total.</p>
+      <div class="chips" id="extras"></div>
+      <div class="sublbl">Other keys detected</div>
+      <div class="chips" id="others"><span class="empty">None yet</span></div>
+    </section>
+
+    <section class="panel span3">
+      <h2>Event log
+        <span class="group">
+          <label class="check"><input type="checkbox" id="showUp"> Key-up events</label>
+          <label class="check"><input type="checkbox" id="showRep"> Repeats</label>
+          <label class="check"><input type="checkbox" id="sound"> Click sound</label>
+        </span>
+      </h2>
+      <div class="logwrap">
+        <table>
+          <thead><tr><th>Time</th><th>Event</th><th>key</th><th>code</th><th>keyCode</th><th>Side</th><th>Modifiers</th><th>Gap</th></tr></thead>
+          <tbody id="log"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel span3">
+      <h2>Capture every key</h2>
+      <p class="note">Some keys, like Esc, Windows/Command, Alt+Tab or F11, are normally used by the browser or the computer. Full-screen capture lets this page receive them (works in Chrome and Edge). Hold Esc for a couple of seconds to leave.</p>
+      <div><button id="capture" type="button" class="primary">Go full screen and capture keys</button></div>
+      <ul class="tips">
+        <li>Fn is handled inside the keyboard and is never sent to the computer, so no website can test it. Test it by using it, for example Fn + a brightness key.</li>
+        <li>Print Screen and some laptop special keys may be taken by the computer before the browser sees them.</li>
+        <li>On a phone or tablet, connect a physical keyboard first.</li>
+        <li>Nothing you type is saved or sent anywhere.</li>
+      </ul>
+    </section>
+  </div>
+  <p class="foot">A free tool from <a href="/">Made by Waleed</a>, the product side of <a href="https://waleedkhan.agency/">Waleed Khan Agency</a>. Nothing you type leaves your computer.</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("kbt-" + k); return v === null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("kbt-" + k, v); } catch (e) {} }
+  };
+  const isMac = /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
+  const cfg = {
+    size: store.get("size", "100"),
+    form: store.get("form", "ansi"),
+    os: store.get("os", isMac ? "mac" : "win"),
+    view: store.get("view", "status")
+  };
+
+  // ---------- Layout builder ----------
+  // A key: { codes: [...], label, x, y, w, h, nt (not testable), iso }
+  function build(size, form, os) {
+    const K = [];
+    const mac = os === "mac";
+    const add = (codes, label, x, y, w = 1, h = 1, extra = {}) =>
+      K.push(Object.assign({ codes: codes ? [].concat(codes) : [], label, x, y, w, h, nt: !codes }, extra));
+    const row = (y, x, items) => {
+      items.forEach(it => {
+        if (typeof it === "number") { x += it; return; }
+        const [c, l, w = 1, ex] = it;
+        add(c, l, x, y, w, 1, ex || {}); x += w;
+      });
+      return x;
+    };
+    const L = (win, m) => (mac ? m : win);
+    const digits = [["Digit1","!\n1"],["Digit2","@\n2"],["Digit3","#\n3"],["Digit4","$\n4"],["Digit5","%\n5"],["Digit6","^\n6"],["Digit7","&\n7"],["Digit8","*\n8"],["Digit9","(\n9"],["Digit0",")\n0"],["Minus","_\n-"],["Equal","+\n="]];
+    const qrow = "QWERTYUIOP".split("").map(c => ["Key" + c, c]);
+    const arow = "ASDFGHJKL".split("").map(c => ["Key" + c, c]);
+    const zrow = "ZXCVBNM".split("").map(c => ["Key" + c, c]);
+
+    let W, H, y0;
+    if (size === "100" || size === "tkl") {
+      // Function row
+      row(0, 0, [["Escape", L("Esc","esc")], 1,
+        ["F1","F1"],["F2","F2"],["F3","F3"],["F4","F4"], .5,
+        ["F5","F5"],["F6","F6"],["F7","F7"],["F8","F8"], .5,
+        ["F9","F9"],["F10","F10"],["F11","F11"],["F12","F12"], .5,
+        mac ? ["F13","F13"] : ["PrintScreen","PrtSc"],
+        mac ? ["F14","F14"] : ["ScrollLock","ScrLk"],
+        mac ? ["F15","F15"] : ["Pause","Pause"]]);
+      y0 = 1.5;
+      row(y0, 15.5, [["Insert", L("Ins","help")],["Home","Home"],["PageUp","PgUp"]]);
+      row(y0 + 1, 15.5, [["Delete", L("Del","del ⌦")],["End","End"],["PageDown","PgDn"]]);
+      add("ArrowUp","↑",16.5,y0 + 3);
+      row(y0 + 4, 15.5, [["ArrowLeft","←"],["ArrowDown","↓"],["ArrowRight","→"]]);
+      W = 18.5; H = 6.5;
+      if (size === "100") {
+        row(y0, 19, [["NumLock", L("Num","clear")],["NumpadDivide","/"],["NumpadMultiply","*"],["NumpadSubtract","-"]]);
+        row(y0 + 1, 19, [["Numpad7","7"],["Numpad8","8"],["Numpad9","9"]]);
+        add("NumpadAdd","+",22,y0 + 1,1,2);
+        row(y0 + 2, 19, [["Numpad4","4"],["Numpad5","5"],["Numpad6","6"]]);
+        row(y0 + 3, 19, [["Numpad1","1"],["Numpad2","2"],["Numpad3","3"]]);
+        add("NumpadEnter","Enter",22,y0 + 3,1,2);
+        row(y0 + 4, 19, [["Numpad0","0",2],["NumpadDecimal","."]]);
+        W = 23;
+      }
+    } else if (size === "75") {
+      row(0, 0, [["Escape", L("Esc","esc")],["F1","F1"],["F2","F2"],["F3","F3"],["F4","F4"],["F5","F5"],["F6","F6"],["F7","F7"],["F8","F8"],["F9","F9"],["F10","F10"],["F11","F11"],["F12","F12"],
+        mac ? ["F13","F13"] : ["PrintScreen","PrtSc"], ["Insert", L("Ins","help")], ["Delete", L("Del","del ⌦")]]);
+      y0 = 1.25;
+      add("Home","Home",15,y0); add("PageUp","PgUp",15,y0 + 1); add("PageDown","PgDn",15,y0 + 2); add("End","End",15,y0 + 3);
+      add("ArrowUp","↑",14,y0 + 3);
+      row(y0 + 4, 13, [["ArrowLeft","←"],["ArrowDown","↓"],["ArrowRight","→"]]);
+      W = 16; H = 6.25;
+    } else {
+      y0 = 0; W = 15; H = 5;
+    }
+
+    // Main block
+    const sixty = size === "60";
+    row(y0, 0, [sixty ? [["Escape","Backquote"], "Esc\n`"] : ["Backquote", form === "iso" ? "¬\n`" : "~\n`"],
+      ...digits, ["Backspace", L("Backspace","delete"), 2]]);
+    const iso = form === "iso";
+    row(y0 + 1, 0, [["Tab", L("Tab","tab"), 1.5], ...qrow, ["BracketLeft","{\n["], ["BracketRight","}\n]"],
+      ...(iso ? [] : [["Backslash","|\n\\",1.5]])]);
+    if (iso) add("Enter", L("Enter","return"), 13.5, y0 + 1, 1.5, 2, { iso: true });
+    row(y0 + 2, 0, [["CapsLock", L("Caps Lock","caps lock"), 1.75], ...arow, ["Semicolon",":\n;"], ["Quote", iso ? "@\n'" : "\"\n'"],
+      ...(iso ? [["Backslash","~\n#"]] : [["Enter", L("Enter","return"), 2.25]])]);
+    const rshift = size === "75" ? 1.75 : 2.75;
+    row(y0 + 3, 0, [...(iso ? [["ShiftLeft", L("Shift","shift"), 1.25], ["IntlBackslash","|\n\\"]] : [["ShiftLeft", L("Shift","shift"), 2.25]]),
+      ...zrow, ["Comma","<\n,"], ["Period",">\n."], ["Slash","?\n/"], ["ShiftRight", L("Shift","shift"), rshift]]);
+
+    const FN = [null, "fn"];
+    let bottom;
+    if (size === "75") {
+      bottom = mac
+        ? [["ControlLeft","control",1.25],["AltLeft","option",1.25],["MetaLeft","cmd",1.25],["Space","",6.25],["MetaRight","cmd"],[...FN],["AltRight","option"]]
+        : [["ControlLeft","Ctrl",1.25],["MetaLeft","Win",1.25],["AltLeft","Alt",1.25],["Space","",6.25],["AltRight","Alt"],[...FN],["ControlRight","Ctrl"]];
+    } else if (sixty) {
+      bottom = mac
+        ? [["ControlLeft","control",1.25],["AltLeft","option",1.25],["MetaLeft","cmd",1.25],["Space","",6.25],["MetaRight","cmd",1.25],["AltRight","option",1.25],[null,"fn",1.25],["ControlRight","control",1.25]]
+        : [["ControlLeft","Ctrl",1.25],["MetaLeft","Win",1.25],["AltLeft","Alt",1.25],["Space","",6.25],["AltRight","Alt",1.25],[null,"Fn",1.25],["ContextMenu","Menu",1.25],["ControlRight","Ctrl",1.25]];
+    } else {
+      bottom = mac
+        ? [["ControlLeft","control",1.25],["AltLeft","option",1.25],["MetaLeft","cmd",1.5],["Space","",7],["MetaRight","cmd",1.5],["AltRight","option",1.25],["ControlRight","control",1.25]]
+        : [["ControlLeft","Ctrl",1.25],["MetaLeft","Win",1.25],["AltLeft","Alt",1.25],["Space","",6.25],["AltRight","Alt",1.25],["MetaRight","Win",1.25],["ContextMenu","Menu",1.25],["ControlRight","Ctrl",1.25]];
+    }
+    row(y0 + 4, 0, bottom);
+    return { keys: K, W, H };
+  }
+
+  // ---------- Extra keys ----------
+  const EXTRAS = [
+    ...Array.from({ length: 12 }, (_, i) => ["F" + (13 + i), "F" + (13 + i)]),
+    ["AudioVolumeMute","Mute"],["AudioVolumeDown","Vol −"],["AudioVolumeUp","Vol +"],
+    ["MediaTrackPrevious","⏮ Prev"],["MediaPlayPause","⏯ Play"],["MediaTrackNext","⏭ Next"],["MediaStop","⏹ Stop"],
+    ["BrowserBack","Back"],["BrowserForward","Forward"],["BrowserRefresh","Refresh"],["BrowserHome","Home page"],["BrowserSearch","Search"],["BrowserFavorites","Favorites"],
+    ["LaunchMail","Mail"],["LaunchApp1","My Computer"],["LaunchApp2","Calculator"],["LaunchMediaPlayer","Media"],
+    ["Sleep","Sleep"],["Power","Power"],["WakeUp","Wake"],["Eject","Eject"],
+    ["NumpadEqual","Num ="],["NumpadComma","Num ,"],
+    ["IntlYen","¥"],["IntlRo","Ro"],["Convert","変換"],["NonConvert","無変換"],["KanaMode","かな"],["Lang1","Lang1 / 한영"],["Lang2","Lang2 / 한자"]
+  ];
+  const extraEls = {};
+  EXTRAS.forEach(([c, l]) => {
+    const s = document.createElement("span");
+    s.className = "chip"; s.textContent = l; s.title = c;
+    $("extras").appendChild(s); extraEls[c] = s;
+  });
+
+  // ---------- State ----------
+  const st = {
+    done: new Set(), held: new Map(), counts: {}, chatter: {}, lastUp: {},
+    maxHeld: 0, others: new Set(), t0: performance.now(), lastEventT: null,
+    rep: null
+  };
+  let board = null, keyEls = [], codeMap = {};
+
+  function sizeBoard() {
+    if (!board) return;
+    const avail = $("deck").clientWidth;
+    const u = Math.max(24, Math.min(48, Math.floor((avail - 4) / (board.W + 0.75))));
+    document.documentElement.style.setProperty("--u", u + "px");
+  }
+
+  function render() {
+    board = build(cfg.size, cfg.form, cfg.os);
+    const host = $("keys");
+    host.innerHTML = "";
+    host.style.width = `calc(var(--u) * ${board.W})`;
+    host.style.height = `calc(var(--u) * ${board.H})`;
+    keyEls = []; codeMap = {};
+    board.keys.forEach(k => {
+      const d = document.createElement("div");
+      d.className = "k" + (k.label.replace("\n", "").length > 5 ? " small" : "") + (k.nt ? " nt" : "") + (k.iso ? " iso" : "");
+      d.style.left = `calc(var(--u) * ${k.x})`; d.style.top = `calc(var(--u) * ${k.y})`;
+      d.style.width = `calc(var(--u) * ${k.w})`; d.style.height = `calc(var(--u) * ${k.h})`;
+      d.title = k.nt ? "Fn is handled inside the keyboard and never reaches the browser" : k.codes.join(" / ");
+      const s = document.createElement("span"); s.textContent = k.label; d.appendChild(s);
+      host.appendChild(d);
+      const rec = { k, el: d, span: s };
+      keyEls.push(rec);
+      k.codes.forEach(c => (codeMap[c] = codeMap[c] || []).push(rec));
+    });
+    $("keys").parentElement.classList.toggle("heat", cfg.view === "heat");
+    document.querySelectorAll(".seg").forEach(seg => {
+      seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === cfg[seg.dataset.set])));
+    });
+    sizeBoard();
+    refreshAll();
+  }
+
+  const testable = () => keyEls.filter(r => !r.k.nt);
+  const recDone = r => r.k.codes.some(c => st.done.has(c));
+  const recCount = r => r.k.codes.reduce((a, c) => a + (st.counts[c] || 0), 0);
+
+  function paintKey(r, maxCount) {
+    const held = r.k.codes.some(c => st.held.has(c));
+    r.el.classList.toggle("done", recDone(r));
+    r.el.classList.toggle("held", held);
+    r.el.classList.toggle("chat", r.k.codes.some(c => st.chatter[c]));
+    const n = recCount(r);
+    r.el.style.setProperty("--h", maxCount ? Math.round(12 + 78 * n / maxCount) * (n ? 1 : 0) : 0);
+    r.span.dataset.n = n ? n : "";
+  }
+  function maxCount() { return Math.max(0, ...testable().map(recCount)); }
+  function refreshAll() {
+    const m = maxCount();
+    keyEls.forEach(r => paintKey(r, m));
+    Object.entries(extraEls).forEach(([c, el]) => el.classList.toggle("on", st.done.has(c)));
+    updateCounts();
+  }
+  function refreshCode(code) {
+    if (cfg.view === "heat") { refreshAll(); return; }
+    (codeMap[code] || []).forEach(r => paintKey(r, 0));
+    if (extraEls[code]) extraEls[code].classList.toggle("on", st.done.has(code));
+    updateCounts();
+  }
+  function updateCounts() {
+    const t = testable();
+    const n = t.filter(recDone).length;
+    $("nDone").textContent = n; $("nTotal").textContent = t.length;
+    $("barFill").style.width = (t.length ? n / t.length * 100 : 0) + "%";
+  }
+
+  // ---------- Helpers ----------
+  const LOC = ["–", "Left", "Right", "Numpad"];
+  const pretty = e => e.key === " " ? "Space" : (e.key === "Unidentified" || !e.key ? (e.code || "?") : e.key);
+  const fmtMs = ms => ms < 1000 ? Math.round(ms) + " ms" : (ms / 1000).toFixed(2) + " s";
+  function mods(e) {
+    const m = [];
+    if (e.ctrlKey) m.push("Ctrl"); if (e.altKey) m.push(cfg.os === "mac" ? "Opt" : "Alt");
+    if (e.shiftKey) m.push("Shift"); if (e.metaKey) m.push(cfg.os === "mac" ? "Cmd" : "Win");
+    return m.join("+") || "–";
+  }
+  let toastTimer;
+  function toast(msg) {
+    $("toast").textContent = msg; clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => ($("toast").textContent = ""), 5000);
+  }
+  function leds(e) {
+    if (!e.getModifierState) return;
+    [["ledCaps","CapsLock"],["ledNum","NumLock"],["ledScroll","ScrollLock"]].forEach(([id, m]) =>
+      $(id).classList.toggle("on", e.getModifierState(m)));
+  }
+
+  // Sound
+  let actx = null;
+  function click() {
+    if (!$("sound").checked) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const len = Math.floor(actx.sampleRate * 0.025);
+      const buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 4);
+      const src = actx.createBufferSource(), g = actx.createGain(), f = actx.createBiquadFilter();
+      f.type = "highpass"; f.frequency.value = 1800; g.gain.value = 0.35;
+      src.buffer = buf; src.connect(f); f.connect(g); g.connect(actx.destination); src.start();
+    } catch (err) {}
+  }
+
+  // Held list + rollover
+  function showHeld() {
+    const box = $("heldList");
+    box.innerHTML = "";
+    if (!st.held.size) { box.innerHTML = '<span class="empty">None</span>'; return; }
+    st.held.forEach(v => { const s = document.createElement("span"); s.className = "chip held"; s.textContent = v.label; box.appendChild(s); });
+  }
+  function showChatter() {
+    const box = $("chatList"), entries = Object.entries(st.chatter);
+    $("chatTotal").textContent = entries.reduce((a, [, n]) => a + n, 0);
+    if (!entries.length) { box.innerHTML = '<span class="empty">None found. Tap each key normally a few times.</span>'; return; }
+    box.innerHTML = "";
+    entries.sort((a, b) => b[1] - a[1]).forEach(([c, n]) => {
+      const s = document.createElement("span"); s.className = "chip bad"; s.textContent = `${c} ×${n}`; box.appendChild(s);
+    });
+  }
+  function addOther(e) {
+    const id = e.code || e.key;
+    if (st.others.has(id)) return;
+    st.others.add(id);
+    const box = $("others");
+    if (st.others.size === 1) box.innerHTML = "";
+    const s = document.createElement("span"); s.className = "chip on";
+    s.textContent = e.code ? `${e.code} (${pretty(e)})` : pretty(e);
+    box.appendChild(s);
+  }
+
+  // Log
+  const logBody = $("log");
+  function log(e, type, t, flag) {
+    if (type === "up" && !$("showUp").checked) return;
+    if (e.repeat && !$("showRep").checked) return;
+    const gap = st.lastEventT == null ? "–" : fmtMs(t - st.lastEventT);
+    st.lastEventT = t;
+    const tr = document.createElement("tr");
+    if (flag) tr.className = "bad";
+    const cells = [((t - st.t0) / 1000).toFixed(3) + "s", (type === "up" ? "up" : e.repeat ? "repeat" : "down") + (flag ? " ⚠ double" : ""),
+      JSON.stringify(e.key), e.code || "(none)", e.keyCode, LOC[e.location] || e.location, mods(e), gap];
+    cells.forEach((v, i) => { const td = document.createElement("td"); td.textContent = v; if (i === 1 && type === "up") td.className = "up"; tr.appendChild(td); });
+    logBody.prepend(tr);
+    while (logBody.children.length > 120) logBody.lastChild.remove();
+  }
+
+  // ---------- Polling rate, delay, reaction ----------
+  let poll = null;
+  const RATES = [125, 250, 500, 1000, 2000, 4000, 8000];
+  $("pollBtn").addEventListener("click", e => {
+    const btn = e.currentTarget; btn.blur();
+    if (poll) return;
+    poll = { ts: [], end: performance.now() + 5000 };
+    $("pollHz").textContent = "…"; $("pollSub").textContent = "keep rolling";
+    const tick = setInterval(() => {
+      const left = Math.ceil((poll.end - performance.now()) / 1000);
+      if (left > 0) { btn.textContent = `Roll your fingers… ${left}`; return; }
+      clearInterval(tick); finishPoll(); btn.textContent = "Run again";
+    }, 200);
+  });
+  function finishPoll() {
+    const ts = poll.ts.sort((a, b) => a - b); poll = null;
+    // Events from the same keyboard report reach the page almost together
+    // (gaps well under 0.4 ms). Those are not the polling interval, so skip them.
+    const gaps = [];
+    for (let i = 1; i < ts.length; i++) { const g = ts[i] - ts[i - 1]; if (g >= 0.4 && g < 50) gaps.push(g); }
+    gaps.sort((a, b) => a - b);
+    if (gaps.length < 20) { $("pollHz").textContent = "–"; $("pollSub").textContent = `only ${ts.length} key events, try rolling faster`; return; }
+    // Typical shortest gap: the 5th percentile, so one odd timing can't skew it.
+    const g = gaps[Math.max(2, Math.floor(gaps.length * 0.05))];
+    const raw = 1000 / g;
+    const snap = RATES.filter(r => r <= 2000).reduce((best, r) => Math.abs(Math.log(r / raw)) < Math.abs(Math.log(best / raw)) ? r : best, RATES[0]);
+    $("pollHz").textContent = "≈" + snap;
+    $("pollSub").textContent = `Hz · typical shortest gap ${g.toFixed(2)} ms from ${ts.length} events` + (snap < 500 ? ". Roll faster for a better reading" : "");
+  }
+
+  const latPage = [], latFrame = [];
+  const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+  function pushLat(arr, v) { if (v >= 0 && v < 500) { arr.push(v); if (arr.length > 20) arr.shift(); } }
+  function measure(e) {
+    if (poll && !e.repeat) poll.ts.push(e.timeStamp);
+    if (e.type !== "keydown" || e.repeat) return;
+    pushLat(latPage, performance.now() - e.timeStamp);
+    requestAnimationFrame(t => {
+      pushLat(latFrame, t - e.timeStamp);
+      $("latPage").textContent = latPage.length ? avg(latPage).toFixed(1) + " ms" : "–";
+      $("latFrame").textContent = latFrame.length ? avg(latFrame).toFixed(1) + " ms" : "–";
+    });
+  }
+  (function fps() {
+    let n = 0, start = null;
+    const step = t => { if (start === null) start = t; n++;
+      if (t - start < 1000) requestAnimationFrame(step);
+      else $("fps").textContent = Math.round(n * 1000 / (t - start)) + " Hz (" + (1000 / (n * 1000 / (t - start))).toFixed(1) + " ms per frame)"; };
+    requestAnimationFrame(step);
+  })();
+
+  const rx = { state: "idle", goT: 0, timer: null, last: [] };
+  const reactBtn = $("react");
+  function setReact(state, text) { rx.state = state; reactBtn.className = "react " + state; reactBtn.textContent = text; }
+  reactBtn.addEventListener("click", e => {
+    e.currentTarget.blur();
+    if (rx.state === "wait" || rx.state === "go") return;
+    setReact("wait", "Wait for green…");
+    rx.timer = setTimeout(() => {
+      setReact("go", "Press any key!");
+      requestAnimationFrame(() => (rx.goT = performance.now()));
+    }, 1500 + Math.random() * 2500);
+  });
+  function reactKey(e) {
+    if (e.repeat) return;
+    if (rx.state === "wait") { clearTimeout(rx.timer); setReact("idle", "Too soon. Click to try again"); return; }
+    if (rx.state === "go" && rx.goT) {
+      const ms = e.timeStamp - rx.goT; rx.goT = 0;
+      rx.last.push(ms); if (rx.last.length > 5) rx.last.shift();
+      $("reactLast").textContent = Math.round(ms) + " ms";
+      $("reactAvg").textContent = Math.round(avg(rx.last)) + " ms" + (rx.last.length < 5 ? ` (${rx.last.length} of 5)` : "");
+      setReact("idle", Math.round(ms) + " ms. Click to go again");
+    }
+  }
+
+  // ---------- Key handling ----------
+  function idOf(e) {
+    if (e.code && e.code !== "Unidentified") return e.code;
+    // Some media keys arrive with an empty code; fall back to key.
+    return e.key;
+  }
+  function known(id) { return !!codeMap[id] || !!extraEls[id]; }
+
+  addEventListener("keydown", e => {
+    if (!(e.ctrlKey || e.metaKey) || e.key === "Tab") e.preventDefault();
+    const t = performance.now();
+    const id = idOf(e);
+    leds(e); measure(e); reactKey(e);
+    let flag = false;
+    if (!e.repeat) {
+      const up = st.lastUp[id];
+      if (up != null && t - up < Number($("thresh").value)) {
+        st.chatter[id] = (st.chatter[id] || 0) + 1; flag = true; showChatter();
+      }
+      st.counts[id] = (st.counts[id] || 0) + 1;
+      st.held.set(id, { t, label: pretty(e) });
+      st.maxHeld = Math.max(st.maxHeld, st.held.size);
+      $("maxHeld").textContent = st.maxHeld;
+      showHeld();
+      st.rep = { id, down: t, first: null, last: null, n: 0 };
+      click();
+      // ISO auto-detect
+      if (id === "IntlBackslash" && cfg.form === "ansi") {
+        cfg.form = "iso"; store.set("form", "iso"); toast("This keyboard has an extra key next to left Shift, so the layout switched to ISO.");
+        st.done.add(id); render();
+      }
+    } else if (st.rep && st.rep.id === id) {
+      if (st.rep.first == null) st.rep.first = t;
+      st.rep.last = t; st.rep.n++;
+      const delay = st.rep.first - st.rep.down;
+      const rate = st.rep.n > 1 ? (st.rep.n - 1) / ((st.rep.last - st.rep.first) / 1000) : null;
+      $("dRep").textContent = fmtMs(delay) + " delay" + (rate ? `, ${rate.toFixed(1)}/s` : "");
+    }
+    st.done.add(id);
+    if (e.key && extraEls[e.key]) st.done.add(e.key);
+    if (!known(id) && !(e.key && extraEls[e.key])) addOther(e);
+    $("bigKey").textContent = pretty(e).slice(0, 7);
+    $("dKey").textContent = JSON.stringify(e.key);
+    $("dCode").textContent = e.code || "(none)";
+    $("dWhich").textContent = e.keyCode;
+    $("dLoc").textContent = LOC[e.location] || e.location;
+    if (!e.repeat) $("dHold").textContent = "holding…";
+    log(e, "down", t, flag);
+    refreshCode(id);
+    if (e.key && extraEls[e.key]) refreshCode(e.key);
+  });
+
+  addEventListener("keyup", e => {
+    const t = performance.now();
+    const id = idOf(e);
+    leds(e); measure(e);
+    const h = st.held.get(id);
+    if (!st.done.has(id)) {
+      // Print Screen often sends only a key-up.
+      st.done.add(id); st.counts[id] = (st.counts[id] || 0) + 1;
+      if (!known(id)) addOther(e);
+      $("bigKey").textContent = pretty(e).slice(0, 7);
+      $("dKey").textContent = JSON.stringify(e.key); $("dCode").textContent = e.code || "(none)"; $("dWhich").textContent = e.keyCode;
+    }
+    if (h) $("dHold").textContent = fmtMs(t - h.t);
+    st.held.delete(id); st.lastUp[id] = t;
+    showHeld();
+    log(e, "up", t, false);
+    refreshCode(id);
+  });
+
+  function releaseAll() { st.held.clear(); showHeld(); refreshAll(); }
+  addEventListener("blur", releaseAll);
+
+  // ---------- Controls ----------
+  document.querySelectorAll(".seg").forEach(seg => seg.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    cfg[seg.dataset.set] = b.dataset.v; store.set(seg.dataset.set, b.dataset.v);
+    b.blur(); render();
+  }));
+  ["showUp","showRep","sound"].forEach(id => {
+    const el = $(id); el.checked = store.get(id, id === "sound" ? "0" : "0") === "1";
+    el.addEventListener("change", () => { store.set(id, el.checked ? "1" : "0"); el.blur(); });
+  });
+  $("thresh").value = store.get("thresh", "50");
+  $("thresh").addEventListener("change", e => { store.set("thresh", e.target.value); e.target.blur(); });
+
+  $("reset").addEventListener("click", e => {
+    e.currentTarget.blur();
+    Object.assign(st, { done: new Set(), held: new Map(), counts: {}, chatter: {}, lastUp: {}, maxHeld: 0, others: new Set(), t0: performance.now(), lastEventT: null, rep: null });
+    $("maxHeld").textContent = "0"; showHeld(); showChatter();
+    $("others").innerHTML = '<span class="empty">None yet</span>';
+    logBody.innerHTML = "";
+    ["bigKey","dKey","dCode","dWhich","dLoc","dHold"].forEach(id => ($(id).textContent = "–"));
+    $("dRep").textContent = "hold a key";
+    refreshAll(); toast("Cleared. Start pressing keys.");
+  });
+
+  $("copy").addEventListener("click", e => {
+    const btn = e.currentTarget; btn.blur();
+    const t = testable();
+    const missing = t.filter(r => !recDone(r)).map(r => r.k.codes[0]);
+    const chat = Object.entries(st.chatter).map(([c, n]) => `${c} ×${n}`);
+    const sizeName = { "100": "Full-size", tkl: "TKL", "75": "75%", "60": "60%" }[cfg.size];
+    const text = [
+      "Keyboard test report",
+      `Layout: ${sizeName}, ${cfg.form.toUpperCase()}, ${cfg.os === "mac" ? "Mac" : "Windows"}`,
+      `Working keys: ${t.length - missing.length} of ${t.length}`,
+      `Not pressed: ${missing.length ? missing.join(", ") : "none"}`,
+      `Possible double-press: ${chat.length ? chat.join(", ") : "none"}`,
+      `Most keys held at once: ${st.maxHeld}`,
+      `Extra keys detected: ${[...st.done].filter(c => extraEls[c]).join(", ") || "none"}`,
+      `Other keys: ${[...st.others].join(", ") || "none"}`,
+      `Polling rate (estimate): ${$("pollHz").textContent === "–" ? "not tested" : $("pollHz").textContent + " Hz"}`,
+      `Key to page delay (avg): ${$("latPage").textContent}`,
+      `Reaction time (avg): ${$("reactAvg").textContent}`,
+      "Tested with Keyboard Tester by Made by Waleed"
+    ].join("\n");
+    const done = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy report"), 1800); };
+    const fallback = () => {
+      const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand("copy"); } catch (err) {}
+      ta.remove(); ok ? done() : toast("Copy didn't work in this browser.");
+    };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (err) { fallback(); }
+  });
+
+  $("capture").addEventListener("click", async e => {
+    e.currentTarget.blur();
+    try {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+      if (navigator.keyboard && navigator.keyboard.lock) { await navigator.keyboard.lock(); toast("Capturing all keys. Hold Esc to leave full screen."); }
+      else toast("Full screen is on, but this browser can't capture system keys. Try Chrome or Edge.");
+    } catch (err) {
+      toast("Your browser didn't allow full screen here. Open the page directly in Chrome or Edge.");
+    }
+  });
+  document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement && navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
+  });
+
+  addEventListener("resize", sizeBoard);
+  render(); showChatter();
+})();
+</script>
+
+</body>
+</html>
