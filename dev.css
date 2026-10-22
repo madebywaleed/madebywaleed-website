@@ -63,3 +63,11 @@ body {
 a.tile:hover { background: rgba(255,255,255,0.75); }
 .tag { background: rgba(255,255,255,0.6); }
 .site-header.is-scrolled { background: rgba(255,255,255,0.55); }
+
+/* Footer: three link columns, then email and copyright */
+.foot-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 13rem)); gap: 2rem 3rem; }
+.site-footer .foot-cols nav { font-size: 1.1rem; gap: 0.45rem; }
+.foot-h { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0; color: var(--g); margin: 0 0 0.35rem; }
+@media (max-width: 46rem) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 30rem) { .foot-cols { grid-template-columns: 1fr; } }
+.support ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.35rem; font-family: var(--font-mono); font-size: 0.95rem; }

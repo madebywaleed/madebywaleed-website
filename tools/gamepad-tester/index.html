@@ -167,12 +167,35 @@ tr.bad td { color: var(--bad); }
 .check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--fg); }
 .tips { color: var(--muted); font-size: 0.86rem; margin: 0; padding-left: 18px; display: grid; gap: 4px; max-width: 90ch; }
 @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } .bar i, .pad-svg .z { transition: none; } }
+
+.mbw-top { display: flex; align-items: center; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.mbw-brand { font: 700 1rem var(--mono); letter-spacing: -0.04em; color: var(--fg); text-decoration: none; }
+.mbw-brand::after { content: "_"; color: var(--done); }
+.mbw-links { display: flex; gap: 4px; flex-wrap: wrap; }
+.mbw-links a { font: 500 0.85rem var(--mono); color: var(--fg); text-decoration: none; padding: 6px 12px; border-radius: 99px; }
+.mbw-links a:hover { background: var(--line); }
+.mbw-links a[aria-current="page"] { background: var(--line); font-weight: 700; }
+.mbw-links a.mbw-support { background: var(--fg); color: var(--surface); font-weight: 700; }
+.mbw-links a:focus-visible, .mbw-brand:focus-visible, .mbw-foot a:focus-visible { outline: 2px solid var(--done); outline-offset: 2px; }
+.mbw-foot { border-top: 1px solid var(--line); padding-top: 20px; display: flex; flex-direction: column; gap: 18px; font-size: 0.88rem; }
+.mbw-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 220px)); gap: 18px 32px; }
+.mbw-cols div { display: flex; flex-direction: column; gap: 5px; }
+.mbw-cols p { margin: 0 0 2px; font: 500 0.72rem var(--mono); color: var(--muted); text-transform: lowercase; }
+.mbw-cols p::before { content: "// "; }
+.mbw-foot a { color: var(--fg); text-decoration: none; }
+.mbw-foot a:hover { text-decoration: underline; }
+.mbw-legal { margin: 0; color: var(--muted); font-size: 0.8rem; }
+@media (max-width: 560px) { .mbw-cols { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <div class="crumb"><a href="/">Made by Waleed</a> / Tools</div>
+  <nav class="mbw-top" aria-label="Main">
+    <a class="mbw-brand" href="/">Made by Waleed</a>
+    <div class="mbw-links"><a href="/apps/">Apps</a><a href="/tools/" aria-current="page">Tools</a><a href="/about/">About</a><a class="mbw-support" href="/support/">Support</a></div>
+  </nav>
+  <div class="crumb"><a href="/tools/">Tools</a> / Gamepad Tester</div>
   <header>
     <div>
       <h1>Gamepad Tester</h1>
@@ -339,7 +362,14 @@ tr.bad td { color: var(--bad); }
       </ul>
     </section>
   </div>
-  <p class="foot">A free tool from <a href="/">Made by Waleed</a>, the product side of <a href="https://waleedkhan.agency/">Waleed Khan Agency</a>. Nothing you do here leaves your computer.</p>
+  <footer class="mbw-foot">
+    <div class="mbw-cols">
+      <div><p>Apps</p><a href="/istiqamah/">Istiqamah</a><a href="/status-saver/">Status Saver</a><a href="/waraq-scanner/">Waraq Scanner</a></div>
+      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a></div>
+      <div><p>Made by Waleed</p><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">Privacy policies</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></div>
+    </div>
+    <p class="mbw-legal">madeby@waleedkhan.agency · &copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar. Nothing you do on this page leaves your computer.</p>
+  </footer>
 </div>
 
 <script>

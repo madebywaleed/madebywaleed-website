@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://madeby.waleedkhan.agency/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/apps/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/about/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/support/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/istiqamah/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/status-saver/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/waraq-scanner/</loc></url>
