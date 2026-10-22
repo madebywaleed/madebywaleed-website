@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://madeby.waleedkhan.agency/sitemap.xml
