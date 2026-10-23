@@ -71,3 +71,19 @@ a.tile:hover { background: rgba(255,255,255,0.75); }
 @media (max-width: 46rem) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 30rem) { .foot-cols { grid-template-columns: 1fr; } }
 .support ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.35rem; font-family: var(--font-mono); font-size: 0.95rem; }
+
+/* Long-form pages (privacy policy, support) */
+.doc { max-width: 46rem; counter-reset: sec; }
+.doc p, .doc li { font-family: var(--font-body); font-size: 1.02rem; line-height: 1.7; overflow-wrap: anywhere; }
+.doc p { margin: 0.7rem 0 0; }
+.doc ul { margin: 0.7rem 0 0; padding-left: 1.3rem; display: grid; gap: 0.35rem; font-family: var(--font-body); font-size: 1.02rem; }
+.doc a { color: var(--g-ink); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.doc h2 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); line-height: 1.1; letter-spacing: -0.035em; margin: 2.8rem 0 0; counter-increment: sec; }
+.doc h2::before { content: counter(sec, decimal-leading-zero); display: block; font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; letter-spacing: 0; color: var(--g-ink); margin-bottom: 0.45rem; }
+.doc .fine { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid rgba(10,10,10,0.14); font-family: var(--font-mono); font-size: 0.8rem; color: var(--soft); }
+.doc-meta { font-size: 0.85rem; max-width: 38rem; overflow-wrap: anywhere; }
+.glance { margin: 0 0 2rem; padding: 1.2rem 1.4rem 1.3rem; border-radius: 1rem; background: rgba(255,255,255,0.6); -webkit-backdrop-filter: blur(22px) saturate(1.4); backdrop-filter: blur(22px) saturate(1.4); border: 1px solid rgba(10,10,10,0.12); border-left: 4px solid var(--g-ink); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 30px -18px rgba(10,10,10,0.35); }
+.glance .eyebrow { margin: 0 0 0.6rem; }
+.glance ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+.glance li { position: relative; padding-left: 1.5rem; font-weight: 500; }
+.glance li::before { content: ">"; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 700; color: var(--g-ink); }
