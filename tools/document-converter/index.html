@@ -92,7 +92,7 @@
     @media (max-width: 560px) { .nav a.opt { display: none; } }
 
     /* Hero */
-    .hero { text-align: center; padding: 2.5rem 0 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.875rem; }
+    .hero { text-align: center; padding: 1.25rem 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.875rem; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.25rem 0.75rem; border-radius: 999px;
@@ -111,6 +111,13 @@
       background: var(--emerald-tint); border: 1px solid #a7f3d0; color: #065f46;
       font-size: 0.75rem; font-weight: 500;
     }
+
+    /* Side ad rails: shown only on wide screens so the converter stays first on phones and laptops */
+    .rail { display: none; position: fixed; top: 6rem; width: 160px; flex-direction: column; align-items: center; }
+    .rail ins { display: inline-block; width: 160px; height: 600px; }
+    .rail-left { left: calc(50% - 28rem - 176px); }
+    .rail-right { right: calc(50% - 28rem - 176px); }
+    @media (min-width: 1280px) { .rail { display: flex; } }
 
     /* Ads */
     .ad-slot { margin: 1.25rem 0; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -303,6 +310,14 @@
   </header>
 
   <main>
+    <aside class="rail rail-left" aria-label="Advertisement">
+      <span class="ad-label">Advertisement</span>
+      <ins class="adsbygoogle" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto"></ins>
+    </aside>
+    <aside class="rail rail-right" aria-label="Advertisement">
+      <span class="ad-label">Advertisement</span>
+      <ins class="adsbygoogle" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto"></ins>
+    </aside>
     <div class="wrap">
       <section class="hero" aria-labelledby="page-title">
         <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Made by Waleed Tools // Local utility</span>
@@ -313,11 +328,6 @@
           Files never leave your device
         </span>
       </section>
-
-      <div class="ad-slot" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      </div>
 
       <section class="card" aria-label="Converter">
         <div class="titlebar">
@@ -429,11 +439,6 @@
           <span><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>O</kbd> Select files</span>
           <span><kbd>Enter</kbd> Convert (when nothing is focused)</span>
         </div>
-      </div>
-
-      <div class="ad-slot" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
       </div>
 
       <section class="about" aria-labelledby="about-title">
