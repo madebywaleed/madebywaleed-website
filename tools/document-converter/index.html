@@ -63,6 +63,7 @@
     :focus-visible { outline: 2px solid var(--emerald-hover); outline-offset: 2px; }
     .wrap { width: 100%; max-width: 56rem; margin: 0 auto; padding: 0 1rem; }
     @media (min-width: 640px) { .wrap { padding: 0 1.5rem; } }
+    main > .wrap { padding-top: 1.5rem; }
     .mono { font-family: var(--mono); }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
@@ -312,9 +313,8 @@
 <body>
   <header class="top">
     <div class="wrap top-inner">
-      <a class="brand" href="/" aria-label="Made by Waleed home">
-        <span class="brand-mark" aria-hidden="true">&gt;_</span>
-        <span class="brand-name">Made by Waleed</span>
+      <a class="brand" href="/">
+        <span class="brand-name">Made by Waleed: Document Converter</span>
       </a>
       <nav class="nav" aria-label="Main">
         <a class="opt" href="/apps/">Apps</a>
@@ -335,16 +335,6 @@
       <ins class="adsbygoogle" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto"></ins>
     </aside>
     <div class="wrap">
-      <section class="hero" aria-labelledby="page-title">
-        <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Made by Waleed Tools // Local utility</span>
-        <h1 id="page-title">Document Converter</h1>
-        <p class="lead">Convert CSV to Excel, images to PDF, and PDF pages to images. Everything happens in your browser, and nothing is uploaded.</p>
-        <span class="privacy-pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-          Files never leave your device
-        </span>
-      </section>
-
       <section class="card" aria-label="Converter">
         <div class="console-body">
           <div>
