@@ -404,6 +404,13 @@
                 <span class="mode-title">Split PDF</span>
                 <span class="mode-desc">Separate one page or a whole set into independent PDF files.</span>
               </button>
+              <button class="mode-card" type="button" data-mode="compress-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#ecfccb;color:#4d7c0f" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 15 6 6M9 9 3 3"/><path d="M15 9V3h6"/><path d="M9 15v6H3"/><path d="M21 3 15 9"/><path d="M3 21 9 15"/></svg>
+                </span>
+                <span class="mode-title">Compress PDF</span>
+                <span class="mode-desc">Reduce file size. Pages are saved as images, so text can no longer be selected.</span>
+              </button>
             </div>
           </div>
 
@@ -431,6 +438,16 @@
             <label class="label" for="split-pages" style="display:block;margin-bottom:0.5rem">Pages to split</label>
             <input class="field-input" id="split-pages" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 1-3, 5, 8-10 (leave empty to split every page)">
             <p class="field-hint">Each range becomes its own PDF. A single range gives one PDF; several give a ZIP.</p>
+          </div>
+
+          <div id="compress-field" hidden>
+            <label class="label" for="compress-level" style="display:block;margin-bottom:0.5rem">Compression level</label>
+            <select class="field-input" id="compress-level">
+              <option value="light">Light: best quality, smaller reduction</option>
+              <option value="medium" selected>Medium: recommended balance</option>
+              <option value="strong">Strong: smallest file, lower quality</option>
+            </select>
+            <p class="field-hint">Pages are saved as images, so text can no longer be selected or searched. If the result is not smaller, the original file is returned.</p>
           </div>
 
           <div class="progress" id="progress" hidden>
@@ -565,6 +582,21 @@
         typeName: 'PDF',
         convert: convertSplit
       },
+      'compress-pdf': {
+        pipeline: 'PIPELINE: PDF.JS + PDF-LIB',
+        multiple: false,
+        reorder: false,
+        title: 'Drag and drop a PDF here, or browse',
+        format: 'Supports PDF • Pages are re-saved as images to reduce size',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: function (f) {
+          return extOf(f.name) === 'pdf' || f.type === 'application/pdf';
+        },
+        typeName: 'PDF',
+        convert: convertCompress
+      },
       'pdf-img': {
         pipeline: 'PIPELINE: PDF.JS',
         multiple: false,
@@ -668,6 +700,8 @@
       el.input.multiple = m.multiple;
       var splitField = document.getElementById('split-field');
       if (splitField) splitField.hidden = state.mode !== 'split-pdf';
+      var compressField = document.getElementById('compress-field');
+      if (compressField) compressField.hidden = state.mode !== 'compress-pdf';
       el.download.textContent = result2label();
     }
 
@@ -1191,6 +1225,88 @@
       var zipped = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
       progress(100, 'Done');
       return { blob: zipped, filename: name + '-split.zip', ext: '.zip', summary: outputs.length + ' PDFs' };
+    }
+
+    /* ---------- Compress PDF ---------- */
+
+    // Each level sets the render scale (1 = 72 dpi) and JPEG quality (0-1).
+    var COMPRESS_PRESETS = {
+      light: { scale: 1.5, quality: 0.85 },
+      medium: { scale: 1.2, quality: 0.7 },
+      strong: { scale: 1, quality: 0.5 }
+    };
+
+    async function convertCompress(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      requireLib('pdfjsLib', 'PDF');
+      var file = files[0];
+      var levelEl = document.getElementById('compress-level');
+      var preset = COMPRESS_PRESETS[levelEl ? levelEl.value : 'medium'] || COMPRESS_PRESETS.medium;
+
+      if (pdfjsLib.GlobalWorkerOptions && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+
+      progress(5, 'Reading PDF...');
+      var pdf;
+      try {
+        pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+      } catch (e) {
+        if (e && e.name === 'PasswordException') {
+          throw new Error('This PDF is password protected. Unlock it first, then try again.');
+        }
+        throw new Error('Could not read this PDF. The file may be damaged.');
+      }
+
+      var count = pdf.numPages;
+      if (count > MAX_PDF_PAGES) {
+        throw new Error('This PDF has ' + count + ' pages. The limit is ' + MAX_PDF_PAGES + ' pages per conversion.');
+      }
+
+      var out = await PDFLib.PDFDocument.create();
+      for (var p = 1; p <= count; p++) {
+        progress(5 + ((p - 1) / count) * 90, 'Compressing page ' + p + ' of ' + count + '...');
+        var page = await pdf.getPage(p);
+        var base = page.getViewport({ scale: 1 });
+        var viewport = page.getViewport({ scale: preset.scale });
+
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+
+        var jpeg = await new Promise(function (resolve, reject) {
+          canvas.toBlob(function (b) {
+            if (b) resolve(b); else reject(new Error('Could not compress page ' + p + '.'));
+          }, 'image/jpeg', preset.quality);
+        });
+        canvas.width = 0; canvas.height = 0;
+        page.cleanup();
+
+        var img = await out.embedJpg(new Uint8Array(await jpeg.arrayBuffer()));
+        var pg = out.addPage([base.width, base.height]);
+        pg.drawImage(img, { x: 0, y: 0, width: base.width, height: base.height });
+      }
+      pdf.destroy && pdf.destroy();
+
+      progress(96, 'Saving PDF...');
+      var bytes = await out.save();
+      progress(100, 'Done');
+
+      if (bytes.length >= file.size) {
+        return {
+          blob: file,
+          filename: baseName(file.name) + '-compressed.pdf',
+          ext: '.pdf',
+          summary: 'could not be made smaller, so the original is returned'
+        };
+      }
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: baseName(file.name) + '-compressed.pdf',
+        ext: '.pdf',
+        summary: formatSize(file.size) + ' → ' + formatSize(bytes.length)
+      };
     }
 
     /* ---------- Run ---------- */
