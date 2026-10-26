@@ -337,11 +337,68 @@ dl.tight { grid-template-columns: max-content 1fr; }
         <li>Nothing you type is saved or sent anywhere.</li>
       </ul>
     </section>
+    <section class="panel span3 tool-guide">
+      <h2>How to test your keyboard</h2>
+      <ol>
+        <li>Press every key once. Each key turns blue when it registers, so any key that stays grey is not being detected.</li>
+        <li>Hold several keys together, for example A, S, D, F, J, K and L, to check rollover.</li>
+        <li>Press a key quickly several times to check for double-presses, where one tap registers as two.</li>
+        <li>Run the polling rate and input delay tests if you want to compare your keyboard's speed. Both are estimates.</li>
+      </ol>
+      <p>The tester works with full-size, tenkeyless (TKL), 75% and 60% keyboards. Pick your layout (ANSI or ISO) and your operating system (Windows or Mac) so the key labels match your keyboard.</p>
+
+      <h2>What each test checks</h2>
+      <ul class="tips">
+        <li><strong>Last key</strong> shows the key you just pressed, so you can match it to the physical key.</li>
+        <li><strong>Rollover</strong> checks how many keys can be held at once before one stops registering.</li>
+        <li><strong>Double-press check</strong> flags a key that registers a second press too soon after release, a common sign of a worn switch.</li>
+        <li><strong>Polling rate</strong> estimates how often the keyboard reports to the computer.</li>
+        <li><strong>Input delay</strong> estimates the time from a key press to the next screen update.</li>
+        <li><strong>Reaction time</strong> measures how quickly you respond to a prompt.</li>
+      </ul>
+
+      <h2>When this tool helps</h2>
+      <ul class="tips">
+        <li>A key sometimes types twice or not at all. Use the double-press check to see whether the switch is wearing out.</li>
+        <li>A new keyboard seems slow or laggy. Compare its polling rate and input delay with your expectations.</li>
+        <li>You want to confirm that a keyboard is working before returning it.</li>
+      </ul>
+
+      <h2>Limits of a browser test</h2>
+      <ul class="tips">
+        <li>The Fn key is handled inside the keyboard and is never sent to the computer, so no website can test it. Test it by using it, for example Fn plus a brightness key.</li>
+        <li>Print Screen and some laptop special keys may be taken by the computer before the browser sees them.</li>
+        <li>A browser can measure polling rates only up to about 2000 Hz, so a 4000 Hz or 8000 Hz keyboard will read lower than its real rate.</li>
+        <li>On a phone or tablet, connect a physical keyboard first.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>Do I need to install anything?</summary>
+        <p>No. Open the page in Chrome, Edge, Firefox or Safari and start pressing keys.</p>
+      </details>
+      <details>
+        <summary>Does it work on a Mac?</summary>
+        <p>Yes. Choose Mac in the operating system setting so the modifier key labels match your keyboard.</p>
+      </details>
+      <details>
+        <summary>Is anything I type recorded?</summary>
+        <p>No. Key presses are not saved or sent anywhere. The page only remembers your settings, such as layout and operating system, in your browser.</p>
+      </details>
+      <details>
+        <summary>Why do some keys not show up?</summary>
+        <p>Some keys are used by the browser or the computer, such as Esc, Windows or Command, and Alt+Tab. Use the Capture every key section to go full screen so the page can receive them. This works in Chrome and Edge. Hold Esc for a couple of seconds to leave.</p>
+      </details>
+      <details>
+        <summary>Can it confirm a gaming keyboard's advertised polling rate?</summary>
+        <p>Not exactly. The polling rate test is an estimate, and browsers cannot measure above about 2000 Hz. Use it to spot a problem, not to confirm a high-speed rating.</p>
+      </details>
+    </section>
   </div>
   <footer class="mbw-foot">
     <div class="mbw-cols">
       <div><p>Apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a></div>
-      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a></div>
+      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a><a href="/tools/universal-converter/">Universal Converter</a></div>
       <div><p>Made by Waleed</p><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">Privacy policies</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></div>
     </div>
     <p class="mbw-legal">madeby@waleedkhan.agency · &copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar. Nothing you do on this page leaves your computer.</p>
