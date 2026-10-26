@@ -495,6 +495,48 @@
                 <span class="mode-title">PDF to Markdown</span>
                 <span class="mode-desc">Turn the text of a PDF into a Markdown (.md) file, with headings kept where they're clear.</span>
               </button>
+              <button class="mode-card" type="button" data-mode="edit-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#fae8ff;color:#a21caf" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+                </span>
+                <span class="mode-title">Edit PDF</span>
+                <span class="mode-desc">Add text to a page at a position you choose. Existing text is not changed.</span>
+              </button>
+              <button class="mode-card" type="button" data-mode="compare-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#e0f2fe;color:#075985" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="1"/><rect x="14" y="3" width="8" height="18" rx="1"/></svg>
+                </span>
+                <span class="mode-title">Compare PDF</span>
+                <span class="mode-desc">Highlight what changed between an old and a new version of a PDF.</span>
+              </button>
+              <button class="mode-card" type="button" data-mode="repair-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#dcfce7;color:#166534" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.1-.6-.6-2.1z"/></svg>
+                </span>
+                <span class="mode-title">Repair PDF</span>
+                <span class="mode-desc">Try to fix a damaged PDF by rebuilding its structure.</span>
+              </button>
+              <button class="mode-card" type="button" data-mode="html-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#fef9c3;color:#854d0e" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+                </span>
+                <span class="mode-title">HTML to PDF</span>
+                <span class="mode-desc">Paste HTML and save it as a PDF. Scripts are removed.</span>
+              </button>
+              <button class="mode-card" type="button" data-mode="ocr-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#fef3c7;color:#92400e" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3"/><path d="M16 4h3a1 1 0 0 1 1 1v3"/><path d="M20 16v3a1 1 0 0 1-1 1h-3"/><path d="M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg>
+                </span>
+                <span class="mode-title">OCR PDF</span>
+                <span class="mode-desc">Read the text in scanned pages so it can be searched and selected. English only, and slow.</span>
+              </button>
+              <button class="mode-card" type="button" data-mode="forms-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#ffe4e6;color:#9f1239" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h6M7 14h4"/><rect x="15" y="12" width="3" height="3"/></svg>
+                </span>
+                <span class="mode-title">PDF Forms</span>
+                <span class="mode-desc">Add fillable text fields and checkboxes to a page.</span>
+              </button>
             </div>
           </div>
 
@@ -872,6 +914,100 @@
         typeName: 'PDF',
         convert: convertPdfMarkdown
       },
+      'edit-pdf': {
+        pipeline: 'PIPELINE: PDF-LIB',
+        multiple: false,
+        reorder: false,
+        title: 'Drag and drop a PDF here, or browse',
+        format: 'Supports PDF • Adds text at a chosen position',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: isPdfFile,
+        typeName: 'PDF',
+        fields: [
+          { id: 'edit-text', type: 'textarea', label: 'Text to add', placeholder: 'Type the text here. Use a new line for each line of text.', hint: 'English letters, numbers and common symbols only.' },
+          { id: 'edit-page', type: 'text', inputmode: 'numeric', label: 'Page', placeholder: 'Leave empty for the first page' },
+          { id: 'edit-position', type: 'select', label: 'Position', options: [['top-left', 'Top left'], ['top-center', 'Top centre'], ['top-right', 'Top right'], ['middle-left', 'Middle left'], ['middle-center', 'Middle centre'], ['middle-right', 'Middle right'], ['bottom-left', 'Bottom left'], ['bottom-center', 'Bottom centre'], ['bottom-right', 'Bottom right']] },
+          { id: 'edit-size', type: 'text', inputmode: 'numeric', label: 'Font size', value: '14' },
+          { id: 'edit-color', type: 'select', label: 'Colour', options: [['black', 'Black'], ['blue', 'Blue'], ['red', 'Red']] }
+        ],
+        convert: convertEditPdf
+      },
+      'compare-pdf': {
+        pipeline: 'PIPELINE: PDF.JS + PDF-LIB',
+        multiple: true,
+        reorder: true,
+        title: 'Drag in the old PDF, then the new PDF',
+        format: 'Supports PDF • Add exactly two files, old first',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: isPdfFile,
+        typeName: 'PDF',
+        fields: [],
+        convert: convertComparePdf
+      },
+      'repair-pdf': {
+        pipeline: 'PIPELINE: PDF-LIB',
+        multiple: false,
+        reorder: false,
+        title: 'Drag and drop a damaged PDF here, or browse',
+        format: 'Supports PDF • Rebuilds the file structure',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: isPdfFile,
+        typeName: 'PDF',
+        convert: convertRepairPdf
+      },
+      'html-pdf': {
+        pipeline: 'PIPELINE: HTML2CANVAS + PDF-LIB',
+        multiple: false,
+        reorder: false,
+        noFile: true,
+        title: 'Paste HTML below',
+        format: 'No file needed • A4 pages',
+        chips: [],
+        accept: '',
+        download: 'Download result',
+        isValid: isPdfFile,
+        typeName: 'HTML',
+        fields: [
+          { id: 'html-source', type: 'textarea', label: 'HTML to convert', placeholder: '<h1>Title</h1>\n<p>Paste your HTML here.</p>', hint: 'Scripts, iframes and style blocks are removed. Use inline styles for formatting. Web addresses and external images are not loaded.' }
+        ],
+        convert: convertHtmlPdf
+      },
+      'ocr-pdf': {
+        pipeline: 'PIPELINE: TESSERACT.JS',
+        multiple: false,
+        reorder: false,
+        title: 'Drag and drop a scanned PDF here, or browse',
+        format: 'Supports PDF • English text, one page at a time',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: isPdfFile,
+        typeName: 'PDF',
+        convert: convertOcrPdf
+      },
+      'forms-pdf': {
+        pipeline: 'PIPELINE: PDF-LIB',
+        multiple: false,
+        reorder: false,
+        title: 'Drag and drop a PDF here, or browse',
+        format: 'Supports PDF • Adds fillable fields to one page',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: isPdfFile,
+        typeName: 'PDF',
+        fields: [
+          { id: 'form-fields', type: 'textarea', label: 'Fields to add (one per line)', placeholder: 'Full name\nEmail\nI agree to the terms [checkbox]', hint: 'Add [checkbox] at the end of a line to make a checkbox instead of a text field.' },
+          { id: 'form-page', type: 'text', inputmode: 'numeric', label: 'Page', placeholder: 'Leave empty for the first page' }
+        ],
+        convert: convertFormsPdf
+      },
       'pdf-img': {
         pipeline: 'PIPELINE: PDF.JS',
         multiple: false,
@@ -994,7 +1130,13 @@
           lab.style.marginBottom = '0.5rem';
           lab.textContent = f.label;
           var input;
-          if (f.type === 'select') {
+          if (f.type === 'textarea') {
+            input = document.createElement('textarea');
+            input.rows = 5;
+            input.placeholder = f.placeholder || '';
+            input.value = f.value || '';
+            input.style.resize = 'vertical';
+          } else if (f.type === 'select') {
             input = document.createElement('select');
             (f.options || []).forEach(function (o) {
               var op = document.createElement('option');
@@ -1023,6 +1165,11 @@
           optionsBox.appendChild(wrap);
         });
       }
+
+      // Some tools take typed input instead of a file, so hide the file drop area and queue for them.
+      var noFile = !!m.noFile;
+      el.dropzone.parentElement.hidden = noFile;
+      el.queue.parentElement.hidden = noFile;
 
       // Scan to PDF opens the phone camera where the browser supports it.
       if (state.mode === 'scan-pdf') el.input.setAttribute('capture', 'environment');
@@ -1111,7 +1258,7 @@
         el.queue.appendChild(row);
       });
       el.queueCount.textContent = state.files.length + (state.files.length === 1 ? ' item staged' : ' items staged');
-      el.convert.disabled = state.busy || state.files.length === 0;
+      el.convert.disabled = state.busy || (state.files.length === 0 && !MODES[state.mode].noFile);
     }
 
     function moveFile(idx, dir) {
@@ -2510,11 +2657,400 @@
       };
     }
 
+    /* ---------- Edit, compare, repair, HTML, OCR and forms ---------- */
+
+    var scriptCache = {};
+    function loadScript(url) {
+      if (!scriptCache[url]) {
+        scriptCache[url] = new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = url;
+          s.onload = resolve;
+          s.onerror = function () {
+            scriptCache[url] = null;
+            reject(new Error('A converter library did not load. Check your connection and try again.'));
+          };
+          document.head.appendChild(s);
+        });
+      }
+      return scriptCache[url];
+    }
+
+    function renderPageToCanvas(pdf, pageNo, scale) {
+      return pdf.getPage(pageNo).then(function (page) {
+        var viewport = page.getViewport({ scale: scale });
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        return page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise.then(function () {
+          page.cleanup();
+          return canvas;
+        });
+      });
+    }
+
+    async function convertEditPdf(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      var text = optVal('edit-text').replace(/\r/g, '');
+      if (!text.trim()) throw new Error('Enter the text to add.');
+      if (!/^[\x20-\x7E\n]+$/.test(text)) throw new Error('Use English letters, numbers and common symbols for the text.');
+
+      var doc = await openPdfLib(files[0]);
+      var count = doc.getPageCount();
+      var pageSpec = optVal('edit-page').trim();
+      var pageNo = pageSpec ? parseWholeNumber(pageSpec, 'Page', 1, count) : 1;
+      var size = parseWholeNumber(optVal('edit-size') || '14', 'Font size', 6, 96);
+      var colours = { black: [0, 0, 0], blue: [0.05, 0.25, 0.7], red: [0.8, 0.1, 0.1] };
+      var c = colours[optVal('edit-color')] || colours.black;
+      var pos = (optVal('edit-position') || 'bottom-center').split('-');
+      var vertical = pos[0];
+      var horizontal = pos[1];
+
+      var font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+      var lines = text.split('\n');
+      var lineHeight = size * 1.3;
+      var blockHeight = lines.length * lineHeight;
+      var widest = lines.reduce(function (m, l) { return Math.max(m, font.widthOfTextAtSize(l, size)); }, 0);
+      var page = doc.getPage(pageNo - 1);
+      var s = page.getSize();
+      var margin = 40;
+
+      var x = horizontal === 'left' ? margin : horizontal === 'right' ? s.width - widest - margin : (s.width - widest) / 2;
+      var firstBaseline = vertical === 'top' ? s.height - margin - size
+        : vertical === 'bottom' ? margin + blockHeight - lineHeight
+        : s.height / 2 + blockHeight / 2 - lineHeight;
+
+      progress(40, 'Adding text...');
+      lines.forEach(function (line, i) {
+        if (!line) return;
+        page.drawText(line, { x: x, y: firstBaseline - i * lineHeight, size: size, font: font, color: PDFLib.rgb(c[0], c[1], c[2]) });
+      });
+
+      progress(90, 'Saving PDF...');
+      var bytes = await doc.save();
+      progress(100, 'Done');
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: saveFileName(files[0], 'edited'),
+        ext: '.pdf',
+        summary: 'text added to page ' + pageNo
+      };
+    }
+
+    async function convertComparePdf(files, progress) {
+      requireLib('pdfjsLib', 'PDF');
+      requireLib('PDFLib', 'PDF');
+      if (files.length !== 2) throw new Error('Add exactly two PDFs: the old version first, then the new version.');
+
+      var oldPdf = await openPdfJs(files[0]);
+      var newPdf = await openPdfJs(files[1]);
+      var newCount = newPdf.numPages;
+      if (newCount > MAX_PDF_PAGES) {
+        throw new Error('The new PDF has ' + newCount + ' pages. The limit is ' + MAX_PDF_PAGES + ' pages per conversion.');
+      }
+
+      var out = await PDFLib.PDFDocument.create();
+      var changedPages = 0;
+      for (var p = 1; p <= newCount; p++) {
+        progress(5 + ((p - 1) / newCount) * 90, 'Comparing page ' + p + ' of ' + newCount + '...');
+        var newCanvas = await renderPageToCanvas(newPdf, p, 1.2);
+        var sameSize = false;
+        var diffPixels = 0;
+        if (p <= oldPdf.numPages) {
+          var oldCanvas = await renderPageToCanvas(oldPdf, p, 1.2);
+          sameSize = oldCanvas.width === newCanvas.width && oldCanvas.height === newCanvas.height;
+          if (sameSize) {
+            var a = oldCanvas.getContext('2d').getImageData(0, 0, oldCanvas.width, oldCanvas.height).data;
+            var ctx = newCanvas.getContext('2d');
+            var img = ctx.getImageData(0, 0, newCanvas.width, newCanvas.height);
+            var b = img.data;
+            for (var k = 0; k < b.length; k += 4) {
+              var diff = Math.abs(a[k] - b[k]) + Math.abs(a[k + 1] - b[k + 1]) + Math.abs(a[k + 2] - b[k + 2]);
+              if (diff > 60) {
+                diffPixels++;
+                b[k] = 255;
+                b[k + 1] = Math.round(b[k + 1] * 0.35);
+                b[k + 2] = Math.round(b[k + 2] * 0.35);
+              }
+            }
+            ctx.putImageData(img, 0, 0);
+          }
+          oldCanvas.width = 0; oldCanvas.height = 0;
+        }
+        if (!sameSize || diffPixels > 0) changedPages++;
+
+        var jpeg = await new Promise(function (resolve, reject) {
+          newCanvas.toBlob(function (bl) {
+            if (bl) resolve(bl); else reject(new Error('Could not build page ' + p + '.'));
+          }, 'image/jpeg', 0.9);
+        });
+        var base = (await newPdf.getPage(p)).getViewport({ scale: 1 });
+        var embedded = await out.embedJpg(new Uint8Array(await jpeg.arrayBuffer()));
+        var pg = out.addPage([base.width, base.height]);
+        pg.drawImage(embedded, { x: 0, y: 0, width: base.width, height: base.height });
+        newCanvas.width = 0; newCanvas.height = 0;
+      }
+      oldPdf.destroy && oldPdf.destroy();
+      newPdf.destroy && newPdf.destroy();
+
+      progress(96, 'Saving PDF...');
+      var bytes = await out.save();
+      progress(100, 'Done');
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: saveFileName(files[1], 'compared'),
+        ext: '.pdf',
+        summary: changedPages + ' of ' + newCount + ' pages changed (in red)'
+      };
+    }
+
+    async function convertRepairPdf(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      var bytes = new Uint8Array(await files[0].arrayBuffer());
+      progress(30, 'Rebuilding the file structure...');
+      try {
+        var doc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true, throwOnInvalidObject: false });
+        if (doc.getPageCount() === 0) throw new Error('no pages');
+        var rebuilt = await doc.save();
+        progress(100, 'Done');
+        return {
+          blob: new Blob([rebuilt], { type: 'application/pdf' }),
+          filename: saveFileName(files[0], 'repaired'),
+          ext: '.pdf',
+          summary: 'file structure rebuilt'
+        };
+      } catch (e) {
+        // Fall back to redrawing each page as an image.
+        progress(40, 'Rebuilding pages as images...');
+        var pdf;
+        try {
+          pdf = await openPdfJs(files[0]);
+        } catch (err) {
+          throw new Error('This file is too damaged to repair.');
+        }
+        var out = await PDFLib.PDFDocument.create();
+        for (var p = 1; p <= pdf.numPages; p++) {
+          progress(40 + ((p - 1) / pdf.numPages) * 55, 'Rebuilding page ' + p + ' of ' + pdf.numPages + '...');
+          var canvas = await renderPageToCanvas(pdf, p, 1.5);
+          var jpeg = await new Promise(function (resolve, reject) {
+            canvas.toBlob(function (bl) {
+              if (bl) resolve(bl); else reject(new Error('Could not rebuild page ' + p + '.'));
+            }, 'image/jpeg', 0.9);
+          });
+          var base = (await pdf.getPage(p)).getViewport({ scale: 1 });
+          var img = await out.embedJpg(new Uint8Array(await jpeg.arrayBuffer()));
+          var pg = out.addPage([base.width, base.height]);
+          pg.drawImage(img, { x: 0, y: 0, width: base.width, height: base.height });
+          canvas.width = 0; canvas.height = 0;
+        }
+        pdf.destroy && pdf.destroy();
+        progress(98, 'Saving PDF...');
+        var outBytes = await out.save();
+        progress(100, 'Done');
+        return {
+          blob: new Blob([outBytes], { type: 'application/pdf' }),
+          filename: saveFileName(files[0], 'repaired'),
+          ext: '.pdf',
+          summary: 'rebuilt as images, so text is not selectable'
+        };
+      }
+    }
+
+    async function convertHtmlPdf(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      var source = optVal('html-source').trim();
+      if (!source) throw new Error('Paste some HTML to convert.');
+
+      progress(10, 'Loading renderer...');
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+      requireLib('html2canvas', 'HTML renderer');
+
+      // Keep the content, but drop anything that can run or load other pages.
+      var parsed = new DOMParser().parseFromString(source, 'text/html');
+      parsed.querySelectorAll('script, iframe, object, embed, link, meta, style, base').forEach(function (n) { n.remove(); });
+      parsed.body.querySelectorAll('*').forEach(function (el) {
+        Array.prototype.slice.call(el.attributes).forEach(function (a) {
+          if (/^on/i.test(a.name) || (/^(href|src|action)$/i.test(a.name) && /^\s*javascript:/i.test(a.value))) {
+            el.removeAttribute(a.name);
+          }
+        });
+      });
+
+      var container = document.createElement('div');
+      container.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;padding:40px;box-sizing:border-box;background:#ffffff;color:#111111;font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.5;';
+      container.innerHTML = parsed.body.innerHTML;
+      document.body.appendChild(container);
+
+      progress(35, 'Rendering HTML...');
+      var canvas;
+      try {
+        canvas = await window.html2canvas(container, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
+      } finally {
+        container.remove();
+      }
+      if (!canvas || canvas.height === 0) throw new Error('Nothing was rendered. Check the HTML and try again.');
+
+      progress(70, 'Building pages...');
+      var out = await PDFLib.PDFDocument.create();
+      var A4_W = 595.28;
+      var A4_H = 841.89;
+      var sliceH = Math.round(canvas.width * (A4_H / A4_W));
+      for (var y = 0; y < canvas.height; y += sliceH) {
+        var h = Math.min(sliceH, canvas.height - y);
+        var slice = document.createElement('canvas');
+        slice.width = canvas.width;
+        slice.height = h;
+        slice.getContext('2d').drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
+        var jpeg = await new Promise(function (resolve, reject) {
+          slice.toBlob(function (bl) {
+            if (bl) resolve(bl); else reject(new Error('Could not build a page.'));
+          }, 'image/jpeg', 0.9);
+        });
+        var img = await out.embedJpg(new Uint8Array(await jpeg.arrayBuffer()));
+        var pageHeight = A4_W * (h / canvas.width);
+        var pg = out.addPage([A4_W, pageHeight]);
+        pg.drawImage(img, { x: 0, y: 0, width: A4_W, height: pageHeight });
+      }
+
+      progress(96, 'Saving PDF...');
+      var bytes = await out.save();
+      progress(100, 'Done');
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: 'converted-html.pdf',
+        ext: '.pdf',
+        summary: out.getPageCount() + ' page' + (out.getPageCount() === 1 ? '' : 's')
+      };
+    }
+
+    async function convertOcrPdf(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      requireLib('pdfjsLib', 'PDF');
+      progress(3, 'Loading text recognition...');
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js');
+      requireLib('Tesseract', 'text recognition');
+
+      var pdf = await openPdfJs(files[0]);
+      var count = pdf.numPages;
+      if (count > 60) {
+        throw new Error('This PDF has ' + count + ' pages. OCR is limited to 60 pages per conversion.');
+      }
+
+      var worker = await Tesseract.createWorker('eng', 1, {
+        langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng/4.0.0_best_int'
+      });
+      var out = await PDFLib.PDFDocument.create();
+      var font = await out.embedFont(PDFLib.StandardFonts.Helvetica);
+      var wordCount = 0;
+      try {
+        for (var p = 1; p <= count; p++) {
+          progress(5 + ((p - 1) / count) * 90, 'Reading page ' + p + ' of ' + count + '...');
+          var page = await pdf.getPage(p);
+          var base = page.getViewport({ scale: 1 });
+          var viewport = page.getViewport({ scale: Math.min(2, 4096 / Math.max(base.width, base.height)) });
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.floor(viewport.width);
+          canvas.height = Math.floor(viewport.height);
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+          page.cleanup();
+
+          var result = await worker.recognize(canvas, {}, { blocks: true });
+          var words = [];
+          (result.data.blocks || []).forEach(function (b) {
+            (b.paragraphs || []).forEach(function (pa) {
+              (pa.lines || []).forEach(function (l) {
+                (l.words || []).forEach(function (w) { words.push(w); });
+              });
+            });
+          });
+
+          var jpeg = await new Promise(function (resolve, reject) {
+            canvas.toBlob(function (bl) {
+              if (bl) resolve(bl); else reject(new Error('Could not build page ' + p + '.'));
+            }, 'image/jpeg', 0.9);
+          });
+          var img = await out.embedJpg(new Uint8Array(await jpeg.arrayBuffer()));
+          var pg = out.addPage([base.width, base.height]);
+          pg.drawImage(img, { x: 0, y: 0, width: base.width, height: base.height });
+
+          // Add the recognised words as invisible text, so the page can be searched and selected.
+          var k = base.width / canvas.width;
+          words.forEach(function (w) {
+            var t = (w.text || '').trim();
+            if (!t || !/^[\x20-\x7E]+$/.test(t) || !w.bbox) return;
+            var boxH = (w.bbox.y1 - w.bbox.y0) * k;
+            var size = Math.max(4, boxH * 0.9);
+            pg.drawText(t, { x: w.bbox.x0 * k, y: base.height - w.bbox.y1 * k, size: size, font: font, opacity: 0 });
+            wordCount++;
+          });
+          canvas.width = 0; canvas.height = 0;
+        }
+      } finally {
+        await worker.terminate();
+        pdf.destroy && pdf.destroy();
+      }
+
+      progress(96, 'Saving PDF...');
+      var bytes = await out.save();
+      progress(100, 'Done');
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: saveFileName(files[0], 'ocr'),
+        ext: '.pdf',
+        summary: wordCount + ' words recognised'
+      };
+    }
+
+    async function convertFormsPdf(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      var lines = optVal('form-fields').split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+      if (!lines.length) throw new Error('Enter at least one field name.');
+
+      var doc = await openPdfLib(files[0]);
+      var count = doc.getPageCount();
+      var pageSpec = optVal('form-page').trim();
+      var pageNo = pageSpec ? parseWholeNumber(pageSpec, 'Page', 1, count) : 1;
+      var page = doc.getPage(pageNo - 1);
+      var s = page.getSize();
+      var form = doc.getForm();
+      var used = {};
+      var y = s.height - 120;
+
+      progress(40, 'Adding fields...');
+      lines.forEach(function (line, i) {
+        var isCheckbox = /\[checkbox\]\s*$/i.test(line);
+        var label = line.replace(/\[checkbox\]\s*$/i, '').trim() || 'Field ' + (i + 1);
+        var name = label;
+        var n = 2;
+        while (used[name]) name = label + ' ' + n++;
+        used[name] = true;
+
+        if (isCheckbox) {
+          var box = form.createCheckBox(name);
+          box.addToPage(page, { x: 72, y: y, width: 14, height: 14 });
+        } else {
+          var field = form.createTextField(name);
+          field.addToPage(page, { x: 72, y: y, width: 260, height: 20, borderWidth: 1, borderColor: PDFLib.rgb(0.6, 0.6, 0.6) });
+        }
+        y -= 40;
+      });
+
+      progress(90, 'Saving PDF...');
+      var bytes = await doc.save();
+      progress(100, 'Done');
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: saveFileName(files[0], 'forms'),
+        ext: '.pdf',
+        summary: lines.length + ' field' + (lines.length === 1 ? '' : 's') + ' added'
+      };
+    }
+
     /* ---------- Run ---------- */
 
     async function runConvert() {
       if (state.busy) return;
-      if (!state.files.length) {
+      if (!state.files.length && !MODES[state.mode].noFile) {
         setStatus('Add a file first.', 'error');
         return;
       }
