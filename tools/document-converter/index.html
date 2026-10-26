@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document Converter | Made by Waleed</title>
+  <meta name="description" content="Free browser tool to convert CSV to Excel, images to PDF, and PDF pages to PNG. Files are converted on your device and never uploaded.">
+  <meta name="theme-color" content="#f8fafc">
+  <meta property="og:title" content="Document Converter | Made by Waleed">
+  <meta property="og:description" content="Convert CSV to Excel, images to PDF, and PDF pages to images in your browser. Files never leave your device.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/document-converter/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/document-converter/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --canvas: #f8fafc;
+      --surface: #ffffff;
+      --panel: #f1f5f9;
+      --line: #e2e8f0;
+      --line-strong: #e4e4e7;
+      --text: #09090b;
+      --text-2: #52525b;
+      --text-3: #71717a;
+      --emerald: #059669;
+      --emerald-hover: #10b981;
+      --emerald-press: #047857;
+      --emerald-ink: #065f46;
+      --emerald-tint: #ecfdf5;
+      --diagnostic: #0284c7;
+      --error: #dc2626;
+      --error-tint: #fee2e2;
+      --r-sm: 4px;
+      --r-md: 8px;
+      --r-lg: 12px;
+      --display: "Geist", "Helvetica Neue", Arial, sans-serif;
+      --body: "Inter", "Helvetica Neue", Arial, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--canvas);
+      background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--emerald-hover); outline-offset: 2px; }
+    .wrap { width: 100%; max-width: 56rem; margin: 0 auto; padding: 0 1rem; }
+    @media (min-width: 640px) { .wrap { padding: 0 1.5rem; } }
+    .mono { font-family: var(--mono); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    /* Header */
+    .top {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .top-inner { height: 4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: 0.75rem; min-width: 0; text-decoration: none; }
+    .brand-mark {
+      width: 2rem; height: 2rem; border-radius: var(--r-md);
+      background: var(--emerald); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-weight: 700; font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .brand-name { font-family: var(--display); font-weight: 700; letter-spacing: -0.015em; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav { display: flex; align-items: center; gap: 0.25rem; }
+    .nav a {
+      padding: 0.375rem 0.75rem; border-radius: var(--r-md);
+      color: var(--text-2); text-decoration: none; font-weight: 500; font-size: 0.875rem;
+    }
+    .nav a:hover { color: var(--text); background: var(--panel); }
+    .nav a[aria-current="page"] { color: var(--text); background: var(--panel); border: 1px solid var(--line); }
+    @media (max-width: 560px) { .nav a.opt { display: none; } }
+
+    /* Hero */
+    .hero { text-align: center; padding: 2.5rem 0 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.875rem; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.25rem 0.75rem; border-radius: 999px;
+      background: #fff; border: 1px solid var(--line);
+      font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #334155;
+    }
+    .dot { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--emerald-hover); display: inline-block; flex-shrink: 0; }
+    h1 {
+      font-family: var(--display); font-weight: 700; color: var(--text);
+      font-size: clamp(2.1rem, 6vw, 3rem); line-height: 1.05; letter-spacing: -0.03em; margin: 0;
+    }
+    .lead { color: var(--text-2); font-size: 1rem; max-width: 36rem; margin: 0; text-wrap: balance; }
+    .privacy-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.375rem 0.875rem; border-radius: 999px;
+      background: var(--emerald-tint); border: 1px solid #a7f3d0; color: #065f46;
+      font-size: 0.75rem; font-weight: 500;
+    }
+
+    /* Ads */
+    .ad-slot { margin: 1.25rem 0; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .ad-label { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); margin-bottom: 0.25rem; letter-spacing: 0.04em; }
+    .ad-slot ins { display: block; width: 100%; }
+
+    /* Console card */
+    .card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-lg); box-shadow: 0 1px 2px rgba(0,0,0,0.04); overflow: hidden; }
+    .titlebar {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+      padding: 0.625rem 1rem; background: #f8fafc; border-bottom: 1px solid var(--line);
+    }
+    .titlebar-left { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+    .light { width: 0.75rem; height: 0.75rem; border-radius: 999px; display: inline-block; flex-shrink: 0; }
+    .titlebar .file { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--text-2); margin-left: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sys-ready {
+      font-family: var(--mono); font-size: 0.625rem; font-weight: 600; color: var(--emerald-ink);
+      background: #d1fae5; border: 1px solid #6ee7b7; padding: 0.125rem 0.5rem; border-radius: var(--r-sm); white-space: nowrap;
+    }
+    .console-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    @media (min-width: 640px) { .console-body { padding: 1.75rem; } }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+    .label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+    .meta { font-family: var(--mono); font-size: 0.6875rem; font-weight: 600; color: var(--text-2); }
+
+    /* Protocol buttons */
+    .protocols { display: grid; grid-template-columns: 1fr; gap: 0.625rem; }
+    @media (min-width: 640px) { .protocols { grid-template-columns: repeat(3, 1fr); } }
+    .protocol {
+      position: relative; text-align: left; cursor: pointer;
+      padding: 0.75rem; border-radius: var(--r-md);
+      background: #f8fafc; border: 1px solid var(--line); color: var(--text);
+      display: flex; flex-direction: column; gap: 0.25rem;
+      font: inherit; transition: background-color 120ms, border-color 120ms;
+    }
+    .protocol:hover { background: var(--panel); }
+    .protocol[aria-pressed="true"] { background: #ecfdf5cc; border: 2px solid var(--emerald); padding: calc(0.75rem - 1px); }
+    .protocol-title { display: flex; align-items: center; justify-content: space-between; font-family: var(--display); font-size: 0.875rem; font-weight: 500; color: #334155; }
+    .protocol[aria-pressed="true"] .protocol-title { font-weight: 600; color: var(--text); }
+    .protocol-sub { font-family: var(--mono); font-size: 0.75rem; color: var(--text-3); }
+    .protocol[aria-pressed="true"] .protocol-sub { color: var(--emerald-ink); font-weight: 500; }
+    .indicator { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: #cbd5e1; }
+    .protocol[aria-pressed="true"] .indicator { background: var(--emerald); }
+
+    /* Drop zone */
+    .dropzone {
+      cursor: pointer; border: 2px dashed #cbd5e1; border-radius: var(--r-lg);
+      background: rgba(248,250,252,0.5); padding: 1.75rem 1rem; min-height: 170px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.625rem;
+      transition: border-color 120ms, background-color 120ms;
+    }
+    .dropzone:hover, .dropzone.over { border-color: var(--emerald-hover); background: rgba(236,253,245,0.35); }
+    .drop-icon {
+      width: 3rem; height: 3rem; border-radius: 999px;
+      background: #d1fae5; border: 1px solid #a7f3d0; color: var(--emerald-ink);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .drop-title { font-family: var(--display); font-size: 1rem; font-weight: 600; color: #1e293b; }
+    .drop-format { font-size: 0.8125rem; color: var(--text-3); }
+    .chips { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-top: 0.25rem; }
+    .chip { font-family: var(--mono); font-size: 0.6875rem; padding: 0.125rem 0.625rem; border-radius: var(--r-sm); background: #fff; border: 1px solid var(--line); color: var(--text-2); }
+    .chip.accent { background: #ecfdf5; border-color: #a7f3d0; color: #047857; font-weight: 600; }
+
+    /* Queue */
+    .queue { display: flex; flex-direction: column; gap: 0.5rem; }
+    .queue-empty { font-size: 0.8125rem; color: var(--text-3); padding: 0.75rem 0; }
+    .item {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+      padding: 0.75rem; border-radius: var(--r-md); background: #f8fafc; border: 1px solid var(--line);
+    }
+    .item-left { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+    .item-icon {
+      width: 2.25rem; height: 2.25rem; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line);
+      color: var(--emerald); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .item-body { min-width: 0; display: flex; flex-direction: column; gap: 0.125rem; }
+    .item-name { font-family: var(--mono); font-size: 0.8125rem; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item-sub { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: 0.625rem; color: var(--text-3); }
+    .ready { color: var(--emerald-ink); background: #d1fae5; border: 1px solid #a7f3d0; padding: 0 0.375rem; border-radius: var(--r-sm); font-weight: 600; }
+    .remove {
+      flex-shrink: 0; width: 2rem; height: 2rem; border: 0; border-radius: var(--r-md);
+      background: transparent; color: #94a3b8; cursor: pointer; font-size: 1.125rem; line-height: 1;
+    }
+    .remove:hover { color: var(--error); background: #fef2f2; }
+
+    /* Progress */
+    .progress { display: flex; flex-direction: column; gap: 0.375rem; padding: 0.75rem; border-radius: var(--r-md); background: #ecfdf5aa; border: 1px solid #a7f3d0; }
+    .progress-top { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.75rem; color: #065f46; }
+    .progress-track { width: 100%; height: 0.5rem; background: #a7f3d099; border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: var(--emerald); transition: width 150ms; }
+
+    /* Status */
+    .status { font-size: 0.8125rem; min-height: 1.25rem; color: var(--text-2); margin: 0; }
+    .status.error { color: #b91c1c; }
+    .status.ok { color: var(--emerald-ink); }
+
+    /* Actions */
+    .actions {
+      display: flex; flex-direction: column; gap: 0.75rem;
+      padding-top: 1rem; border-top: 1px solid #f1f5f9;
+    }
+    @media (min-width: 640px) { .actions { flex-direction: row; align-items: center; justify-content: space-between; } }
+    .actions-left, .actions-right { display: flex; gap: 0.625rem; align-items: center; }
+    .btn {
+      font: inherit; cursor: pointer; border-radius: var(--r-md);
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.625rem 1rem; font-weight: 600; font-size: 0.875rem;
+      border: 1px solid var(--line-strong); background: #fff; color: #18181b;
+      transition: background-color 120ms, border-color 120ms, color 120ms;
+    }
+    .btn:hover:not(:disabled) { background: #f8fafc; border-color: #a1a1aa; }
+    .btn:disabled { cursor: not-allowed; opacity: 0.55; }
+    .btn-primary { background: var(--emerald); border-color: #047857; color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.15); }
+    .btn-primary:hover:not(:disabled) { background: var(--emerald-hover); border-color: #059669; }
+    .btn-primary:active:not(:disabled) { background: var(--emerald-press); }
+    .btn-ghost { background: transparent; border-color: transparent; color: var(--text-2); }
+    .btn-ghost:hover:not(:disabled) { background: var(--panel); color: var(--text); }
+    .btn-download:not(:disabled) { background: var(--emerald-tint); border: 2px solid var(--emerald); color: #064e3b; }
+    .btn-download:not(:disabled):hover { background: #d1fae5; }
+    .btn-full { width: 100%; }
+    @media (min-width: 640px) { .btn-full { width: auto; } }
+    .btn-primary.btn-full { padding: 0.75rem 1.25rem; font-size: 0.9375rem; }
+
+    /* Telemetry bar */
+    .telemetry {
+      background: #f8fafc; border-top: 1px solid var(--line); padding: 0.625rem 1rem;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3);
+    }
+    .telemetry-group { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .telemetry b { color: #334155; font-weight: 600; }
+    .tag {
+      font-weight: 600; color: #047857; background: var(--emerald-tint); border: 1px solid #a7f3d0;
+      padding: 0.125rem 0.375rem; border-radius: var(--r-sm); font-size: 0.625rem;
+    }
+
+    /* Feature cards */
+    .features { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
+    @media (min-width: 720px) { .features { grid-template-columns: repeat(3, 1fr); } }
+    .feature { padding: 1.25rem; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); display: flex; flex-direction: column; gap: 0.5rem; }
+    .feature-head { display: flex; align-items: center; gap: 0.5rem; color: var(--emerald); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+    .feature p { margin: 0; font-size: 0.8125rem; color: var(--text-2); line-height: 1.6; }
+
+    /* Shortcuts */
+    .shortcuts {
+      margin-top: 1rem; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md);
+      padding: 0.625rem 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;
+      font-size: 0.75rem; color: var(--text-2);
+    }
+    .shortcuts-list { display: flex; gap: 1rem; flex-wrap: wrap; }
+    kbd {
+      font-family: var(--mono); font-size: 0.6875rem; font-weight: 600; color: #1e293b;
+      background: var(--panel); border: 1px solid #cbd5e1; border-bottom-width: 2px; border-radius: var(--r-sm); padding: 0.125rem 0.375rem;
+    }
+
+    /* About */
+    .about { margin-top: 2.5rem; padding: 1.5rem; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); }
+    .about h2 { font-family: var(--display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
+    .about p, .about li { color: var(--text-2); font-size: 0.875rem; line-height: 1.7; }
+    .about ul { padding-left: 1.25rem; margin: 0.5rem 0 0; }
+    .about a { color: var(--emerald-ink); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Footer */
+    footer.site { margin-top: auto; background: #fff; border-top: 1px solid var(--line); }
+    .footer-inner {
+      padding: 1.25rem 0; display: flex; flex-direction: column; gap: 0.75rem; align-items: center; justify-content: space-between;
+      font-size: 0.75rem; color: var(--text-3);
+    }
+    @media (min-width: 720px) { .footer-inner { flex-direction: row; } }
+    .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { text-decoration: none; color: var(--text-2); }
+    .footer-links a:hover { color: var(--text); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="/" aria-label="Made by Waleed home">
+        <span class="brand-mark" aria-hidden="true">&gt;_</span>
+        <span class="brand-name">Made by Waleed</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a class="opt" href="/apps/">Apps</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a class="opt" href="/about/">About</a>
+        <a href="/support/">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero" aria-labelledby="page-title">
+        <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Made by Waleed Tools // Local utility</span>
+        <h1 id="page-title">Document Converter</h1>
+        <p class="lead">Convert CSV to Excel, images to PDF, and PDF pages to images. Everything happens in your browser, and nothing is uploaded.</p>
+        <span class="privacy-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Files never leave your device
+        </span>
+      </section>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <span class="ad-label">Advertisement</span>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+
+      <section class="card" aria-label="Converter">
+        <div class="titlebar">
+          <div class="titlebar-left">
+            <span class="light" style="background:#f87171" aria-hidden="true"></span>
+            <span class="light" style="background:#fbbf24" aria-hidden="true"></span>
+            <span class="light" style="background:#34d399" aria-hidden="true"></span>
+            <span class="file">document-converter</span>
+          </div>
+          <span class="sys-ready" id="sys-state">READY</span>
+        </div>
+
+        <div class="console-body">
+          <div>
+            <div class="section-head">
+              <span class="label">Select conversion</span>
+              <span class="meta" id="pipeline">PIPELINE: SHEETJS</span>
+            </div>
+            <div class="protocols" id="protocols">
+              <button class="protocol" type="button" data-mode="csv-xlsx" aria-pressed="true">
+                <span class="protocol-title">CSV to Excel <span class="indicator" aria-hidden="true"></span></span>
+                <span class="protocol-sub">csv / tsv → .xlsx</span>
+              </button>
+              <button class="protocol" type="button" data-mode="img-pdf" aria-pressed="false">
+                <span class="protocol-title">Images to PDF <span class="indicator" aria-hidden="true"></span></span>
+                <span class="protocol-sub">png, jpg, webp, avif → .pdf</span>
+              </button>
+              <button class="protocol" type="button" data-mode="pdf-img" aria-pressed="false">
+                <span class="protocol-title">PDF to Images <span class="indicator" aria-hidden="true"></span></span>
+                <span class="protocol-sub">.pdf → .png / .zip</span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-describedby="drop-format">
+              <div class="drop-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8"/><path d="m8 12 4-4 4 4"/><path d="M20 16.7A4.5 4.5 0 0 0 17.5 8h-1.3A7 7 0 1 0 4 15.3"/></svg>
+              </div>
+              <span class="drop-title" id="drop-title">Drag and drop a CSV or TSV file here, or browse</span>
+              <span class="drop-format" id="drop-format">Supports CSV and TSV • One file at a time</span>
+              <div class="chips" id="chips"></div>
+            </div>
+            <input class="sr-only" id="file-input" type="file" tabindex="-1">
+          </div>
+
+          <div>
+            <div class="section-head">
+              <span class="label">Ingestion queue</span>
+              <span class="meta" id="queue-count">0 items staged</span>
+            </div>
+            <div class="queue" id="queue" aria-live="polite"></div>
+          </div>
+
+          <div class="progress" id="progress" hidden>
+            <div class="progress-top">
+              <span id="progress-label">Working...</span>
+              <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+          </div>
+
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+
+          <div class="actions">
+            <div class="actions-left">
+              <button class="btn btn-primary btn-full" id="convert" type="button">Convert now</button>
+              <button class="btn" id="reset" type="button">Reset</button>
+            </div>
+            <div class="actions-right">
+              <button class="btn btn-download btn-full" id="download" type="button" disabled>Download result</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry">
+          <div class="telemetry-group">
+            <span><b>Engine:</b> browser JavaScript</span>
+            <span>•</span>
+            <span><b>Processing:</b> this device</span>
+            <span>•</span>
+            <span><b>Uploads:</b> none</span>
+          </div>
+          <div class="telemetry-group">
+            <span id="hash">SHA-256: —</span>
+            <span class="tag">NO UPLOADS</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" aria-label="Highlights">
+        <div class="feature">
+          <div class="feature-head">Processed in your browser</div>
+          <p>Conversion runs on your device. Your files are not uploaded to us or to any other server.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-head">No sign-up</div>
+          <p>No account, no email address and no install. Open the page, pick a conversion and download the result.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-head">Free, with ads</div>
+          <p>The tool is free. Google AdSense ads help pay for it. Ads never receive your files, but they may use cookies.</p>
+        </div>
+      </section>
+
+      <div class="shortcuts">
+        <span style="font-weight:600;color:#1e293b">Shortcuts</span>
+        <div class="shortcuts-list">
+          <span><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>O</kbd> Select files</span>
+          <span><kbd>Enter</kbd> Convert (when nothing is focused)</span>
+        </div>
+      </div>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <span class="ad-label">Advertisement</span>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title">About this tool</h2>
+        <p>Document Converter does three jobs, each one fully in your browser:</p>
+        <ul>
+          <li><strong>CSV to Excel</strong> reads a comma or tab-separated file and saves it as an .xlsx workbook. Numbers stay numbers, and quoted fields are handled correctly.</li>
+          <li><strong>Images to PDF</strong> puts PNG, JPG, WEBP or AVIF images into one PDF, one image per page. Each page is the same size as its image.</li>
+          <li><strong>PDF to Images</strong> renders each page as a PNG at up to double resolution. A one-page PDF gives one PNG; a longer PDF gives a ZIP of PNG files. Password-protected PDFs need to be unlocked first.</li>
+        </ul>
+        <p style="margin-top:0.75rem">Very large files can be slow on older devices, because the work uses your device's memory. For the privacy details, read the <a href="/support/#privacy">privacy policy</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap footer-inner">
+      <span>Files never leave your device • Ads by Google AdSense</span>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="/tools/">All tools</a>
+        <a href="/support/">Support</a>
+        <a href="/support/#privacy">Privacy</a>
+        <a href="/about/">About</a>
+      </nav>
+      <span>© 2026 Made by Waleed</span>
+    </div>
+  </footer>
+
+  <!-- Converter libraries. Versions are pinned. SheetJS is used for writing .xlsx only, not for reading files. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var MAX_PDF_PAGES = 300;
+    var MAX_SHEET_ROWS = 1048576;
+    var MAX_SHEET_COLS = 16384;
+    var MAX_PDF_PAGE_SIDE = 14400; // PDF page size limit, in points
+
+    var MODES = {
+      'csv-xlsx': {
+        pipeline: 'PIPELINE: SHEETJS',
+        multiple: false,
+        title: 'Drag and drop a CSV or TSV file here, or browse',
+        format: 'Supports CSV and TSV • One file at a time',
+        chips: ['ENCRYPTED_RAM', 'DIRECT_READ'],
+        accept: '.csv,.tsv,text/csv,text/tab-separated-values',
+        download: 'Download Excel (.xlsx)',
+        isValid: function (f) {
+          var ext = extOf(f.name);
+          return ext === 'csv' || ext === 'tsv' || f.type === 'text/csv' || f.type === 'text/tab-separated-values';
+        },
+        typeName: 'CSV / TSV',
+        convert: convertCsv
+      },
+      'img-pdf': {
+        pipeline: 'PIPELINE: PDF-LIB',
+        multiple: true,
+        title: 'Drag and drop images here, or browse',
+        format: 'Supports PNG, JPG, WEBP, AVIF • Add several to build one PDF',
+        chips: ['ENCRYPTED_RAM', 'BATCH_SEQUENCE'],
+        accept: 'image/png,image/jpeg,image/webp,image/avif,.png,.jpg,.jpeg,.webp,.avif',
+        download: 'Download PDF (.pdf)',
+        isValid: function (f) {
+          var ext = extOf(f.name);
+          return ['png', 'jpg', 'jpeg', 'webp', 'avif'].indexOf(ext) !== -1 || /^image\/(png|jpeg|webp|avif)$/.test(f.type);
+        },
+        typeName: 'image',
+        convert: convertImages
+      },
+      'pdf-img': {
+        pipeline: 'PIPELINE: PDF.JS',
+        multiple: false,
+        title: 'Drag and drop a PDF here, or browse',
+        format: 'Supports PDF • Up to ' + MAX_PDF_PAGES + ' pages',
+        chips: ['ENCRYPTED_RAM', 'PAGE_RASTER'],
+        accept: 'application/pdf,.pdf',
+        download: 'Download result',
+        isValid: function (f) {
+          return extOf(f.name) === 'pdf' || f.type === 'application/pdf';
+        },
+        typeName: 'PDF',
+        convert: convertPdf
+      }
+    };
+
+    var state = { mode: 'csv-xlsx', files: [], result: null, busy: false, hash: '' };
+
+    var el = {
+      protocols: document.getElementById('protocols'),
+      dropzone: document.getElementById('dropzone'),
+      input: document.getElementById('file-input'),
+      dropTitle: document.getElementById('drop-title'),
+      dropFormat: document.getElementById('drop-format'),
+      chips: document.getElementById('chips'),
+      queue: document.getElementById('queue'),
+      queueCount: document.getElementById('queue-count'),
+      pipeline: document.getElementById('pipeline'),
+      progress: document.getElementById('progress'),
+      progressLabel: document.getElementById('progress-label'),
+      progressPercent: document.getElementById('progress-percent'),
+      progressFill: document.getElementById('progress-fill'),
+      status: document.getElementById('status'),
+      convert: document.getElementById('convert'),
+      reset: document.getElementById('reset'),
+      download: document.getElementById('download'),
+      sysState: document.getElementById('sys-state'),
+      hash: document.getElementById('hash')
+    };
+
+    function extOf(name) {
+      var i = name.lastIndexOf('.');
+      return i === -1 ? '' : name.slice(i + 1).toLowerCase();
+    }
+
+    function baseName(name) {
+      var i = name.lastIndexOf('.');
+      return i > 0 ? name.slice(0, i) : name;
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function setStatus(msg, kind) {
+      el.status.textContent = msg || '';
+      el.status.className = 'status' + (kind ? ' ' + kind : '');
+    }
+
+    function setProgress(percent, label) {
+      el.progress.hidden = false;
+      el.progressFill.style.width = Math.max(0, Math.min(100, percent)) + '%';
+      el.progressPercent.textContent = Math.round(percent) + '%';
+      el.progressLabel.textContent = label || 'Working...';
+    }
+
+    function hideProgress() {
+      el.progress.hidden = true;
+      el.progressFill.style.width = '0%';
+    }
+
+    function setBusy(busy) {
+      state.busy = busy;
+      el.convert.disabled = busy;
+      el.reset.disabled = busy;
+      el.protocols.querySelectorAll('button').forEach(function (b) { b.disabled = busy; });
+      el.sysState.textContent = busy ? 'WORKING' : 'READY';
+    }
+
+    function renderProtocols() {
+      el.protocols.querySelectorAll('button').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-mode') === state.mode));
+      });
+    }
+
+    function renderHeader() {
+      var m = MODES[state.mode];
+      el.pipeline.textContent = m.pipeline;
+      el.dropTitle.textContent = m.title;
+      el.dropFormat.textContent = m.format;
+      el.chips.innerHTML = '';
+      m.chips.forEach(function (c, i) {
+        var s = document.createElement('span');
+        s.className = 'chip' + (i === m.chips.length - 1 ? ' accent' : '');
+        s.textContent = c;
+        el.chips.appendChild(s);
+      });
+      el.input.setAttribute('accept', m.accept);
+      el.input.multiple = m.multiple;
+      el.download.textContent = result2label();
+    }
+
+    function result2label() {
+      if (state.result) return 'Download ' + state.result.ext;
+      return MODES[state.mode].download;
+    }
+
+    function renderQueue() {
+      el.queue.innerHTML = '';
+      if (state.files.length === 0) {
+        var empty = document.createElement('div');
+        empty.className = 'queue-empty';
+        empty.textContent = 'No files yet. Drop a file above or choose one to start.';
+        el.queue.appendChild(empty);
+      }
+      state.files.forEach(function (f, idx) {
+        var row = document.createElement('div');
+        row.className = 'item';
+
+        var left = document.createElement('div');
+        left.className = 'item-left';
+
+        var icon = document.createElement('div');
+        icon.className = 'item-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+
+        var body = document.createElement('div');
+        body.className = 'item-body';
+
+        var name = document.createElement('span');
+        name.className = 'item-name';
+        name.textContent = f.name;
+        name.title = f.name;
+
+        var sub = document.createElement('div');
+        sub.className = 'item-sub';
+        var ready = document.createElement('span');
+        ready.className = 'ready';
+        ready.textContent = 'READY';
+        var type = document.createElement('span');
+        type.textContent = 'TYPE: ' + MODES[state.mode].typeName.toUpperCase() + ' • ' + formatSize(f.size);
+        sub.appendChild(ready);
+        sub.appendChild(type);
+
+        body.appendChild(name);
+        body.appendChild(sub);
+        left.appendChild(icon);
+        left.appendChild(body);
+
+        var remove = document.createElement('button');
+        remove.className = 'remove';
+        remove.type = 'button';
+        remove.setAttribute('aria-label', 'Remove ' + f.name);
+        remove.textContent = '×';
+        remove.disabled = state.busy;
+        remove.addEventListener('click', function () { removeFile(idx); });
+
+        row.appendChild(left);
+        row.appendChild(remove);
+        el.queue.appendChild(row);
+      });
+      el.queueCount.textContent = state.files.length + (state.files.length === 1 ? ' item staged' : ' items staged');
+      el.convert.disabled = state.busy || state.files.length === 0;
+    }
+
+    function clearResult() {
+      state.result = null;
+      el.download.disabled = true;
+      el.download.textContent = result2label();
+    }
+
+    function removeFile(idx) {
+      state.files.splice(idx, 1);
+      clearResult();
+      state.hash = '';
+      renderQueue();
+      refreshHash();
+      setStatus('', '');
+    }
+
+    function refreshHash() {
+      el.hash.textContent = 'SHA-256: —';
+      if (!state.files.length || !window.crypto || !crypto.subtle) return;
+      var first = state.files[0];
+      var token = first.name + first.size + first.lastModified;
+      first.arrayBuffer().then(function (buf) {
+        return crypto.subtle.digest('SHA-256', buf);
+      }).then(function (digest) {
+        var hex = Array.prototype.map.call(new Uint8Array(digest), function (b) {
+          return ('0' + b.toString(16)).slice(-2);
+        }).join('');
+        if (state.files.length && (state.files[0].name + state.files[0].size + state.files[0].lastModified) === token) {
+          el.hash.textContent = 'SHA-256: ' + hex.slice(0, 4) + '...' + hex.slice(-4);
+        }
+      }).catch(function () { /* hash is decorative; ignore failures */ });
+    }
+
+    function addFiles(list) {
+      if (state.busy) return;
+      var m = MODES[state.mode];
+      var incoming = Array.prototype.slice.call(list || []);
+      if (!incoming.length) return;
+
+      var valid = incoming.filter(function (f) { return m.isValid(f); });
+      var rejected = incoming.length - valid.length;
+
+      if (!valid.length) {
+        setStatus('That file type is not supported here. ' + m.format.replace('Supports ', 'Supported: ') + '.', 'error');
+        return;
+      }
+
+      clearResult();
+      var messages = [];
+      if (m.multiple) {
+        valid.forEach(function (f) {
+          var dup = state.files.some(function (x) { return x.name === f.name && x.size === f.size; });
+          if (!dup) state.files.push(f);
+        });
+      } else {
+        if (valid.length > 1) messages.push('Only one file at a time. Using ' + valid[0].name + '.');
+        state.files = [valid[0]];
+      }
+      if (rejected) messages.push(rejected + ' file' + (rejected === 1 ? ' was' : 's were') + ' skipped because the type is not supported.');
+
+      renderQueue();
+      refreshHash();
+      setStatus(messages.join(' '), messages.length ? 'error' : '');
+    }
+
+    function switchMode(mode) {
+      if (state.busy || mode === state.mode) return;
+      state.mode = mode;
+      state.files = [];
+      state.hash = '';
+      clearResult();
+      renderProtocols();
+      renderHeader();
+      renderQueue();
+      refreshHash();
+      setStatus('Switched to ' + MODES[mode].typeName + ' conversion. Add a file to start.', '');
+    }
+
+    function resetAll() {
+      if (state.busy) return;
+      state.files = [];
+      clearResult();
+      renderQueue();
+      refreshHash();
+      hideProgress();
+      setStatus('', '');
+    }
+
+    function saveBlob(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }
+
+    function canvasToBlob(canvas, type) {
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(function (b) {
+          if (b) resolve(b); else reject(new Error('Could not create the image.'));
+        }, type);
+      });
+    }
+
+    function requireLib(lib, label) {
+      if (typeof window[lib] === 'undefined') {
+        throw new Error('The ' + label + ' library did not load. Check your connection and refresh the page.');
+      }
+    }
+
+    /* ---------- CSV to Excel ---------- */
+
+    function detectDelimiter(text, name) {
+      if (extOf(name) === 'tsv') return '\t';
+      var firstLine = text.split(/\r?\n/, 1)[0] || '';
+      var tabs = (firstLine.match(/\t/g) || []).length;
+      var commas = (firstLine.match(/,/g) || []).length;
+      return tabs > commas ? '\t' : ',';
+    }
+
+    // RFC 4180-style parser: quoted fields, doubled quotes, CR/LF/CRLF line endings.
+    function parseDelimited(text, delim) {
+      var rows = [];
+      var row = [];
+      var field = '';
+      var inQuotes = false;
+      var i = 0;
+      var n = text.length;
+
+      while (i < n) {
+        var c = text.charAt(i);
+        if (inQuotes) {
+          if (c === '"') {
+            if (text.charAt(i + 1) === '"') { field += '"'; i += 2; continue; }
+            inQuotes = false; i++; continue;
+          }
+          field += c; i++; continue;
+        }
+        if (c === '"' && field === '') { inQuotes = true; i++; continue; }
+        if (c === delim) { row.push(field); field = ''; i++; continue; }
+        if (c === '\r' || c === '\n') {
+          row.push(field); rows.push(row); row = []; field = '';
+          i += (c === '\r' && text.charAt(i + 1) === '\n') ? 2 : 1;
+          continue;
+        }
+        field += c; i++;
+      }
+      if (field !== '' || row.length) { row.push(field); rows.push(row); }
+      return rows;
+    }
+
+    // Keep plain numbers as numbers so Excel can sort and sum them. Leave leading-zero codes (like 007) as text.
+    function toCell(v) {
+      if (v === '') return '';
+      if (/^-?(0|[1-9]\d*)(\.\d+)?$/.test(v) && v.replace(/\D/g, '').length <= 15) return Number(v);
+      return v;
+    }
+
+    async function convertCsv(files, progress) {
+      requireLib('XLSX', 'spreadsheet');
+      var file = files[0];
+      progress(10, 'Reading file...');
+      var text = (await file.text()).replace(/^﻿/, '');
+      if (!text.trim()) throw new Error('This file is empty.');
+
+      var delim = detectDelimiter(text, file.name);
+      progress(35, 'Parsing rows...');
+      var rows = parseDelimited(text, delim);
+      if (rows.length > MAX_SHEET_ROWS) {
+        throw new Error('This file has ' + rows.length.toLocaleString() + ' rows. Excel allows up to 1,048,576 per sheet.');
+      }
+      var widest = rows.reduce(function (m, r) { return Math.max(m, r.length); }, 0);
+      if (widest > MAX_SHEET_COLS) {
+        throw new Error('This file has ' + widest.toLocaleString() + ' columns. Excel allows up to 16,384.');
+      }
+
+      progress(60, 'Building workbook...');
+      var data = rows.map(function (r) { return r.map(toCell); });
+      var ws = XLSX.utils.aoa_to_sheet(data);
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      progress(85, 'Writing .xlsx...');
+      var out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      progress(100, 'Done');
+
+      return {
+        blob: new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }),
+        filename: baseName(file.name) + '.xlsx',
+        ext: '.xlsx',
+        summary: rows.length.toLocaleString() + ' rows'
+      };
+    }
+
+    /* ---------- Images to PDF ---------- */
+
+    async function rasterToPng(file) {
+      var bitmap;
+      try {
+        bitmap = await createImageBitmap(file);
+      } catch (e) {
+        throw new Error('Could not read the image ' + file.name + '.');
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      canvas.getContext('2d').drawImage(bitmap, 0, 0);
+      bitmap.close && bitmap.close();
+      var blob = await canvasToBlob(canvas, 'image/png');
+      canvas.width = 0; canvas.height = 0;
+      return new Uint8Array(await blob.arrayBuffer());
+    }
+
+    async function convertImages(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      var PDFDocument = PDFLib.PDFDocument;
+      var doc = await PDFDocument.create();
+
+      for (var i = 0; i < files.length; i++) {
+        var f = files[i];
+        progress((i / files.length) * 90, 'Adding image ' + (i + 1) + ' of ' + files.length + '...');
+        var bytes = new Uint8Array(await f.arrayBuffer());
+        var ext = extOf(f.name);
+        var img = null;
+
+        try {
+          if (f.type === 'image/png' || ext === 'png') img = await doc.embedPng(bytes);
+          else if (f.type === 'image/jpeg' || ext === 'jpg' || ext === 'jpeg') img = await doc.embedJpg(bytes);
+        } catch (e) {
+          img = null; // unusual encoding (e.g. CMYK JPEG): fall back to re-encoding below
+        }
+        if (!img) {
+          img = await doc.embedPng(await rasterToPng(f));
+        }
+
+        var w = img.width;
+        var h = img.height;
+        var scale = Math.min(1, MAX_PDF_PAGE_SIDE / Math.max(w, h));
+        w = w * scale; h = h * scale;
+        var page = doc.addPage([w, h]);
+        page.drawImage(img, { x: 0, y: 0, width: w, height: h });
+      }
+
+      progress(95, 'Saving PDF...');
+      var out = await doc.save();
+      progress(100, 'Done');
+
+      return {
+        blob: new Blob([out], { type: 'application/pdf' }),
+        filename: files.length === 1 ? baseName(files[0].name) + '.pdf' : 'converted-images.pdf',
+        ext: '.pdf',
+        summary: files.length + ' page' + (files.length === 1 ? '' : 's')
+      };
+    }
+
+    /* ---------- PDF to Images ---------- */
+
+    async function convertPdf(files, progress) {
+      requireLib('pdfjsLib', 'PDF');
+      requireLib('JSZip', 'ZIP');
+      var file = files[0];
+      if (pdfjsLib.GlobalWorkerOptions && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+
+      progress(5, 'Reading PDF...');
+      var buf = await file.arrayBuffer();
+      var pdf;
+      try {
+        pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
+      } catch (e) {
+        if (e && e.name === 'PasswordException') {
+          throw new Error('This PDF is password protected. Unlock it first, then try again.');
+        }
+        throw new Error('Could not read this PDF. The file may be damaged.');
+      }
+
+      var count = pdf.numPages;
+      if (count > MAX_PDF_PAGES) {
+        throw new Error('This PDF has ' + count + ' pages. The limit is ' + MAX_PDF_PAGES + ' pages per conversion.');
+      }
+
+      var pages = [];
+      for (var p = 1; p <= count; p++) {
+        progress(5 + ((p - 1) / count) * 90, 'Rendering page ' + p + ' of ' + count + '...');
+        var page = await pdf.getPage(p);
+        var base = page.getViewport({ scale: 1 });
+        var scale = Math.min(2, 4096 / Math.max(base.width, base.height));
+        var viewport = page.getViewport({ scale: scale });
+
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+        pages.push(await canvasToBlob(canvas, 'image/png'));
+        canvas.width = 0; canvas.height = 0;
+        page.cleanup();
+      }
+      pdf.destroy && pdf.destroy();
+
+      var name = baseName(file.name);
+      if (count === 1) {
+        progress(100, 'Done');
+        return { blob: pages[0], filename: name + '-page-1.png', ext: '.png', summary: '1 page' };
+      }
+
+      progress(96, 'Packing ZIP...');
+      var zip = new JSZip();
+      var width = String(count).length;
+      pages.forEach(function (b, i) {
+        zip.file(name + '-page-' + String(i + 1).padStart(width, '0') + '.png', b);
+      });
+      var out = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+      progress(100, 'Done');
+      return { blob: out, filename: name + '-pages.zip', ext: '.zip', summary: count + ' pages' };
+    }
+
+    /* ---------- Run ---------- */
+
+    async function runConvert() {
+      if (state.busy) return;
+      if (!state.files.length) {
+        setStatus('Add a file first.', 'error');
+        return;
+      }
+      clearResult();
+      setBusy(true);
+      setStatus('', '');
+      setProgress(0, 'Starting...');
+      try {
+        var result = await MODES[state.mode].convert(state.files.slice(), setProgress);
+        state.result = { blob: result.blob, filename: result.filename, ext: result.ext };
+        el.download.disabled = false;
+        el.download.textContent = 'Download ' + result.ext;
+        setStatus('Done. ' + result.filename + ' is ready (' + formatSize(result.blob.size) + ', ' + result.summary + ').', 'ok');
+      } catch (err) {
+        setStatus(err && err.message ? err.message : 'Something went wrong during conversion.', 'error');
+      } finally {
+        setBusy(false);
+        hideProgress();
+        renderQueue();
+      }
+    }
+
+    function runDownload() {
+      if (!state.result) return;
+      saveBlob(state.result.blob, state.result.filename);
+    }
+
+    /* ---------- Events ---------- */
+
+    el.protocols.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-mode]');
+      if (btn) switchMode(btn.getAttribute('data-mode'));
+    });
+
+    el.input.addEventListener('change', function (e) {
+      addFiles(e.target.files);
+      e.target.value = '';
+    });
+
+    el.dropzone.addEventListener('click', function () { if (!state.busy) el.input.click(); });
+    el.dropzone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (!state.busy) el.input.click();
+      }
+    });
+    el.dropzone.addEventListener('dragover', function (e) { e.preventDefault(); el.dropzone.classList.add('over'); });
+    el.dropzone.addEventListener('dragleave', function () { el.dropzone.classList.remove('over'); });
+    el.dropzone.addEventListener('drop', function (e) {
+      e.preventDefault();
+      el.dropzone.classList.remove('over');
+      addFiles(e.dataTransfer && e.dataTransfer.files);
+    });
+
+    // Stop a stray drop outside the dropzone from navigating away from the page.
+    window.addEventListener('dragover', function (e) { e.preventDefault(); });
+    window.addEventListener('drop', function (e) { e.preventDefault(); });
+
+    el.convert.addEventListener('click', runConvert);
+    el.reset.addEventListener('click', resetAll);
+    el.download.addEventListener('click', runDownload);
+
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'o') {
+        e.preventDefault();
+        if (!state.busy) el.input.click();
+      } else if (e.key === 'Enter' && document.activeElement === document.body) {
+        e.preventDefault();
+        runConvert();
+      }
+    });
+
+    // Ads: request each slot once the page is ready.
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('ins.adsbygoogle').forEach(function () {
+        try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
+      });
+    });
+
+    renderProtocols();
+    renderHeader();
+    renderQueue();
+  })();
+  </script>
+</body>
+</html>
