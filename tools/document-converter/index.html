@@ -351,7 +351,6 @@
           <div>
             <div class="section-head">
               <span class="label">Select conversion</span>
-              <span class="meta" id="pipeline">PIPELINE: SHEETJS</span>
             </div>
             <div class="pills" role="group" aria-label="Filter conversions">
               <button class="pill" type="button" data-cat="all" aria-pressed="true">All</button>
@@ -424,35 +423,6 @@
             </div>
           </div>
         </div>
-
-        <div class="telemetry">
-          <div class="telemetry-group">
-            <span><b>Engine:</b> browser JavaScript</span>
-            <span>•</span>
-            <span><b>Processing:</b> this device</span>
-            <span>•</span>
-            <span><b>Uploads:</b> none</span>
-          </div>
-          <div class="telemetry-group">
-            <span id="hash">SHA-256: —</span>
-            <span class="tag">NO UPLOADS</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="features" aria-label="Highlights">
-        <div class="feature">
-          <div class="feature-head">Processed in your browser</div>
-          <p>Conversion runs on your device. Your files are not uploaded to us or to any other server.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-head">No sign-up</div>
-          <p>No account, no email address and no install. Open the page, pick a conversion and download the result.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-head">Free, with ads</div>
-          <p>The tool is free. Google AdSense ads help pay for it. Ads never receive your files, but they may use cookies.</p>
-        </div>
       </section>
 
       <div class="shortcuts">
@@ -478,7 +448,6 @@
 
   <footer class="site">
     <div class="wrap footer-inner">
-      <span>Files never leave your device • Ads by Google AdSense</span>
       <nav class="footer-links" aria-label="Footer">
         <a href="/tools/">All tools</a>
         <a href="/support/">Support</a>
@@ -624,7 +593,7 @@
 
     function renderHeader() {
       var m = MODES[state.mode];
-      el.pipeline.textContent = m.pipeline;
+      if (el.pipeline) el.pipeline.textContent = m.pipeline;
       el.dropTitle.textContent = m.title;
       el.dropFormat.textContent = m.format;
       el.chips.innerHTML = '';
@@ -719,7 +688,7 @@
     }
 
     function refreshHash() {
-      el.hash.textContent = 'SHA-256: —';
+      if (el.hash) el.hash.textContent = 'SHA-256: —';
       if (!state.files.length || !window.crypto || !crypto.subtle) return;
       var first = state.files[0];
       var token = first.name + first.size + first.lastModified;
@@ -730,7 +699,7 @@
           return ('0' + b.toString(16)).slice(-2);
         }).join('');
         if (state.files.length && (state.files[0].name + state.files[0].size + state.files[0].lastModified) === token) {
-          el.hash.textContent = 'SHA-256: ' + hex.slice(0, 4) + '...' + hex.slice(-4);
+          if (el.hash) el.hash.textContent = 'SHA-256: ' + hex.slice(0, 4) + '...' + hex.slice(-4);
         }
       }).catch(function () { /* hash is decorative; ignore failures */ });
     }
