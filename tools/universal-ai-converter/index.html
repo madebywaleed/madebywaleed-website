@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Universal AI Converter | Made by Waleed</title>
-  <meta name="description" content="Convert currencies, metric and imperial units, cooking measures and custom questions with Google Gemini. Free, runs in your browser.">
+  <title>Universal Converter | Made by Waleed</title>
+  <meta name="description" content="Free universal converter: length, weight, volume, cooking, temperature, speed, area, time, data, pressure, energy, fuel economy, currency and South Asian units.">
   <meta name="theme-color" content="#0f172a">
-  <meta property="og:title" content="Universal AI Converter">
-  <meta property="og:description" content="Convert currencies, units and cooking measures with Google Gemini. Free, and your key stays in your browser.">
+  <meta property="og:title" content="Universal Converter">
+  <meta property="og:description" content="Free converter for length, weight, volume, cooking, temperature, speed, area, time, data, pressure, energy, power and fuel economy.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/universal-ai-converter/">
   <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/universal-ai-converter/">
@@ -83,7 +83,7 @@
     label { display: block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.45rem; }
     .field { margin-bottom: 1.25rem; }
     .row { display: flex; gap: 0.5rem; align-items: stretch; }
-    input[type="text"], input[type="password"] {
+    input[type="text"], input[type="number"], input[type="password"], select {
       width: 100%;
       background: rgba(15,23,42,0.6);
       color: var(--text);
@@ -168,7 +168,28 @@
       .tool { padding: 1.3rem 1.05rem; }
     }
     @media (prefers-reduced-motion: reduce) { .orb { animation: none; } .convert { transition: none; } }
-  </style>
+  
+    /* Converter controls */
+    select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 2.2rem; }
+    select option { background: #0f172a; color: var(--text); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .swap { align-self: end; width: 3rem; height: 3rem; border-radius: 12px; border: 1px solid var(--glass-line); background: transparent; color: var(--text); font-size: 1.2rem; cursor: pointer; flex: 0 0 auto; }
+    .swap:hover { color: var(--cyan); }
+    .swaprow { display: flex; gap: 0.6rem; align-items: flex-end; }
+    .swaprow > div { flex: 1; min-width: 0; }
+    .result { margin-top: 1.4rem; padding: 1.2rem 1.25rem; }
+    .result .label { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0 0 0.4rem; }
+    .result .answer { font-family: var(--display); font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 700; line-height: 1.15; margin: 0; overflow-wrap: anywhere; }
+    .result .formula { color: var(--muted); font-size: 0.92rem; margin: 0.6rem 0 0; overflow-wrap: anywhere; }
+    .result.error .answer { color: #fca5a5; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
+    .quick { margin-top: 1.1rem; }
+    .quick h2 { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; margin: 0 0 0.5rem; }
+    table.quick-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    table.quick-table td { padding: 0.45rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); overflow-wrap: anywhere; }
+    table.quick-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+    .hint { font-size: 0.82rem; color: var(--muted); margin: 0.45rem 0 0; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
   <div class="orb orb-1" aria-hidden="true"></div>
@@ -195,33 +216,45 @@
 
     <main>
       <section class="tool glass" aria-labelledby="tool-title">
-        <h1 id="tool-title">Universal AI Converter<span class="dot">.</span></h1>
-        <p class="intro">Type any conversion in plain words. Currencies, metric and imperial units, cooking measures, or your own question.</p>
+        <h1 id="tool-title">Universal Converter<span class="dot">.</span></h1>
+        <p class="intro">Convert length, weight, volume, cooking measures, temperature, speed, area, time, data, pressure, energy, power, fuel economy, currency and South Asian units. Results update as you type.</p>
 
         <form id="converter" novalidate>
           <div class="field">
-            <label for="apiKey">Your Gemini API key</label>
-            <div class="row">
-              <input type="password" id="apiKey" autocomplete="off" spellcheck="false" placeholder="Paste your key from Google AI Studio">
-              <button type="button" class="toggle" id="toggleKey" aria-controls="apiKey" aria-pressed="false">Show</button>
-            </div>
-            <p class="hint">Used only in this browser to call Google. We do not store or see it.</p>
+            <label for="category">Type of conversion</label>
+            <select id="category"></select>
           </div>
 
           <div class="field">
-            <label for="request">Your conversion</label>
-            <input type="text" id="request" autocomplete="off" maxlength="300" placeholder="For example: 100 USD to AED">
-            <p class="hint">Try: 5 cups to ml, 10 km to miles, 2 tbsp butter to grams.</p>
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" inputmode="decimal" step="any" value="1" aria-describedby="amount-hint">
+            <p class="hint" id="amount-hint">Negative numbers work for temperature.</p>
           </div>
 
-          <button type="submit" class="convert" id="go">Convert Now ✨</button>
+          <div class="swaprow">
+            <div class="field">
+              <label for="from">From</label>
+              <select id="from"></select>
+            </div>
+            <button type="button" class="swap" id="swap" aria-label="Swap from and to units">&#8646;</button>
+            <div class="field">
+              <label for="to">To</label>
+              <select id="to"></select>
+            </div>
+          </div>
+
+          <div class="field" id="extra" hidden></div>
         </form>
 
-        <div class="output glass" id="output" role="status" aria-live="polite">
+        <div class="result glass" id="result" role="status" aria-live="polite">
           <p class="label">Result</p>
-          <p class="placeholder" id="placeholder">Your answer will appear here.</p>
-          <p class="answer" id="answer" hidden></p>
-          <p class="note" id="note" hidden></p>
+          <p class="answer" id="answer"></p>
+          <p class="formula" id="formula"></p>
+        </div>
+
+        <div class="quick glass" style="padding:1rem 1.1rem">
+          <h2 id="quick-title">Common values</h2>
+          <table class="quick-table" aria-labelledby="quick-title"><tbody id="quick"></tbody></table>
         </div>
       </section>
     </main>
@@ -236,70 +269,82 @@
 
     <section class="content" aria-labelledby="guide-title">
       <div class="glass content-card">
-        <h2 id="guide-title">How to use the Universal AI Converter</h2>
-        <p>The Universal AI Converter turns a plain-language request into a clear answer. You do not need to choose a unit type or learn a formula. Write what you want converted, the way you would say it to a friend, and the converter sends it to Google&rsquo;s Gemini model, which returns the result.</p>
+        <h2 id="guide-title">How to use the Universal Converter</h2>
+        <p>The Universal Converter does the maths for you. Choose the type of conversion, pick the unit you have and the unit you want, type the amount, and the answer appears straight away. There is no button to press and no account to create, and the converter works in any modern browser.</p>
         <ol>
-          <li>Paste your Gemini API key. You can create a free key in Google AI Studio.</li>
-          <li>Type your conversion, for example &ldquo;100 USD to AED&rdquo; or &ldquo;5 cups to ml&rdquo;.</li>
-          <li>Press Convert Now. The answer appears in the panel, with a short note on how it was worked out.</li>
+          <li>Choose a type of conversion, such as Length or Temperature.</li>
+          <li>Type the amount you want to convert in the Amount box.</li>
+          <li>Pick the unit you have under From, and the unit you want under To.</li>
+          <li>Read the answer. The formula below it shows how the number was worked out.</li>
         </ol>
-        <p>Keep requests short and specific. Naming both units, and the thing being measured, gives the most reliable answer. For example, &ldquo;1 cup of flour to grams&rdquo; is clearer than &ldquo;cup to grams&rdquo;.</p>
+        <p>Use the swap button between the two unit boxes to flip the direction, so you can check a result both ways. The Common values table shows the amount in the target unit for a few typical numbers, which is handy when you need a quick reference.</p>
       </div>
 
       <div class="glass content-card">
-        <h2>Supported conversion types</h2>
-        <p>You can ask for almost any everyday conversion. The converter handles four main groups well:</p>
-        <h3>Currencies</h3>
-        <p>Convert between major currencies, such as USD, EUR, GBP, AED, PKR and SAR. Exchange rates change every day, so the result is an estimate. Check the live rate with your bank before you send money.</p>
-        <h3>Metric and imperial units</h3>
-        <p>Length, weight, volume, temperature, speed and area. Examples include kilometres to miles, kilograms to pounds, and Celsius to Fahrenheit.</p>
+        <h2>Every type of conversion we cover</h2>
+        <p>The converter groups units by type so the list stays short. Each type uses internationally agreed definitions.</p>
+        <h3>Length and distance</h3>
+        <p>Metric units such as millimetres, centimetres, metres and kilometres, and imperial units such as inches, feet, yards and miles. Nautical miles are included for sea and air navigation.</p>
+        <h3>Weight and mass</h3>
+        <p>Milligrams, grams, kilograms and tonnes, along with pounds, ounces and stones. Pakistani and South Asian units such as the tola, seer and maund are included too.</p>
+        <h3>Volume and liquids</h3>
+        <p>Millilitres to cubic metres, plus US and UK gallons, quarts, pints, cups and fluid ounces. US and UK measures differ, so check which one a recipe or label uses.</p>
         <h3>Cooking measures</h3>
-        <p>Cups, spoons and ounces to millilitres or grams, and oven temperatures between Celsius, Fahrenheit and gas marks. Ingredient weights vary, so grams per cup depends on the food. Say the ingredient for a better answer.</p>
-        <h3>Custom AI conversions</h3>
-        <p>Anything else you can describe, such as converting a shoe size between countries, a paper size, or time zones. The answer is generated by AI, so for safety, medical or legal decisions, confirm with an official source.</p>
+        <p>Convert cups, tablespoons and teaspoons to millilitres, or cups of common ingredients to grams. Flour, sugar, butter, oats, rice and honey each weigh a different amount per US cup (for example about 125 g for flour and 200 g for sugar), so pick the ingredient for an accurate gram value.</p>
+        <h3>Area and land</h3>
+        <p>Square metres, square feet, acres and hectares, plus the marla and kanal used for land in Pakistan and parts of India.</p>
+        <h3>Temperature</h3>
+        <p>Celsius, Fahrenheit and Kelvin. Temperature is not a simple multiplication, so the converter applies the correct formula for each scale.</p>
+        <h3>Speed</h3>
+        <p>Metres per second, kilometres per hour, miles per hour, feet per second and knots.</p>
+        <h3>Time</h3>
+        <p>Milliseconds through to years. Months and years use average lengths, so they are approximate for calendar dates.</p>
+        <h3>Digital storage</h3>
+        <p>Bits and bytes in both decimal units (KB, MB, GB, TB) and binary units (KiB, MiB, GiB), which is how phones and computers often report sizes.</p>
+        <h3>Pressure, energy and power</h3>
+        <p>Pascals, bar, atmospheres, PSI and mmHg for pressure. Joules, calories, kilowatt-hours and BTU for energy. Watts, horsepower and BTU per hour for power.</p>
+        <h3>Fuel economy</h3>
+        <p>Kilometres per litre, miles per gallon (US and UK) and litres per 100 kilometres. Note that litres per 100 km works in reverse, so a lower number means better economy.</p>
+        <h3>Currency</h3>
+        <p>Enter the exchange rate yourself, for example 1 USD = 278 PKR. The converter multiplies your amount by that rate. We do not supply live rates, so check your bank or a trusted source for today&rsquo;s figure.</p>
       </div>
 
       <div class="glass content-card">
         <h2>Tips for accurate answers</h2>
         <ul>
-          <li>Name the currency code or unit clearly, such as USD rather than dollars.</li>
-          <li>Add the ingredient or item for cooking and weight conversions.</li>
-          <li>Ask one conversion at a time to keep the answer focused.</li>
-          <li>Check important figures before you rely on them.</li>
+          <li>Check whether a recipe means US or metric cups, since they are different sizes.</li>
+          <li>For cooking, choose the ingredient so the gram value is right. A cup of flour and a cup of honey weigh very different amounts.</li>
+          <li>Use the swap button to confirm a result in the opposite direction.</li>
+          <li>For money, use a current exchange rate, because rates change every day.</li>
+          <li>For medicine, engineering or legal work, confirm the final figure against an official source.</li>
         </ul>
-      </div>
-
-      <div class="glass content-card">
-        <h2>Your API key and privacy</h2>
-        <p>Your Gemini key is typed into this page and used only in your browser to make the request to Google. We do not keep the key, and we do not store what you type on our servers. Google handles the request under its own terms. Please do not share your key with others, and create a separate key if you want to revoke access later.</p>
-        <p>Our advertising partner, Google AdSense, may show ads on this page. Read our <a href="https://waleedkhan.agency/privacy-policy/">Privacy Policy</a> for details, including how to opt out of personalised ads.</p>
       </div>
 
       <div class="glass content-card">
         <h2>Frequently asked questions</h2>
         <details class="faq">
-          <summary>Is the Universal AI Converter free?</summary>
-          <p>Yes. The tool is free to use. Google may charge for heavy use of the Gemini API, depending on your plan. Check Google AI Studio for current limits and prices.</p>
+          <summary>Is the Universal Converter free?</summary>
+          <p>Yes. It is free to use, with no sign-up and no limit on the number of conversions.</p>
         </details>
         <details class="faq">
-          <summary>Where do I get a Gemini API key?</summary>
-          <p>Sign in with your Google account in Google AI Studio, then create an API key. Paste it into the key field above.</p>
+          <summary>Are the results exact?</summary>
+          <p>The converter uses standard conversion factors, so results for length, weight, volume, temperature and the other physical units are exact to the precision shown. Cooking weights and currency rates are estimates, as explained in their sections.</p>
         </details>
         <details class="faq">
-          <summary>Are the currency rates live?</summary>
-          <p>No. The converter asks an AI model for an estimate, and the model may not have today&rsquo;s rate. Use it for a rough idea, and check your bank or an official source for exact figures.</p>
+          <summary>Why do US and UK gallons give different answers?</summary>
+          <p>A US gallon is 3.785 litres and a UK (imperial) gallon is 4.546 litres. Always check which one you need for fuel, paint or drinks.</p>
         </details>
         <details class="faq">
-          <summary>Why did I get an error?</summary>
-          <p>The most common reasons are a missing or mistyped key, a key that Google has not enabled, or reaching your free usage limit. The message in the result panel says which one it is. Wait a minute if you hit a limit, then try again.</p>
+          <summary>Why is a cup of flour different from a cup of sugar?</summary>
+          <p>A cup measures volume, but ingredients differ in how dense they are. Sugar is heavier than flour per cup, so the gram value changes. Pick the ingredient in the cooking section for the most accurate gram figure.</p>
         </details>
         <details class="faq">
-          <summary>Does the converter store my key or my requests?</summary>
-          <p>No. We do not store the key or your requests on our servers. Your browser sends the request directly to Google.</p>
+          <summary>Does the converter store my numbers?</summary>
+          <p>No. All the calculations happen in your browser, and nothing you enter is sent to us or stored on a server.</p>
         </details>
         <details class="faq">
-          <summary>Can it convert things that are not units?</summary>
-          <p>Sometimes. It works well for clear everyday conversions. For something unusual, describe it in detail and check the answer.</p>
+          <summary>What is a tola, seer or maund?</summary>
+          <p>They are traditional units of weight used in Pakistan and parts of South Asia. A tola is about 11.66 grams, a seer is about 933 grams, and a maund is 40 seers, or about 37.32 kilograms.</p>
         </details>
       </div>
     </section>
@@ -311,118 +356,184 @@
         <a href="https://waleedkhan.agency/about/">About Us</a>
         <a href="https://waleedkhan.agency/contact/">Contact</a>
       </nav>
-      <p>&copy; 2026 Waleed Khan Agency. Universal AI Converter is a free tool by Made by Waleed.</p>
+      <p>&copy; 2026 Waleed Khan Agency. Universal Converter is a free tool by Made by Waleed.</p>
     </footer>
   </div>
 
   <script>
     (function () {
-      var ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
-      var form = document.getElementById('converter');
-      var keyInput = document.getElementById('apiKey');
-      var reqInput = document.getElementById('request');
-      var goBtn = document.getElementById('go');
-      var toggle = document.getElementById('toggleKey');
-      var output = document.getElementById('output');
-      var placeholder = document.getElementById('placeholder');
-      var answer = document.getElementById('answer');
-      var note = document.getElementById('note');
+      // Each unit is expressed as a factor to the base unit of its group.
+      var GROUPS = {
+        'Length': { base: 'm', units: {
+          'Millimetre (mm)': 0.001, 'Centimetre (cm)': 0.01, 'Metre (m)': 1, 'Kilometre (km)': 1000,
+          'Inch (in)': 0.0254, 'Foot (ft)': 0.3048, 'Yard (yd)': 0.9144, 'Mile (mi)': 1609.344, 'Nautical mile': 1852 } },
+        'Weight and mass': { base: 'kg', units: {
+          'Milligram (mg)': 0.000001, 'Gram (g)': 0.001, 'Kilogram (kg)': 1, 'Tonne (t)': 1000,
+          'Ounce (oz)': 0.028349523125, 'Pound (lb)': 0.45359237, 'Stone (st)': 6.35029318,
+          'Tola (Pakistan)': 0.0116638, 'Seer (South Asia)': 0.9331, 'Maund (South Asia)': 37.3242 } },
+        'Volume and liquids': { base: 'l', units: {
+          'Millilitre (ml)': 0.001, 'Litre (l)': 1, 'Cubic metre (m³)': 1000,
+          'US gallon': 3.785411784, 'US quart': 0.946352946, 'US pint': 0.473176473, 'US cup': 0.2365882365,
+          'US fluid ounce': 0.0295735296, 'US tablespoon': 0.01478676478, 'US teaspoon': 0.00492892159,
+          'UK gallon': 4.54609, 'UK pint': 0.56826125, 'UK fluid ounce': 0.0284130625 } },
+        'Area and land': { base: 'm2', units: {
+          'Square millimetre': 0.000001, 'Square centimetre': 0.0001, 'Square metre (m²)': 1, 'Square kilometre': 1000000,
+          'Hectare': 10000, 'Acre': 4046.8564224, 'Square foot': 0.09290304, 'Square yard': 0.83612736,
+          'Square mile': 2589988.110336, 'Marla (Pakistan)': 25.29295, 'Kanal (Pakistan)': 505.857 } },
+        'Speed': { base: 'ms', units: {
+          'Metre per second': 1, 'Kilometre per hour': 0.2777777778, 'Mile per hour': 0.44704,
+          'Foot per second': 0.3048, 'Knot': 0.5144444444 } },
+        'Time': { base: 's', units: {
+          'Millisecond': 0.001, 'Second': 1, 'Minute': 60, 'Hour': 3600, 'Day': 86400, 'Week': 604800,
+          'Month (average)': 2629746, 'Year (average)': 31556952 } },
+        'Digital storage': { base: 'B', units: {
+          'Bit': 0.125, 'Byte (B)': 1, 'Kilobyte (KB)': 1000, 'Megabyte (MB)': 1000000,
+          'Gigabyte (GB)': 1000000000, 'Terabyte (TB)': 1000000000000,
+          'Kibibyte (KiB)': 1024, 'Mebibyte (MiB)': 1048576, 'Gibibyte (GiB)': 1073741824 } },
+        'Pressure': { base: 'Pa', units: {
+          'Pascal (Pa)': 1, 'Kilopascal (kPa)': 1000, 'Bar': 100000, 'Atmosphere (atm)': 101325,
+          'PSI': 6894.757293168, 'mmHg': 133.322387415 } },
+        'Energy': { base: 'J', units: {
+          'Joule (J)': 1, 'Kilojoule (kJ)': 1000, 'Calorie (cal)': 4.184, 'Kilocalorie (kcal)': 4184,
+          'Watt-hour (Wh)': 3600, 'Kilowatt-hour (kWh)': 3600000, 'BTU': 1055.05585, 'Foot-pound': 1.3558179483 } },
+        'Power': { base: 'W', units: {
+          'Watt (W)': 1, 'Kilowatt (kW)': 1000, 'Horsepower (metric)': 735.49875,
+          'Horsepower (mechanical)': 745.69987, 'BTU per hour': 0.29307107 } },
+        'Fuel economy': { base: 'kmpl', inverse: ['L/100 km'], units: {
+          'km per litre': 1, 'Miles per gallon (US)': 0.4251437075, 'Miles per gallon (UK)': 0.3540061, 'L/100 km': 'inverse' } },
+        'Cooking (volume to weight)': { base: 'ml', units: {
+          'Metric cup (250 ml)': 250, 'US cup (236.6 ml)': 236.5882365, 'Tablespoon (15 ml)': 15, 'Teaspoon (5 ml)': 5,
+          'Millilitre (ml)': 1, 'Litre (l)': 1000, 'Gram (g) of chosen ingredient': 1 },
+          density: { 'Water or milk': 1.0, 'Flour (all-purpose)': 0.528, 'Sugar (granulated)': 0.845,
+            'Brown sugar (packed)': 0.900, 'Butter': 0.960, 'Rice (uncooked)': 0.782, 'Rolled oats': 0.381, 'Honey': 1.437 } },
+        'Currency (you enter the rate)': { base: 'x', units: { 'Your currency (from)': 1, 'Your currency (to)': 1 }, currency: true }
+      };
+      var TEMP = ['Celsius (°C)', 'Fahrenheit (°F)', 'Kelvin (K)'];
 
-      toggle.addEventListener('click', function () {
-        var showing = keyInput.type === 'text';
-        keyInput.type = showing ? 'password' : 'text';
-        toggle.textContent = showing ? 'Show' : 'Hide';
-        toggle.setAttribute('aria-pressed', String(!showing));
-      });
+      var cat = document.getElementById('category'), from = document.getElementById('from'), to = document.getElementById('to');
+      var amount = document.getElementById('amount'), answer = document.getElementById('answer'), formula = document.getElementById('formula');
+      var result = document.getElementById('result'), quick = document.getElementById('quick'), extra = document.getElementById('extra');
 
-      function show(text, extra, isError) {
-        placeholder.hidden = true;
-        answer.hidden = false;
+      function fill(sel, names) { sel.innerHTML = ''; names.forEach(function (n) { var o = document.createElement('option'); o.textContent = n; sel.appendChild(o); }); }
+
+      Object.keys(GROUPS).concat(['Temperature']).forEach(function (k) { var o = document.createElement('option'); o.textContent = k; cat.appendChild(o); });
+
+      function unitsFor(c) {
+        if (c === 'Temperature') return TEMP;
+        return Object.keys(GROUPS[c].units);
+      }
+
+      function reset(c) {
+        fill(from, unitsFor(c)); fill(to, unitsFor(c));
+        to.selectedIndex = Math.min(1, to.options.length - 1);
+        extra.hidden = true; extra.innerHTML = '';
+        if (c === 'Cooking (volume to weight)') {
+          extra.hidden = false;
+          var label = document.createElement('label'); label.textContent = 'Ingredient (for grams)'; label.setAttribute('for', 'ingredient');
+          var sel = document.createElement('select'); sel.id = 'ingredient';
+          Object.keys(GROUPS[c].density).forEach(function (n) { var o = document.createElement('option'); o.textContent = n; sel.appendChild(o); });
+          extra.appendChild(label); extra.appendChild(sel);
+          sel.addEventListener('change', update);
+        }
+        if (c === 'Currency (you enter the rate)') {
+          extra.hidden = false;
+          extra.innerHTML = '<label for="rate">Exchange rate: 1 unit of “from” equals how many of “to”?</label><input type="number" id="rate" inputmode="decimal" step="any" min="0" placeholder="For example 278 for USD to PKR"><p class="hint">Enter today’s rate from your bank or a trusted source. We do not store it.</p>';
+          document.getElementById('rate').addEventListener('input', update);
+        }
+      }
+
+      function fmt(n) {
+        if (!isFinite(n)) return '—';
+        if (n === 0) return '0';
+        var a = Math.abs(n);
+        if (a >= 1e12 || a < 1e-6) return n.toExponential(4);
+        var r = Number(n.toPrecision(8));
+        return r.toLocaleString('en-US', { maximumFractionDigits: 10 });
+      }
+
+      function factorOf(c, unit) { return GROUPS[c].units[unit]; }
+
+      function convertValue(c, v, f, t) {
+        if (c === 'Temperature') {
+          var k = f.indexOf('Celsius') === 0 ? v + 273.15 : f.indexOf('Fahrenheit') === 0 ? (v - 32) * 5 / 9 + 273.15 : v;
+          return t.indexOf('Celsius') === 0 ? k - 273.15 : t.indexOf('Fahrenheit') === 0 ? (k - 273.15) * 9 / 5 + 32 : k;
+        }
+        if (c === 'Fuel economy') {
+          var kmpl = function (u) { return u === 'L/100 km' ? (100 / v) : null; };
+          if (f === 'L/100 km') { var kml = v === 0 ? Infinity : 100 / v; return t === 'L/100 km' ? v : kml / factorOf(c, t); }
+          var base = v * factorOf(c, f);
+          return t === 'L/100 km' ? (base === 0 ? Infinity : 100 / base) : base / factorOf(c, t);
+        }
+        if (c === 'Cooking (volume to weight)') {
+          var ing = document.getElementById('ingredient');
+          var dens = ing ? GROUPS[c].density[ing.value] : 1;
+          var isGf = f.indexOf('Gram') === 0, isGt = t.indexOf('Gram') === 0;
+          var ml = isGf ? v / dens : v * factorOf(c, f);
+          return isGt ? ml * dens : ml / factorOf(c, t);
+        }
+        if (c === 'Currency (you enter the rate)') {
+          var rate = Number(document.getElementById('rate') && document.getElementById('rate').value);
+          if (!rate || rate <= 0) return NaN;
+          var first = 'Your currency (from)';
+          var amountFirst = f === first ? v : v / rate;
+          return t === first ? amountFirst : amountFirst * rate;
+        }
+        return v * factorOf(c, f) / factorOf(c, t);
+      }
+
+      function quickRows(c, f, t) {
+        var samples = [1, 5, 10, 25, 50, 100, 500, 1000];
+        return samples.map(function (s) {
+          var r = convertValue(c, s, f, t);
+          return '<tr><td>' + fmt(s) + ' ' + f + '</td><td>' + fmt(r) + ' ' + t + '</td></tr>';
+        }).join('');
+      }
+
+      function show(text, extraLine, isErr) {
         answer.textContent = text;
-        note.hidden = !extra;
-        note.textContent = extra || '';
-        output.classList.toggle('error', !!isError);
+        formula.textContent = extraLine || '';
+        result.classList.toggle('error', !!isErr);
       }
 
-      function errorMessage(status, apiMessage) {
-        if (status === 400 || status === 401 || status === 403) {
-          return 'Google rejected the API key. Check that you copied it fully, that it is enabled for the Gemini API, and that it is not restricted to another site.';
+      function update() {
+        var c = cat.value, f = from.value, t = to.value;
+        var v = parseFloat(amount.value);
+        if (c === 'Currency (you enter the rate)') {
+          var rateEl = document.getElementById('rate');
+          if (!rateEl || !rateEl.value) { show('Enter the exchange rate above.', '', true); quick.innerHTML = ''; return; }
+          if (isNaN(v)) { show('Enter an amount to convert.', '', true); quick.innerHTML = ''; return; }
+          var rr = convertValue(c, v, f, t);
+          show(fmt(v) + ' ' + f + ' = ' + fmt(rr) + ' ' + t, '1 ' + f + ' = ' + rateEl.value + ' ' + t + ' (your rate).', false);
+          quick.innerHTML = quickRows(c, f, t);
+          return;
         }
-        if (status === 429) {
-          return 'You have reached the request limit for this key. Wait a minute and try again, or check your quota in Google AI Studio.';
+        if (isNaN(v)) { show('Enter an amount to convert.', '', true); quick.innerHTML = ''; return; }
+        var r = convertValue(c, v, f, t);
+        if (!isFinite(r)) { show('That value cannot be converted.', 'Check the amount, for example a fuel figure of zero has no L/100 km value.', true); quick.innerHTML = ''; return; }
+        var extraLine = '';
+        if (c === 'Temperature') extraLine = 'Temperature uses the correct formula for each scale, not a simple multiplier.';
+        if (c === 'Fuel economy' && (f === 'L/100 km' || t === 'L/100 km')) extraLine = 'Litres per 100 km works in reverse: a lower number means better economy.';
+        if (c === 'Cooking (volume to weight)') {
+          var ing = document.getElementById('ingredient').value;
+          var dens = GROUPS[c].density[ing];
+          var usesGrams = f.indexOf('Gram') === 0 || t.indexOf('Gram') === 0;
+          extraLine = usesGrams ? 'Grams use a typical density for ' + ing.toLowerCase() + '. Actual weight varies with packing.' : 'Volume conversion between cooking measures.';
         }
-        if (status >= 500) {
-          return 'Google’s service had a problem. Please try again in a moment.';
-        }
-        return 'The request failed' + (apiMessage ? ': ' + apiMessage : '.') + ' Please try again.';
+        show(fmt(v) + ' ' + f + ' = ' + fmt(r) + ' ' + t, extraLine, false);
+        quick.innerHTML = quickRows(c, f, t);
       }
 
-      function buildPrompt(request) {
-        return 'You are a precise unit and currency converter. Convert the request below.\n' +
-          'Reply in exactly this format:\n' +
-          'Line 1: the result on its own, for example "100 USD = 367.25 AED".\n' +
-          'Line 2: one short sentence explaining the rate or formula used.\n' +
-          'If the request is a currency conversion, add that the rate is an estimate and may be out of date.\n' +
-          'If the request is not a conversion, say so in one sentence and do not guess.\n' +
-          'Request: ' + request;
-      }
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var key = keyInput.value.trim();
-        var request = reqInput.value.trim();
-
-        if (!key) { show('Please paste your Gemini API key first.', 'Get a free key from Google AI Studio, then come back and paste it above.', true); keyInput.focus(); return; }
-        if (!request) { show('Please type a conversion, for example 100 USD to AED.', '', true); reqInput.focus(); return; }
-        if (request.length > 300) { show('That request is too long. Keep it under 300 characters.', '', true); return; }
-
-        goBtn.disabled = true;
-        goBtn.textContent = 'Converting…';
-        show('Converting…', '', false);
-
-        fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: buildPrompt(request) }] }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 300 }
-          })
-        })
-          .then(function (res) {
-            return res.json().catch(function () { return {}; }).then(function (data) {
-              if (!res.ok) {
-                var apiMsg = data && data.error && data.error.message;
-                throw { status: res.status, message: apiMsg };
-              }
-              return data;
-            });
-          })
-          .then(function (data) {
-            var blocked = data.promptFeedback && data.promptFeedback.blockReason;
-            var parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
-            var text = parts ? parts.map(function (p) { return p.text || ''; }).join('').trim() : '';
-            if (blocked || !text) {
-              show('No answer came back for that request.', 'Try rewording it, for example "5 cups to ml".', true);
-              return;
-            }
-            var lines = text.split('\n');
-            var first = lines.shift();
-            show(first, lines.join('\n').trim(), false);
-          })
-          .catch(function (err) {
-            if (err && err.status) {
-              show(errorMessage(err.status, err.message), '', true);
-            } else {
-              show('Could not reach Google. Check your internet connection and try again.', '', true);
-            }
-          })
-          .then(function () {
-            goBtn.disabled = false;
-            goBtn.textContent = 'Convert Now ✨';
-          });
+      cat.addEventListener('change', function () { reset(cat.value); update(); });
+      from.addEventListener('change', update);
+      to.addEventListener('change', update);
+      amount.addEventListener('input', update);
+      document.getElementById('swap').addEventListener('click', function () {
+        var a = from.selectedIndex; from.selectedIndex = to.selectedIndex; to.selectedIndex = a; update();
       });
+      document.getElementById('converter').addEventListener('submit', function (e) { e.preventDefault(); update(); });
 
-      // Load the ad units once the AdSense script is ready. Failures stay silent so the tool still works.
+      cat.selectedIndex = 0; reset(cat.value); update();
+
       document.querySelectorAll('ins.adsbygoogle').forEach(function () {
         try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
       });
