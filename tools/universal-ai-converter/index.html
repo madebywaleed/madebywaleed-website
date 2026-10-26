@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Universal AI Converter | Made by Waleed</title>
+  <meta name="description" content="Convert currencies, metric and imperial units, cooking measures and custom questions with Google Gemini. Free, runs in your browser.">
+  <meta name="theme-color" content="#0f172a">
+  <meta property="og:title" content="Universal AI Converter">
+  <meta property="og:description" content="Convert currencies, units and cooking measures with Google Gemini. Free, and your key stays in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/universal-ai-converter/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/universal-ai-converter/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --base: #0f172a;
+      --glass: rgba(255,255,255,0.07);
+      --glass-line: rgba(255,255,255,0.18);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --violet: #7c3aed;
+      --cyan: #06b6d4;
+      --amber: #f59e0b;
+      --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--base);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 1rem;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Blurred colour orbs behind everything */
+    .orb { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.55; z-index: 0; pointer-events: none; animation: drift 22s ease-in-out infinite alternate; }
+    .orb-1 { width: 42rem; height: 42rem; background: var(--violet); top: -12rem; left: -10rem; }
+    .orb-2 { width: 36rem; height: 36rem; background: var(--cyan); top: 30%; right: -12rem; animation-duration: 28s; }
+    .orb-3 { width: 30rem; height: 30rem; background: var(--amber); bottom: -10rem; left: 20%; opacity: 0.35; animation-duration: 24s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,-30px) scale(1.08); } }
+
+    .page { position: relative; z-index: 1; max-width: 46rem; margin: 0 auto; padding: 1.25rem 1.1rem 3rem; }
+
+    /* Frosted glass */
+    .glass {
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-line);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+
+    /* Top bar */
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.7rem 1rem; margin-bottom: 1.25rem; }
+    .topbar a { color: var(--text); text-decoration: none; font-family: var(--mono); font-size: 0.85rem; }
+    .topbar nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .topbar nav a:hover { color: var(--cyan); }
+    .brand { font-family: var(--display) !important; font-weight: 700; font-size: 0.95rem !important; }
+
+    /* Ad slots: spaced clear of buttons so nothing overlaps or invites accidental clicks */
+    .ad-slot { margin: 1.5rem 0; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+    .ad-label { display: block; text-align: center; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.04em; }
+    .ad-slot ins { display: block; width: 100%; }
+
+    /* Tool card */
+    .tool { padding: 1.6rem 1.4rem 1.7rem; }
+    h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 7vw, 3.2rem); line-height: 0.98; letter-spacing: -0.045em; margin: 0 0 0.6rem; }
+    h1 .dot { color: var(--cyan); }
+    .intro { color: var(--muted); margin: 0 0 1.6rem; font-size: 1rem; }
+
+    label { display: block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.45rem; }
+    .field { margin-bottom: 1.25rem; }
+    .row { display: flex; gap: 0.5rem; align-items: stretch; }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      background: rgba(15,23,42,0.6);
+      color: var(--text);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font: inherit;
+      font-size: 1rem;
+    }
+    input:focus { outline: 2px solid var(--cyan); outline-offset: 2px; border-color: transparent; }
+    .toggle {
+      flex: 0 0 auto;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 0 0.9rem;
+      font: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .toggle:hover { color: var(--text); }
+    .hint { font-size: 0.82rem; color: var(--muted); margin: 0.45rem 0 0; }
+
+    /* Glowing accent button, with space around it */
+    .convert {
+      display: block;
+      width: 100%;
+      margin: 1.6rem 0 0;
+      padding: 1rem 1.2rem;
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      box-shadow: 0 0 22px rgba(124,58,237,0.55), 0 0 40px rgba(6,182,212,0.25);
+      transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s;
+    }
+    .convert:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(124,58,237,0.75), 0 0 52px rgba(6,182,212,0.35); }
+    .convert:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    .convert:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+    /* Output panel */
+    .output { margin-top: 1.6rem; padding: 1.2rem 1.25rem; min-height: 4.5rem; }
+    .output .label { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0 0 0.4rem; }
+    .output .answer { font-family: var(--display); font-size: clamp(1.25rem, 4vw, 1.6rem); font-weight: 600; line-height: 1.25; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .output .note { color: var(--muted); font-size: 0.92rem; margin: 0.7rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .output.error { border-color: rgba(248,113,113,0.6); }
+    .output.error .answer { color: #fca5a5; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
+    .placeholder { color: var(--muted); font-size: 0.95rem; margin: 0; }
+
+    /* Content section */
+    .content { margin-top: 2.5rem; }
+    .glass.content-card { padding: 1.6rem 1.4rem; margin-bottom: 1.25rem; }
+    .content h2 { font-family: var(--display); font-size: clamp(1.5rem, 4vw, 1.9rem); letter-spacing: -0.03em; margin: 0 0 0.8rem; }
+    .content h3 { font-family: var(--display); font-size: 1.15rem; margin: 1.2rem 0 0.4rem; }
+    .content p, .content li { color: #cbd5e1; }
+    .content ol, .content ul { padding-left: 1.25rem; margin: 0.4rem 0 0; display: grid; gap: 0.4rem; }
+    .content a { color: var(--cyan); }
+
+    /* FAQ accordion */
+    details.faq { border-top: 1px solid var(--glass-line); padding: 0.9rem 0; }
+    details.faq:last-child { border-bottom: 1px solid var(--glass-line); }
+    details.faq summary { cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after { content: "+"; font-family: var(--mono); color: var(--cyan); font-size: 1.2rem; }
+    details.faq[open] summary::after { content: "–"; }
+    details.faq p { margin: 0.6rem 0 0; }
+
+    footer.site { margin-top: 2rem; padding: 1.4rem 1.2rem; text-align: center; font-size: 0.9rem; color: var(--muted); }
+    footer.site nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-bottom: 0.9rem; }
+    footer.site a { color: var(--text); text-decoration: none; font-family: var(--mono); font-size: 0.85rem; }
+    footer.site a:hover { color: var(--cyan); text-decoration: underline; }
+    footer.site p { margin: 0; }
+
+    @media (max-width: 480px) {
+      .row { flex-direction: column; }
+      .toggle { padding: 0.7rem; }
+      .tool { padding: 1.3rem 1.05rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .orb { animation: none; } .convert { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="topbar glass">
+      <a class="brand" href="https://madeby.waleedkhan.agency/">Made by Waleed</a>
+      <nav aria-label="Main">
+        <a href="https://madeby.waleedkhan.agency/tools/">Tools</a>
+        <a href="https://madeby.waleedkhan.agency/apps/">Apps</a>
+        <a href="https://madeby.waleedkhan.agency/support/">Support</a>
+      </nav>
+    </header>
+
+    <!-- Header ad: responsive leaderboard above the tool -->
+    <div class="ad-slot" aria-label="Advertisement">
+      <div>
+        <span class="ad-label">Advertisement</span>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+    </div>
+
+    <main>
+      <section class="tool glass" aria-labelledby="tool-title">
+        <h1 id="tool-title">Universal AI Converter<span class="dot">.</span></h1>
+        <p class="intro">Type any conversion in plain words. Currencies, metric and imperial units, cooking measures, or your own question.</p>
+
+        <form id="converter" novalidate>
+          <div class="field">
+            <label for="apiKey">Your Gemini API key</label>
+            <div class="row">
+              <input type="password" id="apiKey" autocomplete="off" spellcheck="false" placeholder="Paste your key from Google AI Studio">
+              <button type="button" class="toggle" id="toggleKey" aria-controls="apiKey" aria-pressed="false">Show</button>
+            </div>
+            <p class="hint">Used only in this browser to call Google. We do not store or see it.</p>
+          </div>
+
+          <div class="field">
+            <label for="request">Your conversion</label>
+            <input type="text" id="request" autocomplete="off" maxlength="300" placeholder="For example: 100 USD to AED">
+            <p class="hint">Try: 5 cups to ml, 10 km to miles, 2 tbsp butter to grams.</p>
+          </div>
+
+          <button type="submit" class="convert" id="go">Convert Now ✨</button>
+        </form>
+
+        <div class="output glass" id="output" role="status" aria-live="polite">
+          <p class="label">Result</p>
+          <p class="placeholder" id="placeholder">Your answer will appear here.</p>
+          <p class="answer" id="answer" hidden></p>
+          <p class="note" id="note" hidden></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer ad: in-feed below the tool -->
+    <div class="ad-slot" aria-label="Advertisement">
+      <div>
+        <span class="ad-label">Advertisement</span>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+    </div>
+
+    <section class="content" aria-labelledby="guide-title">
+      <div class="glass content-card">
+        <h2 id="guide-title">How to use the Universal AI Converter</h2>
+        <p>The Universal AI Converter turns a plain-language request into a clear answer. You do not need to choose a unit type or learn a formula. Write what you want converted, the way you would say it to a friend, and the converter sends it to Google&rsquo;s Gemini model, which returns the result.</p>
+        <ol>
+          <li>Paste your Gemini API key. You can create a free key in Google AI Studio.</li>
+          <li>Type your conversion, for example &ldquo;100 USD to AED&rdquo; or &ldquo;5 cups to ml&rdquo;.</li>
+          <li>Press Convert Now. The answer appears in the panel, with a short note on how it was worked out.</li>
+        </ol>
+        <p>Keep requests short and specific. Naming both units, and the thing being measured, gives the most reliable answer. For example, &ldquo;1 cup of flour to grams&rdquo; is clearer than &ldquo;cup to grams&rdquo;.</p>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Supported conversion types</h2>
+        <p>You can ask for almost any everyday conversion. The converter handles four main groups well:</p>
+        <h3>Currencies</h3>
+        <p>Convert between major currencies, such as USD, EUR, GBP, AED, PKR and SAR. Exchange rates change every day, so the result is an estimate. Check the live rate with your bank before you send money.</p>
+        <h3>Metric and imperial units</h3>
+        <p>Length, weight, volume, temperature, speed and area. Examples include kilometres to miles, kilograms to pounds, and Celsius to Fahrenheit.</p>
+        <h3>Cooking measures</h3>
+        <p>Cups, spoons and ounces to millilitres or grams, and oven temperatures between Celsius, Fahrenheit and gas marks. Ingredient weights vary, so grams per cup depends on the food. Say the ingredient for a better answer.</p>
+        <h3>Custom AI conversions</h3>
+        <p>Anything else you can describe, such as converting a shoe size between countries, a paper size, or time zones. The answer is generated by AI, so for safety, medical or legal decisions, confirm with an official source.</p>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Tips for accurate answers</h2>
+        <ul>
+          <li>Name the currency code or unit clearly, such as USD rather than dollars.</li>
+          <li>Add the ingredient or item for cooking and weight conversions.</li>
+          <li>Ask one conversion at a time to keep the answer focused.</li>
+          <li>Check important figures before you rely on them.</li>
+        </ul>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Your API key and privacy</h2>
+        <p>Your Gemini key is typed into this page and used only in your browser to make the request to Google. We do not keep the key, and we do not store what you type on our servers. Google handles the request under its own terms. Please do not share your key with others, and create a separate key if you want to revoke access later.</p>
+        <p>Our advertising partner, Google AdSense, may show ads on this page. Read our <a href="https://waleedkhan.agency/privacy-policy/">Privacy Policy</a> for details, including how to opt out of personalised ads.</p>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Frequently asked questions</h2>
+        <details class="faq">
+          <summary>Is the Universal AI Converter free?</summary>
+          <p>Yes. The tool is free to use. Google may charge for heavy use of the Gemini API, depending on your plan. Check Google AI Studio for current limits and prices.</p>
+        </details>
+        <details class="faq">
+          <summary>Where do I get a Gemini API key?</summary>
+          <p>Sign in with your Google account in Google AI Studio, then create an API key. Paste it into the key field above.</p>
+        </details>
+        <details class="faq">
+          <summary>Are the currency rates live?</summary>
+          <p>No. The converter asks an AI model for an estimate, and the model may not have today&rsquo;s rate. Use it for a rough idea, and check your bank or an official source for exact figures.</p>
+        </details>
+        <details class="faq">
+          <summary>Why did I get an error?</summary>
+          <p>The most common reasons are a missing or mistyped key, a key that Google has not enabled, or reaching your free usage limit. The message in the result panel says which one it is. Wait a minute if you hit a limit, then try again.</p>
+        </details>
+        <details class="faq">
+          <summary>Does the converter store my key or my requests?</summary>
+          <p>No. We do not store the key or your requests on our servers. Your browser sends the request directly to Google.</p>
+        </details>
+        <details class="faq">
+          <summary>Can it convert things that are not units?</summary>
+          <p>Sometimes. It works well for clear everyday conversions. For something unusual, describe it in detail and check the answer.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="site glass">
+      <nav aria-label="Footer">
+        <a href="https://waleedkhan.agency/privacy-policy/">Privacy Policy</a>
+        <a href="https://waleedkhan.agency/terms/">Terms of Service</a>
+        <a href="https://waleedkhan.agency/about/">About Us</a>
+        <a href="https://waleedkhan.agency/contact/">Contact</a>
+      </nav>
+      <p>&copy; 2026 Waleed Khan Agency. Universal AI Converter is a free tool by Made by Waleed.</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+      var form = document.getElementById('converter');
+      var keyInput = document.getElementById('apiKey');
+      var reqInput = document.getElementById('request');
+      var goBtn = document.getElementById('go');
+      var toggle = document.getElementById('toggleKey');
+      var output = document.getElementById('output');
+      var placeholder = document.getElementById('placeholder');
+      var answer = document.getElementById('answer');
+      var note = document.getElementById('note');
+
+      toggle.addEventListener('click', function () {
+        var showing = keyInput.type === 'text';
+        keyInput.type = showing ? 'password' : 'text';
+        toggle.textContent = showing ? 'Show' : 'Hide';
+        toggle.setAttribute('aria-pressed', String(!showing));
+      });
+
+      function show(text, extra, isError) {
+        placeholder.hidden = true;
+        answer.hidden = false;
+        answer.textContent = text;
+        note.hidden = !extra;
+        note.textContent = extra || '';
+        output.classList.toggle('error', !!isError);
+      }
+
+      function errorMessage(status, apiMessage) {
+        if (status === 400 || status === 401 || status === 403) {
+          return 'Google rejected the API key. Check that you copied it fully, that it is enabled for the Gemini API, and that it is not restricted to another site.';
+        }
+        if (status === 429) {
+          return 'You have reached the request limit for this key. Wait a minute and try again, or check your quota in Google AI Studio.';
+        }
+        if (status >= 500) {
+          return 'Google’s service had a problem. Please try again in a moment.';
+        }
+        return 'The request failed' + (apiMessage ? ': ' + apiMessage : '.') + ' Please try again.';
+      }
+
+      function buildPrompt(request) {
+        return 'You are a precise unit and currency converter. Convert the request below.\n' +
+          'Reply in exactly this format:\n' +
+          'Line 1: the result on its own, for example "100 USD = 367.25 AED".\n' +
+          'Line 2: one short sentence explaining the rate or formula used.\n' +
+          'If the request is a currency conversion, add that the rate is an estimate and may be out of date.\n' +
+          'If the request is not a conversion, say so in one sentence and do not guess.\n' +
+          'Request: ' + request;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var key = keyInput.value.trim();
+        var request = reqInput.value.trim();
+
+        if (!key) { show('Please paste your Gemini API key first.', 'Get a free key from Google AI Studio, then come back and paste it above.', true); keyInput.focus(); return; }
+        if (!request) { show('Please type a conversion, for example 100 USD to AED.', '', true); reqInput.focus(); return; }
+        if (request.length > 300) { show('That request is too long. Keep it under 300 characters.', '', true); return; }
+
+        goBtn.disabled = true;
+        goBtn.textContent = 'Converting…';
+        show('Converting…', '', false);
+
+        fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: buildPrompt(request) }] }],
+            generationConfig: { temperature: 0.2, maxOutputTokens: 300 }
+          })
+        })
+          .then(function (res) {
+            return res.json().catch(function () { return {}; }).then(function (data) {
+              if (!res.ok) {
+                var apiMsg = data && data.error && data.error.message;
+                throw { status: res.status, message: apiMsg };
+              }
+              return data;
+            });
+          })
+          .then(function (data) {
+            var blocked = data.promptFeedback && data.promptFeedback.blockReason;
+            var parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+            var text = parts ? parts.map(function (p) { return p.text || ''; }).join('').trim() : '';
+            if (blocked || !text) {
+              show('No answer came back for that request.', 'Try rewording it, for example "5 cups to ml".', true);
+              return;
+            }
+            var lines = text.split('\n');
+            var first = lines.shift();
+            show(first, lines.join('\n').trim(), false);
+          })
+          .catch(function (err) {
+            if (err && err.status) {
+              show(errorMessage(err.status, err.message), '', true);
+            } else {
+              show('Could not reach Google. Check your internet connection and try again.', '', true);
+            }
+          })
+          .then(function () {
+            goBtn.disabled = false;
+            goBtn.textContent = 'Convert Now ✨';
+          });
+      });
+
+      // Load the ad units once the AdSense script is ready. Failures stay silent so the tool still works.
+      document.querySelectorAll('ins.adsbygoogle').forEach(function () {
+        try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
+      });
+    })();
+  </script>
+</body>
+</html>
