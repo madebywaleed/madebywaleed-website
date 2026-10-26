@@ -188,9 +188,15 @@ tr.bad td { color: var(--bad); }
 .mbw-legal { margin: 0; color: var(--muted); font-size: 0.8rem; }
 @media (max-width: 560px) { .mbw-cols { grid-template-columns: 1fr 1fr; } }
 .toolswitch{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0 0}.toolswitch a{font-size:.8rem;padding:.35rem .75rem;border-radius:999px;border:1px solid currentColor;text-decoration:none;opacity:.85}.toolswitch a:hover{opacity:1}
+
+/* Ad slot: one unit below the tool, clear of the controls */
+.ad-slot { margin: 1.5rem auto; max-width: 1180px; padding: 0 16px; min-height: 100px; }
+.ad-label { display: block; text-align: center; font: 0.7rem monospace; color: #888; margin-bottom: 0.4rem; letter-spacing: 0.04em; }
+.ad-slot ins { display: block; width: 100%; }
 </style>
 <link rel="stylesheet" href="/header.css">
   <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -424,6 +430,10 @@ tr.bad td { color: var(--bad); }
         <p>No. Button presses and stick movements are not saved or sent anywhere.</p>
       </details>
     </section>
+  </div>
+  <div class="ad-slot" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
   <footer class="mbw-foot">
     <div class="mbw-cols">
@@ -818,5 +828,10 @@ tr.bad td { color: var(--bad); }
 })();
 </script>
 
+  <script>
+    document.querySelectorAll('ins.adsbygoogle').forEach(function () {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
+    });
+  </script>
 </body>
 </html>
