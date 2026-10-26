@@ -186,6 +186,18 @@
       box-shadow: 0 0 18px rgba(124,58,237,0.45);
     }
     .tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .chip {
+      font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--text);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-line);
+      border-radius: 10px; padding: 0.45rem 0.7rem; cursor: pointer; line-height: 1.2;
+    }
+    .chip:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+    .chip[aria-pressed="true"] { background: linear-gradient(135deg, var(--violet), var(--cyan)); border-color: transparent; color: #fff; box-shadow: 0 0 14px rgba(124,58,237,0.4); }
+    .chip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .flabel + .chips, .flabel + .tabs { margin-top: 0; }
+    .toolLinks { margin-top: 0.8rem; }
+    .toolLinks a { text-decoration: none; }
     .tabs-note { font-size: 0.82rem; color: var(--muted); margin: 0.6rem 0 0; }
 
     /* Converter controls */
@@ -219,7 +231,7 @@
     <header class="topbar glass">
       <a class="brand" href="https://madeby.waleedkhan.agency/">Made by Waleed</a>
       <nav aria-label="Main">
-        <a href="https://madeby.waleedkhan.agency/tools/">Tools</a>
+        <a href="https://madeby.waleedkhan.agency/tools/">Tools</a><a href="https://madeby.waleedkhan.agency/tools/keyboard-tester/">Keyboard</a><a href="https://madeby.waleedkhan.agency/tools/mouse-tester/">Mouse</a><a href="https://madeby.waleedkhan.agency/tools/gamepad-tester/">Gamepad</a>
         <a href="https://madeby.waleedkhan.agency/apps/">Apps</a>
         <a href="https://madeby.waleedkhan.agency/support/">Support</a>
       </nav>
@@ -251,19 +263,20 @@
             <p class="hint" id="amount-hint">Negative numbers work for temperature.</p>
           </div>
 
-          <div class="swaprow">
+          <div class="swaprow swapgrid">
             <div class="field">
-              <label for="from">From</label>
-              <select id="from"></select>
+              <span class="flabel">From</span>
+              <div class="chips" id="fromChips" role="group" aria-label="From unit"></div>
             </div>
             <button type="button" class="swap" id="swap" aria-label="Swap from and to units">&#8646;</button>
             <div class="field">
-              <label for="to">To</label>
-              <select id="to"></select>
+              <span class="flabel">To</span>
+              <div class="chips" id="toChips" role="group" aria-label="To unit"></div>
             </div>
           </div>
 
           <div class="field" id="extra" hidden></div>
+          <input type="hidden" id="from"><input type="hidden" id="to">
         </form>
 
         <div class="result glass" id="result" role="status" aria-live="polite">
@@ -369,6 +382,19 @@
       </div>
     </section>
 
+    <section class="content" aria-labelledby="other-title">
+      <div class="glass content-card">
+        <h2 id="other-title">More free tools</h2>
+        <p>Made by Waleed also makes these free browser tools. They run on your device and need no sign-up.</p>
+        <div class="tabs toolLinks">
+          <a class="tab" href="https://madeby.waleedkhan.agency/tools/keyboard-tester/">Keyboard Tester</a>
+          <a class="tab" href="https://madeby.waleedkhan.agency/tools/mouse-tester/">Mouse Tester</a>
+          <a class="tab" href="https://madeby.waleedkhan.agency/tools/gamepad-tester/">Gamepad Tester</a>
+          <a class="tab" href="https://madeby.waleedkhan.agency/tools/">All tools</a>
+        </div>
+      </div>
+    </section>
+
     <footer class="site glass">
       <nav aria-label="Footer">
         <a href="https://waleedkhan.agency/privacy-policy/">Privacy Policy</a>
@@ -433,8 +459,27 @@
       var cat = document.getElementById('category'), from = document.getElementById('from'), to = document.getElementById('to');
       var amount = document.getElementById('amount'), answer = document.getElementById('answer'), formula = document.getElementById('formula');
       var result = document.getElementById('result'), quick = document.getElementById('quick'), extra = document.getElementById('extra');
+      var fromChips = document.getElementById('fromChips'), toChips = document.getElementById('toChips');
 
-      function fill(sel, names) { sel.innerHTML = ''; names.forEach(function (n) { var o = document.createElement('option'); o.textContent = n; sel.appendChild(o); }); }
+      // Builds a row of option buttons. The chosen value is written to a hidden input.
+      function chips(container, input, names, onPick) {
+        container.innerHTML = '';
+        names.forEach(function (n) {
+          var b = document.createElement('button');
+          b.type = 'button'; b.className = 'chip'; b.textContent = n; b.setAttribute('data-value', n);
+          b.setAttribute('aria-pressed', String(input.value === n));
+          b.addEventListener('click', function () {
+            input.value = n; markChips(container, n); onPick();
+          });
+          container.appendChild(b);
+        });
+      }
+      function markChips(container, value) {
+        Array.prototype.forEach.call(container.querySelectorAll('.chip'), function (b) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-value') === value));
+        });
+      }
+      function syncChips() { markChips(fromChips, from.value); markChips(toChips, to.value); }
 
       var TYPES = Object.keys(GROUPS).concat(['Temperature']);
       var tabsEl = document.getElementById('tabs');
@@ -472,16 +517,22 @@
       }
 
       function reset(c) {
-        fill(from, unitsFor(c)); fill(to, unitsFor(c));
-        to.selectedIndex = Math.min(1, to.options.length - 1);
+        var units = unitsFor(c);
+        from.value = units[0];
+        to.value = units[Math.min(1, units.length - 1)];
+        chips(fromChips, from, units, update);
+        chips(toChips, to, units, update);
         extra.hidden = true; extra.innerHTML = '';
         if (c === 'Cooking (volume to weight)') {
           extra.hidden = false;
-          var label = document.createElement('label'); label.textContent = 'Ingredient (for grams)'; label.setAttribute('for', 'ingredient');
-          var sel = document.createElement('select'); sel.id = 'ingredient';
-          Object.keys(GROUPS[c].density).forEach(function (n) { var o = document.createElement('option'); o.textContent = n; sel.appendChild(o); });
-          extra.appendChild(label); extra.appendChild(sel);
-          sel.addEventListener('change', update);
+          var label = document.createElement('span');
+          label.className = 'flabel'; label.textContent = 'Ingredient (for grams)';
+          var holder = document.createElement('div'); holder.className = 'chips'; holder.id = 'ingredientChips';
+          var hidden = document.createElement('input'); hidden.type = 'hidden'; hidden.id = 'ingredient';
+          var names = Object.keys(GROUPS[c].density);
+          hidden.value = names[0];
+          extra.appendChild(label); extra.appendChild(holder); extra.appendChild(hidden);
+          chips(holder, hidden, names, update);
         }
         if (c === 'Currency (you enter the rate)') {
           extra.hidden = false;
@@ -507,7 +558,6 @@
           return t.indexOf('Celsius') === 0 ? k - 273.15 : t.indexOf('Fahrenheit') === 0 ? (k - 273.15) * 9 / 5 + 32 : k;
         }
         if (c === 'Fuel economy') {
-          var kmpl = function (u) { return u === 'L/100 km' ? (100 / v) : null; };
           if (f === 'L/100 km') { var kml = v === 0 ? Infinity : 100 / v; return t === 'L/100 km' ? v : kml / factorOf(c, t); }
           var base = v * factorOf(c, f);
           return t === 'L/100 km' ? (base === 0 ? Infinity : 100 / base) : base / factorOf(c, t);
@@ -544,6 +594,7 @@
       }
 
       function update() {
+        syncChips();
         var c = cat.value, f = from.value, t = to.value;
         var v = parseFloat(amount.value);
         if (c === 'Currency (you enter the rate)') {
@@ -563,7 +614,6 @@
         if (c === 'Fuel economy' && (f === 'L/100 km' || t === 'L/100 km')) extraLine = 'Litres per 100 km works in reverse: a lower number means better economy.';
         if (c === 'Cooking (volume to weight)') {
           var ing = document.getElementById('ingredient').value;
-          var dens = GROUPS[c].density[ing];
           var usesGrams = f.indexOf('Gram') === 0 || t.indexOf('Gram') === 0;
           extraLine = usesGrams ? 'Grams use a typical density for ' + ing.toLowerCase() + '. Actual weight varies with packing.' : 'Volume conversion between cooking measures.';
         }
@@ -572,11 +622,9 @@
       }
 
       cat.addEventListener('change', function () { selectType(cat.value); reset(cat.value); update(); });
-      from.addEventListener('change', update);
-      to.addEventListener('change', update);
       amount.addEventListener('input', update);
       document.getElementById('swap').addEventListener('click', function () {
-        var a = from.selectedIndex; from.selectedIndex = to.selectedIndex; to.selectedIndex = a; update();
+        var a = from.value; from.value = to.value; to.value = a; update();
       });
       document.getElementById('converter').addEventListener('submit', function (e) { e.preventDefault(); update(); });
 
