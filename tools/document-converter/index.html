@@ -147,7 +147,8 @@
 
     /* Protocol buttons */
     .protocols { display: grid; grid-template-columns: 1fr; gap: 0.625rem; }
-    @media (min-width: 640px) { .protocols { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 640px) { .protocols { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .protocols { grid-template-columns: repeat(4, 1fr); } }
     .protocol {
       position: relative; text-align: left; cursor: pointer;
       padding: 0.75rem; border-radius: var(--r-md);
@@ -178,6 +179,9 @@
     .mode-icon { width: 2.5rem; height: 2.5rem; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     .mode-title { font-family: var(--display); font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; }
     .mode-desc { font-size: 0.8125rem; color: var(--text-2); line-height: 1.5; }
+
+    .move:hover:not(:disabled) { color: var(--text); background: var(--panel); }
+    .remove:disabled { opacity: 0.35; cursor: not-allowed; }
 
     /* Category pills */
     .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.875rem; }
@@ -380,6 +384,13 @@
                 <span class="mode-title">PDF to Images</span>
                 <span class="mode-desc">Save each PDF page as a PNG, or as a ZIP for longer files.</span>
               </button>
+              <button class="mode-card" type="button" data-mode="merge-pdf" data-cats="pdf" aria-pressed="false">
+                <span class="mode-icon" style="background:#ffedd5;color:#c2410c" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/><path d="M11 7h3a2 2 0 0 1 2 2v2"/><path d="m14 9 2 2 2-2"/></svg>
+                </span>
+                <span class="mode-title">Merge PDF</span>
+                <span class="mode-desc">Combine PDFs in the order you want into one file.</span>
+              </button>
             </div>
           </div>
 
@@ -491,6 +502,7 @@
       },
       'img-pdf': {
         pipeline: 'PIPELINE: PDF-LIB',
+        reorder: true,
         multiple: true,
         title: 'Drag and drop images here, or browse',
         format: 'Supports PNG, JPG, WEBP, AVIF • Add several to build one PDF',
@@ -503,6 +515,21 @@
         },
         typeName: 'image',
         convert: convertImages
+      },
+      'merge-pdf': {
+        pipeline: 'PIPELINE: PDF-LIB',
+        multiple: true,
+        reorder: true,
+        title: 'Drag and drop PDFs here, or browse',
+        format: 'Supports PDF • Add two or more, then put them in order',
+        chips: [],
+        accept: 'application/pdf,.pdf',
+        download: 'Download PDF (.pdf)',
+        isValid: function (f) {
+          return extOf(f.name) === 'pdf' || f.type === 'application/pdf';
+        },
+        typeName: 'PDF',
+        convert: convertMerge
       },
       'pdf-img': {
         pipeline: 'PIPELINE: PDF.JS',
@@ -665,11 +692,41 @@
         remove.addEventListener('click', function () { removeFile(idx); });
 
         row.appendChild(left);
+        if (MODES[state.mode].reorder) {
+          var up = document.createElement('button');
+          up.className = 'remove move';
+          up.type = 'button';
+          up.textContent = '↑';
+          up.setAttribute('aria-label', 'Move ' + f.name + ' up');
+          up.disabled = state.busy || idx === 0;
+          up.addEventListener('click', function () { moveFile(idx, -1); });
+
+          var down = document.createElement('button');
+          down.className = 'remove move';
+          down.type = 'button';
+          down.textContent = '↓';
+          down.setAttribute('aria-label', 'Move ' + f.name + ' down');
+          down.disabled = state.busy || idx === state.files.length - 1;
+          down.addEventListener('click', function () { moveFile(idx, 1); });
+
+          row.appendChild(up);
+          row.appendChild(down);
+        }
         row.appendChild(remove);
         el.queue.appendChild(row);
       });
       el.queueCount.textContent = state.files.length + (state.files.length === 1 ? ' item staged' : ' items staged');
       el.convert.disabled = state.busy || state.files.length === 0;
+    }
+
+    function moveFile(idx, dir) {
+      var j = idx + dir;
+      if (state.busy || j < 0 || j >= state.files.length) return;
+      var tmp = state.files[idx];
+      state.files[idx] = state.files[j];
+      state.files[j] = tmp;
+      clearResult();
+      renderQueue();
     }
 
     function clearResult() {
@@ -989,6 +1046,39 @@
       var out = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
       progress(100, 'Done');
       return { blob: out, filename: name + '-pages.zip', ext: '.zip', summary: count + ' pages' };
+    }
+
+    /* ---------- Merge PDF ---------- */
+
+    async function convertMerge(files, progress) {
+      requireLib('PDFLib', 'PDF');
+      if (files.length < 2) throw new Error('Add at least two PDFs to merge.');
+
+      var out = await PDFLib.PDFDocument.create();
+      var pageCount = 0;
+      for (var i = 0; i < files.length; i++) {
+        progress(5 + (i / files.length) * 85, 'Adding PDF ' + (i + 1) + ' of ' + files.length + '...');
+        var src;
+        try {
+          src = await PDFLib.PDFDocument.load(new Uint8Array(await files[i].arrayBuffer()));
+        } catch (e) {
+          throw new Error(files[i].name + ' could not be read. It may be password protected or damaged.');
+        }
+        var copied = await out.copyPages(src, src.getPageIndices());
+        for (var k = 0; k < copied.length; k++) out.addPage(copied[k]);
+        pageCount += copied.length;
+      }
+
+      progress(95, 'Saving PDF...');
+      var bytes = await out.save();
+      progress(100, 'Done');
+
+      return {
+        blob: new Blob([bytes], { type: 'application/pdf' }),
+        filename: 'merged.pdf',
+        ext: '.pdf',
+        summary: files.length + ' files, ' + pageCount + ' pages'
+      };
     }
 
     /* ---------- Run ---------- */
