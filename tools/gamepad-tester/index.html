@@ -360,11 +360,73 @@ tr.bad td { color: var(--bad); }
         <li>Nothing is saved or sent anywhere.</li>
       </ul>
     </section>
+    <section class="panel span3 tool-guide">
+      <h2>How to test your controller</h2>
+      <ol>
+        <li>Connect your controller with USB or Bluetooth, then press any button so the browser detects it.</li>
+        <li>Press every button and trigger, and move both sticks through their full range.</li>
+        <li>Let go of both sticks for a second to check for stick drift.</li>
+        <li>Run the vibration and polling rate tests if you want to check those features too.</li>
+      </ol>
+
+      <h2>What each test checks</h2>
+      <ul class="tips">
+        <li><strong>Controller info</strong> shows the controller it detected and the number of buttons and axes it reports.</li>
+        <li><strong>Triggers</strong> show how far each trigger is pressed, from fully released to fully pressed.</li>
+        <li><strong>Left stick</strong> and <strong>Right stick</strong> show the position of each stick and its movement.</li>
+        <li><strong>Stick drift and range</strong> checks whether a stick rests at zero, and whether it moves in a smooth circle.</li>
+        <li><strong>Buttons</strong> lights up each button as you press it, so you can spot a button that does not register.</li>
+        <li><strong>Vibration</strong> lets you test the light and heavy motors, if your controller and browser support them.</li>
+        <li><strong>Polling rate</strong> estimates how often the controller reports to the browser.</li>
+        <li><strong>Double-press check</strong> flags a button that registers a second press too soon after release.</li>
+        <li><strong>Axes</strong> shows the raw value of each axis, which is useful for technical checks.</li>
+      </ul>
+
+      <h2>Stick drift: what to look for</h2>
+      <p>Stick drift means a stick reports movement when you are not touching it. Let go of both sticks and check the resting position. A good stick rests close to zero. A resting offset above about 0.10 is drift, and games may move your character or camera on their own.</p>
+      <p>To check the range, roll each stick slowly around its outer edge a few times. The shape should look like a circle. Under 10% error is normal. A much larger error suggests a worn or uneven stick.</p>
+
+      <h2>Compatibility</h2>
+      <ul class="tips">
+        <li>Works with Xbox, PlayStation (DualSense and DualShock), Nintendo Switch Pro and most other controllers in Chrome, Edge and Firefox. Safari supports fewer controllers.</li>
+        <li>Several controllers can be connected at once. Choose the one you want to test with the controller buttons on the page.</li>
+        <li>If buttons look swapped or some are missing, the controller may be in a different mode, such as DirectInput instead of XInput, or it may need its own app. Try a different connection, USB or Bluetooth.</li>
+      </ul>
+
+      <h2>Limits of a browser test</h2>
+      <ul class="tips">
+        <li>Browsers cannot read motion sensors (gyro), touchpad movement, adaptive trigger resistance, the light bar or the headset jack, so these cannot be tested here.</li>
+        <li>The PlayStation touchpad click and most Home buttons do work.</li>
+        <li>Browsers check controllers only a limited number of times per second, often about 250, so the polling rate estimate may read at that limit.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>Do I need to install drivers or an app?</summary>
+        <p>Usually not. Connect the controller and the page will detect it. If buttons are missing or swapped, the controller's own app or mode setting may need changing.</p>
+      </details>
+      <details>
+        <summary>Does it work with an Xbox controller?</summary>
+        <p>Yes. Xbox controllers work in Chrome, Edge and Firefox over USB or Bluetooth.</p>
+      </details>
+      <details>
+        <summary>What is stick drift?</summary>
+        <p>Stick drift is when a stick reports movement while it rests in the centre. It is a common wear problem. Use the stick drift panel to check, and contact the manufacturer if the offset is clear.</p>
+      </details>
+      <details>
+        <summary>Can I test two controllers at once?</summary>
+        <p>Yes. Connect both controllers, then choose the one you want to view with the controller buttons on the page.</p>
+      </details>
+      <details>
+        <summary>Is anything I press recorded?</summary>
+        <p>No. Button presses and stick movements are not saved or sent anywhere.</p>
+      </details>
+    </section>
   </div>
   <footer class="mbw-foot">
     <div class="mbw-cols">
       <div><p>Apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a></div>
-      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a></div>
+      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a><a href="/tools/universal-converter/">Universal Converter</a></div>
       <div><p>Made by Waleed</p><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">Privacy policies</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></div>
     </div>
     <p class="mbw-legal">madeby@waleedkhan.agency · &copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar. Nothing you do on this page leaves your computer.</p>

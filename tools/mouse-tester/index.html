@@ -335,11 +335,69 @@ tr.bad td { color: var(--bad); }
         <li>Nothing is saved or sent anywhere.</li>
       </ul>
     </section>
+    <section class="panel span3 tool-guide">
+      <h2>How to test your mouse</h2>
+      <ol>
+        <li>Click each button, including the left, right, middle, Back and Forward buttons, to check that each one registers.</li>
+        <li>Scroll the wheel up, down and, if your mouse has one, left and right. Watch for a wheel that skips or slips.</li>
+        <li>Click each button about 20 times at a normal speed to check for double-clicks, where one click registers as two.</li>
+        <li>Move the mouse quickly in circles for the polling rate test, and use the DPI check with a ruler for a rough reading.</li>
+      </ol>
+
+      <h2>What each test checks</h2>
+      <ul class="tips">
+        <li><strong>Test pad</strong> shows your position, speed and the last button you pressed. Use it for a quick check of clicks and scrolling.</li>
+        <li><strong>Buttons</strong> shows which buttons are pressed, so you can see if a side button is not being detected.</li>
+        <li><strong>Double-click fault</strong> flags any press that starts too soon after the same button was released, a common sign of a worn switch.</li>
+        <li><strong>Scroll wheel</strong> counts each direction of scroll and flags wheel slips, where the wheel briefly moves the wrong way while you scroll steadily.</li>
+        <li><strong>Polling rate</strong> estimates how often the mouse reports its position to the computer.</li>
+        <li><strong>Click speed</strong> and <strong>Double-click</strong> show how fast you click and whether the computer recognises a double-click.</li>
+        <li><strong>DPI check</strong> gives a rough estimate of your mouse's sensitivity, measured against a distance you choose.</li>
+      </ul>
+
+      <h2>Signs your mouse may need attention</h2>
+      <ul class="tips">
+        <li>One click registers twice, or a double-click fault appears during the button test. This is often a worn switch.</li>
+        <li>The scroll wheel skips, slips or moves in the wrong direction.</li>
+        <li>A button does not register at all when you press it.</li>
+        <li>The polling rate reads low when you move the mouse quickly. Make sure you move it fast before deciding the mouse is slow.</li>
+      </ul>
+
+      <h2>Limits of a browser test</h2>
+      <ul class="tips">
+        <li>Polling rate and DPI are estimates. Mouse software and pointer settings can change the numbers. For the DPI check, turn off "Enhance pointer precision" in Windows for an accurate reading.</li>
+        <li>Very high polling rates, such as 4000 to 8000 Hz, may read lower here.</li>
+        <li>Extra buttons beyond Back and Forward, such as a DPI button, are usually handled by the mouse or its software. Browsers cannot see them. If you set one to act as a key press, the <a href="../keyboard-tester/">Keyboard Tester</a> can test it.</li>
+        <li>Right-click menus are switched off on this page so the right button can be tested.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>Is the Mouse Tester free?</summary>
+        <p>Yes. It is free, needs no sign-up, and runs in your browser.</p>
+      </details>
+      <details>
+        <summary>How do I know if my mouse has double-click problems?</summary>
+        <p>Click each button about 20 times at a normal speed. If the double-click fault panel flags presses, the switch may be worn. Check your mouse's warranty or contact the manufacturer if the problem is clear.</p>
+      </details>
+      <details>
+        <summary>What is DPI, and is the DPI check accurate?</summary>
+        <p>DPI means dots per inch, the sensitivity of the sensor. The DPI check is a rough estimate. Pointer settings and mouse software can change the result, so use it as a guide rather than an exact figure.</p>
+      </details>
+      <details>
+        <summary>Why does the scroll wheel show a slip?</summary>
+        <p>A slip means the wheel briefly moved the wrong way while you scrolled steadily. This is the most common wheel fault, and it can happen when the wheel's mechanism is worn or dirty.</p>
+      </details>
+      <details>
+        <summary>Is anything I click recorded?</summary>
+        <p>No. Clicks, scrolls and movements are not saved or sent anywhere.</p>
+      </details>
+    </section>
   </div>
   <footer class="mbw-foot">
     <div class="mbw-cols">
       <div><p>Apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a></div>
-      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a></div>
+      <div><p>Tools</p><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a><a href="/tools/universal-converter/">Universal Converter</a></div>
       <div><p>Made by Waleed</p><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">Privacy policies</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></div>
     </div>
     <p class="mbw-legal">madeby@waleedkhan.agency · &copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar. Nothing you do on this page leaves your computer.</p>
