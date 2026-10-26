@@ -178,6 +178,18 @@ tr.bad td { color: var(--bad); }
 .ad-slot { margin: 1.5rem auto; max-width: 1180px; padding: 0 16px; min-height: 100px; }
 .ad-label { display: block; text-align: center; font: 0.7rem monospace; color: #888; margin-bottom: 0.4rem; letter-spacing: 0.04em; }
 .ad-slot ins { display: block; width: 100%; }
+
+/* Side ad rails: only on wide screens, so they never cover the tool */
+.ad-rail { display: none; }
+@media (min-width: 1520px) {
+  .ad-rail { display: block; position: fixed; top: 120px; width: 150px; z-index: 1; }
+  .ad-left { left: 8px; }
+  .ad-right { right: 8px; }
+}
+.amz-card { max-width: 1180px; margin: 1.5rem auto; padding: 1rem 16px; text-align: center; font: 0.9rem monospace; }
+.amz-title { margin: 0 0 0.4rem; font-weight: 700; }
+.amz-link { display: inline-block; padding: 0.5rem 1rem; border: 1px solid currentColor; border-radius: 999px; text-decoration: none; color: inherit; }
+.amz-disc { margin: 0.5rem 0 0; font-size: 0.7rem; opacity: 0.7; }
 </style>
 <link rel="stylesheet" href="/header.css">
   <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
@@ -202,11 +214,7 @@ tr.bad td { color: var(--bad); }
   </header>
 
   <div class="top">
-      <div class="ad-slot" aria-label="Advertisement">
-    <span class="ad-label">Advertisement</span>
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
-<section class="panel">
+    <section class="panel">
       <h2>Your mouse</h2>
       <svg class="mouse" viewBox="0 0 200 300" aria-label="Mouse diagram">
         <rect class="z" id="z3" x="3" y="196" width="16" height="36" rx="6"/>
@@ -405,6 +413,19 @@ tr.bad td { color: var(--bad); }
         <p>No. Clicks, scrolls and movements are not saved or sent anywhere.</p>
       </details>
     </section>
+  </div>
+  <aside class="ad-rail ad-left" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </aside>
+  <aside class="ad-rail ad-right" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </aside>
+  <div class="amz-card">
+    <p class="amz-title">Recommended on Amazon</p>
+    <a class="amz-link" href="https://link.amazon/B0babeX3m" target="_blank" rel="sponsored nofollow noopener">View on Amazon &rarr;</a>
+    <p class="amz-disc">As an Amazon Associate I earn from qualifying purchases.</p>
   </div>
   <div class="ad-slot" aria-label="Advertisement">
     <span class="ad-label">Advertisement</span>
