@@ -169,6 +169,25 @@
     }
     @media (prefers-reduced-motion: reduce) { .orb { animation: none; } .convert { transition: none; } }
   
+    /* Conversion type tabs: every type visible at once */
+    .flabel { display: block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.6rem; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tab {
+      font: inherit; font-size: 0.88rem; font-weight: 600;
+      color: var(--text); background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-line); border-radius: 999px;
+      padding: 0.5rem 0.95rem; cursor: pointer; line-height: 1.2;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .tab:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+    .tab[aria-selected="true"] {
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      border-color: transparent; color: #fff;
+      box-shadow: 0 0 18px rgba(124,58,237,0.45);
+    }
+    .tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .tabs-note { font-size: 0.82rem; color: var(--muted); margin: 0.6rem 0 0; }
+
     /* Converter controls */
     select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 2.2rem; }
     select option { background: #0f172a; color: var(--text); }
@@ -221,8 +240,9 @@
 
         <form id="converter" novalidate>
           <div class="field">
-            <label for="category">Type of conversion</label>
-            <select id="category"></select>
+            <span class="flabel" id="cat-label">Choose a type of conversion</span>
+            <div class="tabs" role="tablist" aria-labelledby="cat-label" id="tabs"></div>
+            <input type="hidden" id="category" value="Length">
           </div>
 
           <div class="field">
@@ -416,7 +436,35 @@
 
       function fill(sel, names) { sel.innerHTML = ''; names.forEach(function (n) { var o = document.createElement('option'); o.textContent = n; sel.appendChild(o); }); }
 
-      Object.keys(GROUPS).concat(['Temperature']).forEach(function (k) { var o = document.createElement('option'); o.textContent = k; cat.appendChild(o); });
+      var TYPES = Object.keys(GROUPS).concat(['Temperature']);
+      var tabsEl = document.getElementById('tabs');
+      var tabButtons = TYPES.map(function (k, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'tab'; b.setAttribute('role', 'tab');
+        b.id = 'tab-' + i; b.textContent = k; b.setAttribute('data-type', k);
+        b.setAttribute('aria-selected', 'false'); b.setAttribute('tabindex', '-1');
+        tabsEl.appendChild(b);
+        return b;
+      });
+      function selectType(k) {
+        cat.value = k;
+        tabButtons.forEach(function (b) {
+          var on = b.getAttribute('data-type') === k;
+          b.setAttribute('aria-selected', String(on));
+          b.setAttribute('tabindex', on ? '0' : '-1');
+        });
+      }
+      tabButtons.forEach(function (b, i) {
+        b.addEventListener('click', function () { selectType(b.getAttribute('data-type')); cat.dispatchEvent(new Event('change')); });
+        b.addEventListener('keydown', function (e) {
+          var n = null;
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % tabButtons.length;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i - 1 + tabButtons.length) % tabButtons.length;
+          if (e.key === 'Home') n = 0;
+          if (e.key === 'End') n = tabButtons.length - 1;
+          if (n !== null) { e.preventDefault(); tabButtons[n].focus(); tabButtons[n].click(); }
+        });
+      });
 
       function unitsFor(c) {
         if (c === 'Temperature') return TEMP;
@@ -523,7 +571,7 @@
         quick.innerHTML = quickRows(c, f, t);
       }
 
-      cat.addEventListener('change', function () { reset(cat.value); update(); });
+      cat.addEventListener('change', function () { selectType(cat.value); reset(cat.value); update(); });
       from.addEventListener('change', update);
       to.addEventListener('change', update);
       amount.addEventListener('input', update);
@@ -532,7 +580,7 @@
       });
       document.getElementById('converter').addEventListener('submit', function (e) { e.preventDefault(); update(); });
 
-      cat.selectedIndex = 0; reset(cat.value); update();
+      selectType('Length'); reset(cat.value); update();
 
       document.querySelectorAll('ins.adsbygoogle').forEach(function () {
         try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
