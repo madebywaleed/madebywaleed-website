@@ -17,8 +17,8 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 .nav-dd .dd { display:none; position:absolute; top:100%; left:50%; transform:translateX(-50%); padding-top:.5rem; z-index:40; min-width:14rem; }
 .nav-dd:hover .dd, .nav-dd:has(:focus-visible) .dd { display:block; }
 .dd-panel { display:flex; flex-direction:column; gap:.1rem; padding:.6rem; background:#0a0a0a; color:#fff; border-radius:1rem; box-shadow:0 18px 40px rgba(0,0,0,.25); }
-.dd-panel a { color:#fff; text-decoration:none; font-family: var(--font-mono, "JetBrains Mono", monospace); font-size:.82rem; font-weight:500; padding:.5rem .8rem; border-radius:.6rem; white-space:nowrap; }
-.dd-panel a:hover, .dd-panel a:focus-visible { background:rgba(255,255,255,.14); outline:none; }
+.nav .dd-panel a { color:#fff; text-decoration:none; font-family: var(--font-mono, "JetBrains Mono", monospace); font-size:.82rem; font-weight:500; padding:.5rem .8rem; border-radius:.6rem; white-space:nowrap; }
+.nav .dd-panel a:hover, .nav .dd-panel a:focus-visible { background:rgba(255,255,255,.14); outline:none; }
 .dd-h { margin:.5rem .8rem .2rem; font-family: var(--font-mono, "JetBrains Mono", monospace); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; opacity:.6; color:#fff; }
 .menu { display:none; position:relative; }
 .menu summary { list-style:none; cursor:pointer; font-family: var(--font-mono, "JetBrains Mono", monospace); font-weight:600; font-size:.95rem; padding:.6rem 1.1rem; background:var(--black); color:var(--white); border-radius:999px; }
@@ -33,3 +33,15 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 .dd-panel-m a { color:#fff; text-decoration:none; font-size:1.05rem; font-weight:500; padding:.25rem 0; white-space:nowrap; }
 .dd-panel-m .dd-h { margin:.4rem 0 0; padding:0; }
 @media (max-width: 62rem) { .nav { display:none; } .menu { display:block; } }
+
+/* Clear hover states: the trigger turns black, rows turn white, the "All" row is a labelled category. */
+.nav-dd-btn { transition: background .2s, color .2s; }
+.nav-dd-btn::after { transition: transform .2s; }
+.nav-dd:hover > .nav-dd-btn, .nav-dd:has(:focus-visible) > .nav-dd-btn { background: var(--black); color: var(--white); }
+.nav-dd:hover > .nav-dd-btn::after, .nav-dd:has(:focus-visible) > .nav-dd-btn::after { transform: translateY(.1em) rotate(-135deg); }
+.nav .dd-panel a { transition: background .15s, color .15s; }
+.nav .dd-panel a:hover, .nav .dd-panel a:focus-visible { background: #fff; color: #0a0a0a; }
+.nav .dd-panel a.dd-all { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; opacity: .65; padding: .3rem .8rem .55rem; margin-bottom: .3rem; border-radius: 0; border-bottom: 1px solid rgba(255,255,255,.2); background: none; color: #fff; }
+.nav .dd-panel a.dd-all:hover, .nav .dd-panel a.dd-all:focus-visible { background: none; color: #fff; opacity: 1; }
+.nav .dd-panel a.dd-all::after { content: " \2192"; }
+.dd-panel-m a.dd-all { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; opacity: .65; }
