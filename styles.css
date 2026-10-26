@@ -272,7 +272,7 @@ h3 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); }
 .cta-row { margin-top: clamp(1.5rem, 3vw, 2.5rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
 .cta-row p { max-width: 30rem; color: #cfcfcb; font-weight: 500; }
 
-/* ---------- Made by Waleed page ---------- */
+/* ---------- Apps page ---------- */
 .page-hero { padding-bottom: clamp(1rem, 3vw, 2rem); }
 .support { max-width: 52rem; }
 .support p { margin-top: 1rem; font-weight: 500; }
