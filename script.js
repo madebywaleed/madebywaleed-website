@@ -53,7 +53,7 @@
   // Menu: a grey pill follows the cursor, a black pill slides to the page you open.
   var nav = document.querySelector(".nav");
   if (nav) {
-    var links = Array.prototype.slice.call(nav.querySelectorAll("a"));
+    var links = Array.prototype.slice.call(nav.querySelectorAll(":scope > a, :scope > .nav-dd > .nav-dd-btn"));
     var hoverPill = document.createElement("span");
     var curPill = document.createElement("span");
     hoverPill.className = "nav-pill is-hover";
