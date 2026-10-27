@@ -45,3 +45,10 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 .nav .dd-panel a.dd-all:hover, .nav .dd-panel a.dd-all:focus-visible { background: none; color: #fff; opacity: 1; }
 .nav .dd-panel a.dd-all::after { content: " \2192"; }
 .dd-panel-m a.dd-all { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; opacity: .65; }
+
+/* Wordmark: the name types itself out, holds, then starts again, with a blinking cursor. */
+.site-header .wordmark { display: inline-block; overflow: hidden; vertical-align: middle; animation: wordmark-type 7s steps(15, end) infinite; }
+.site-header .wordmark::after { content: "_"; display: inline-block; margin-left: .05em; animation: wordmark-blink 1s steps(1, end) infinite; }
+@keyframes wordmark-type { 0% { max-width: 0; } 40% { max-width: 15ch; } 100% { max-width: 15ch; } }
+@keyframes wordmark-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .site-header .wordmark, .site-header .wordmark::after { animation: none; } .site-header .wordmark { max-width: none; } }
