@@ -308,7 +308,7 @@
     .back-link { display: inline-block; margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--text-2); text-decoration: none; }
     .back-link:hover { color: var(--text); text-decoration: underline; }
     .mode-rank { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; font-weight: 500; color: #71717a; letter-spacing: 0.02em; }
-    .hub-wrap, .hub-page .top-inner, .hub-page .footer-inner { max-width: 78rem; }
+    .hub-wrap, .hub-page .top-inner, .hub-page .footer-inner { max-width: 90rem; }
     .hub-intro { margin: 0 0 1.25rem; }
     .hub-intro p { color: var(--text-2); font-size: 0.95rem; line-height: 1.7; margin: 0 0 0.75rem; max-width: 70ch; }
     .hub .protocols { grid-template-columns: 1fr; }
@@ -317,11 +317,11 @@
     @media (min-width: 1100px) { .hub .protocols { grid-template-columns: repeat(6, 1fr); } }
     .hub .mode-card { padding: 0.875rem; }
     /* The wide hub leaves no room for the side ads below 1640px, so hide them there. */
-    @media (max-width: 1639px) { .hub-page .rail { display: none !important; } }
-    @media (min-width: 1640px) { .hub-page .rail-left { left: calc(50% - 39rem - 176px); } .hub-page .rail-right { right: calc(50% - 39rem - 176px); } }
+    @media (max-width: 1839px) { .hub-page .rail { display: none !important; } }
+    @media (min-width: 1840px) { .hub-page .rail-left { left: calc(50% - 45rem - 176px); } .hub-page .rail-right { right: calc(50% - 45rem - 176px); } }
     .hub { text-align: center; }
     .hub-head { margin: 0 auto 1.5rem; max-width: 46rem; }
-    .hub-title { font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.03em; margin: 0 0 0.875rem; }
+    .hub-title { font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.03em; line-height: 1.2; margin: 0 0 0.875rem; }
     .hub-intro p { margin: 0 auto 0.625rem; max-width: 46rem; }
     .hub .pills { justify-content: center; margin-bottom: 1.25rem; }
     .hub .protocols { text-align: left; }
@@ -372,10 +372,9 @@
     <div class="wrap hub-wrap">
       <section class="hub" aria-label="All conversions">
         <div class="hub-head">
-            <h1 class="hub-title">Free PDF and document tools</h1>
+            <h1 class="hub-title">Free Online PDF Tools: Merge, Split, Compress, Convert and Edit PDF Files</h1>
             <div class="hub-intro">
-              <p>Merge, split, compress, convert, edit, sign, scan and OCR your PDFs, or turn images, CSV files and HTML into PDFs. Every tool is free and runs in your web browser, so there is nothing to install.</p>
-              <p>Your files are never uploaded. Each tool reads and saves your files on your own device, so your documents stay private. You can also convert a PDF into Word, Excel, PowerPoint or Markdown. Choose a tool below to open its own page.</p>
+              <p>Use our free PDF tools to merge PDFs, split pages, compress files, convert PDF to Word, Excel and PowerPoint, turn images and HTML into PDF, edit and sign PDFs, and run OCR on scanned documents. Every tool works in your web browser and needs no installation. Your files are processed on your own device and are never uploaded, so your documents stay private.</p>
             </div>
             <div class="pills" role="group" aria-label="Filter conversions">
               <button class="pill" type="button" data-cat="all" aria-pressed="true">All</button>
