@@ -1233,7 +1233,7 @@
     pdf.destroy && pdf.destroy();
 
     if (totalText === 0) {
-      throw new Error('No text was found. This PDF may be scanned images, which need OCR. This tool cannot do OCR yet.');
+      throw new Error('No text was found. This PDF is probably scanned images. Run it through OCR PDF first to add searchable text, then try again.');
     }
 
     progress(94, 'Building Word file...');
@@ -1558,7 +1558,7 @@
     pdf.destroy && pdf.destroy();
 
     if (textRows === 0) {
-      throw new Error('No text was found. This PDF may be scanned images, which need OCR. This tool cannot do OCR yet.');
+      throw new Error('No text was found. This PDF is probably scanned images. Run it through OCR PDF first to add searchable text, then try again.');
     }
     if (rows.length > MAX_SHEET_ROWS) {
       throw new Error('This PDF produces ' + rows.length.toLocaleString() + ' rows. Excel allows up to 1,048,576.');
@@ -1954,7 +1954,7 @@
     var typical = heights.length ? heights[Math.floor(heights.length / 2)] : 0;
     var totalRows = pageRows.reduce(function (n, rows) { return n + rows.length; }, 0);
     if (!totalRows) {
-      throw new Error('No text was found. This PDF may be scanned images, which need OCR. This tool cannot do OCR yet.');
+      throw new Error('No text was found. This PDF is probably scanned images. Run it through OCR PDF first to add searchable text, then try again.');
     }
 
     progress(92, 'Writing Markdown...');
