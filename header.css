@@ -2,7 +2,7 @@
 /* Shared header for madeby pages: desktop pill nav with hover dropdowns, mobile menu with tap dropdowns. */
 :root { --black:#0a0a0a; --white:#fff; }
 header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0; border:0; }
-.site-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 50; padding-top: .75rem; pointer-events: none; }
+.site-header { position: absolute; top: 0; left: 0; right: 0; width: 100%; z-index: 50; padding-top: .75rem; pointer-events: none; }
 .site-header .wrap { width:100%; box-sizing:border-box; display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; justify-content:space-between; margin-top:0; margin-bottom:0; align-items:center; justify-content:space-between; gap:1rem; position:relative; pointer-events:auto; max-width:82rem; margin-inline:auto; padding:.35rem clamp(1.25rem,4vw,2.5rem); border:1px solid transparent; border-radius:999px; }
 .site-header .wordmark { font-family: var(--font-mono, "JetBrains Mono", monospace); font-weight:700; font-size:.95rem; letter-spacing:-.04em; text-decoration:none; color:inherit; white-space:nowrap; padding:.1rem .9rem .1rem .1rem; }
 .site-header .button { display:inline-flex; align-items:center; background:var(--black); color:var(--white); border:1.5px solid var(--black); border-radius:999px; padding:.6rem 1.3rem; font-family: var(--font-mono, "JetBrains Mono", monospace); font-weight:700; font-size:.82rem; text-decoration:none; white-space:nowrap; }
