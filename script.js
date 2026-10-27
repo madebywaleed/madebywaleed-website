@@ -66,9 +66,11 @@
 
     var place = function (pill, link, instant) {
       if (instant) pill.classList.add("no-anim");
-      pill.style.width = link.offsetWidth + "px";
-      pill.style.height = link.offsetHeight + "px";
-      pill.style.transform = "translate(" + link.offsetLeft + "px," + link.offsetTop + "px)";
+      // Measure on screen against the nav, so links inside dropdown wrappers land in the right place.
+      var lr = link.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+      pill.style.width = lr.width + "px";
+      pill.style.height = lr.height + "px";
+      pill.style.transform = "translate(" + (lr.left - nr.left) + "px," + (lr.top - nr.top) + "px)";
       if (instant) { void pill.offsetWidth; pill.classList.remove("no-anim"); }
     };
     var current = nav.querySelector('a[aria-current="page"]');
