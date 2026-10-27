@@ -49,6 +49,6 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 /* Wordmark: the name types itself out, holds, then starts again, with a blinking cursor. */
 .site-header .wordmark { display: inline-block; overflow: hidden; vertical-align: middle; animation: wordmark-type 7s steps(15, end) infinite; }
 .site-header .wordmark::after { content: "_"; display: inline-block; margin-left: .05em; animation: wordmark-blink 1s steps(1, end) infinite; }
-@keyframes wordmark-type { 0% { max-width: 0; } 40% { max-width: 15ch; } 100% { max-width: 15ch; } }
+@keyframes wordmark-type { 0% { max-width: 0; } 40% { max-width: 16ch; } 100% { max-width: 16ch; } }
 @keyframes wordmark-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .site-header .wordmark, .site-header .wordmark::after { animation: none; } .site-header .wordmark { max-width: none; } }
