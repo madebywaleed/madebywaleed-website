@@ -1135,18 +1135,28 @@
     rows.sort(function (a, b) { return b.y - a.y; });
     return rows.map(function (row) {
       row.items.sort(function (a, b) { return a.x - b.x; });
-      var text = '';
+      // Split the row into cells where there is a wide horizontal gap (table columns).
+      var cells = [];
+      var cell = '';
       var lastEnd = null;
       row.items.forEach(function (it) {
-        if (lastEnd !== null && it.x - lastEnd > 2 && text && !/\s$/.test(text) && !/^\s/.test(it.str)) text += ' ';
-        text += it.str;
+        if (lastEnd !== null && it.x - lastEnd > CELL_GAP) {
+          cells.push(cell);
+          cell = '';
+        } else if (cell && lastEnd !== null && it.x - lastEnd > 2 && !/\s$/.test(cell) && !/^\s/.test(it.str)) {
+          cell += ' ';
+        }
+        cell += it.str;
         lastEnd = it.x + (it.width || 0);
       });
-      return { y: row.y, text: text.replace(/\s+/g, ' ').trim() };
+      cells.push(cell);
+      cells = cells.map(function (c) { return c.replace(/\s+/g, ' ').trim(); }).filter(function (c) { return c; });
+      return { y: row.y, text: cells.join('\t') };
     }).filter(function (r) { return r.text; });
   }
 
-  // Join lines into paragraphs. A bigger-than-normal gap between lines starts a new paragraph.
+  // Join lines into paragraphs. Table rows (more than one cell) stay on their own line,
+  // and a bigger-than-normal gap between lines starts a new paragraph.
   function linesToParagraphs(lines) {
     if (!lines.length) return [];
     var gaps = [];
@@ -1155,17 +1165,20 @@
     var median = gaps.length ? gaps[Math.floor(gaps.length / 2)] : 0;
 
     var paragraphs = [];
-    var current = lines[0].text;
-    for (var j = 1; j < lines.length; j++) {
-      var gap = lines[j - 1].y - lines[j].y;
-      if (median && gap > median * 1.6) {
-        paragraphs.push(current);
-        current = lines[j].text;
+    var current = null;
+    lines.forEach(function (line, j) {
+      var gap = j ? lines[j - 1].y - line.y : 0;
+      var isTable = line.text.indexOf('\t') !== -1;
+      var prevTable = j > 0 && lines[j - 1].text.indexOf('\t') !== -1;
+      var newParagraph = j === 0 || isTable || prevTable || (median && gap > median * 1.6);
+      if (newParagraph) {
+        if (current !== null) paragraphs.push(current);
+        current = line.text;
       } else {
-        current += ' ' + lines[j].text;
+        current += ' ' + line.text;
       }
-    }
-    paragraphs.push(current);
+    });
+    if (current !== null) paragraphs.push(current);
     return paragraphs;
   }
 
@@ -1184,7 +1197,10 @@
     pages.forEach(function (paragraphs, pi) {
       if (pi > 0) body += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
       paragraphs.forEach(function (t) {
-        body += '<w:p><w:r><w:t xml:space="preserve">' + xmlEscape(t) + '</w:t></w:r></w:p>';
+        var runs = t.split('\t').map(function (part) {
+          return '<w:r><w:t xml:space="preserve">' + xmlEscape(part) + '</w:t></w:r>';
+        }).join('<w:r><w:tab/></w:r>');
+        body += '<w:p>' + runs + '</w:p>';
       });
     });
     return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
