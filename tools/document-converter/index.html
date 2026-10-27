@@ -308,6 +308,17 @@
     .back-link { display: inline-block; margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--text-2); text-decoration: none; }
     .back-link:hover { color: var(--text); text-decoration: underline; }
     .mode-rank { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; font-weight: 500; color: #71717a; letter-spacing: 0.02em; }
+    .hub-wrap, .hub-page .top-inner, .hub-page .footer-inner { max-width: 72rem; }
+    .hub-intro { margin: 0 0 1.25rem; }
+    .hub-intro p { color: var(--text-2); font-size: 0.95rem; line-height: 1.7; margin: 0 0 0.75rem; max-width: 70ch; }
+    .hub .protocols { grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .hub .protocols { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .hub .protocols { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 1100px) { .hub .protocols { grid-template-columns: repeat(6, 1fr); } }
+    .hub .mode-card { padding: 0.875rem; }
+    /* The wide hub leaves no room for the side ads below 1520px, so hide them there. */
+    @media (max-width: 1519px) { .hub-page .rail { display: none !important; } }
+    @media (min-width: 1520px) { .hub-page .rail-left { left: calc(50% - 36rem - 176px); } .hub-page .rail-right { right: calc(50% - 36rem - 176px); } }
     .hub-title { font-family: var(--display); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 1rem; }
   </style>
   <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
@@ -322,7 +333,7 @@
 <link rel="stylesheet" href="/header.css">
 <style>body{padding-top:5.5rem}</style>
 </head>
-<body>
+<body class="hub-page">
   <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a><a href="/tools/universal-converter/">Universal Converter</a><a href="/tools/document-converter/">Document Converter</a></div></div></div><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps.</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a></div></details><details class="nav-dd-m"><summary>Tools.</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/keyboard-tester/">Keyboard Tester</a><a href="/tools/mouse-tester/">Mouse Tester</a><a href="/tools/gamepad-tester/">Gamepad Tester</a><a href="/tools/universal-converter/">Universal Converter</a><a href="/tools/document-converter/">Document Converter</a></div></details><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
 
   <main>
@@ -352,13 +363,17 @@
       </script>
       <script src="https://www.highrevenueformat.com/478ade4627d34119e9f9021008092f32/invoke.js"></script>
     </aside>
-    <div class="wrap">
+    <div class="wrap hub-wrap">
       <section class="card hub" aria-label="All conversions">
         <div class="console-body">
           <div>
-            <h1 class="hub-title">Document conversion tools</h1>
+            <h1 class="hub-title">Free PDF and document tools</h1>
+            <div class="hub-intro">
+              <p>Merge, split, compress, convert, edit, sign, scan and OCR your PDFs, or turn images, CSV files and HTML into PDFs. Every tool is free and runs in your web browser, so there is nothing to install.</p>
+              <p>Your files are never uploaded. Each tool reads and saves your files on your own device, so your documents stay private. You can also convert a PDF into Word, Excel, PowerPoint or Markdown. Choose a tool below to open its own page.</p>
+            </div>
             <div class="section-head">
-              <span class="label">Select conversion</span>
+              <span class="label">Choose a conversion</span>
             </div>
             <div class="pills" role="group" aria-label="Filter conversions">
               <button class="pill" type="button" data-cat="all" aria-pressed="true">All</button>
