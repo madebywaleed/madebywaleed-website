@@ -55,3 +55,6 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 
 /* Phones and tablets: the Support pill is removed from the header; Support stays in the Menu. */
 @media (max-width: 62rem) { .site-header .button { display: none; } }
+
+/* Mobile menu: Apps and Tools line up with the other items (no box padding, no dot). */
+.menu .nav-dd-m > summary { padding: 0; margin: 0; background: none; color: #fff; border-radius: 0; }
