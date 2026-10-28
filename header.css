@@ -52,3 +52,6 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 @keyframes wordmark-type { 0% { max-width: 0; } 25% { max-width: 15ch; } 100% { max-width: 15ch; } }
 @keyframes wordmark-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .site-header .wordmark, .site-header .wordmark::after { animation: none; } .site-header .wordmark { max-width: none; } }
+
+/* Phones and tablets: the Support pill is removed from the header; Support stays in the Menu. */
+@media (max-width: 62rem) { .site-header .button { display: none; } }
