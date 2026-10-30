@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code Generator – Free, Private, In Your Browser | Made by Waleed</title>
+  <meta name="description" content="Make a QR code from a link or text, pick the size and colours, and download it as a PNG. Free, no sign-up, and nothing you type is uploaded.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="QR Code Generator | Made by Waleed">
+  <meta property="og:description" content="Make a QR code from a link or text and download it as a PNG. Free, and nothing you type is uploaded.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/utilities/qr-code-generator/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/utilities/qr-code-generator/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <script src="/script.js" defer></script>
+<link rel="stylesheet" href="/header.css">
+  <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5ZCFGLFVLV');
+  </script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .qr-wrap { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 2rem; align-items:start; margin-top: 1.5rem; }
+    @media (max-width: 46rem) { .qr-wrap { grid-template-columns: 1fr; } }
+    .qr-panel { background:#fff; border:1px solid var(--line); border-radius:16px; padding:1.25rem; }
+    .qr-panel label { display:block; font-family: var(--mono, "JetBrains Mono", monospace); font-size:.8rem; color:var(--soft, #55554f); margin: 0 0 .4rem; letter-spacing:.02em; }
+    .qr-panel textarea, .qr-panel select, .qr-panel input[type=color] { width:100%; font: inherit; font-size:1rem; padding:.7rem .8rem; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--black, #0a0a0a); }
+    .qr-panel textarea { min-height: 7rem; resize: vertical; }
+    .qr-row { display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1rem; }
+    .qr-row > div { min-width:0; }
+    .qr-preview { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; min-height:320px; }
+    .qr-preview canvas { width:100%; max-width:320px; height:auto; image-rendering: pixelated; background:#fff; }
+    .qr-msg { font-size:.95rem; color: var(--soft, #55554f); text-align:center; }
+    .qr-actions { display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; }
+    .qr-btn { font: inherit; font-weight:600; font-size:1rem; padding:.7rem 1.2rem; border-radius:999px; border:1px solid var(--black, #0a0a0a); background: var(--black, #0a0a0a); color:#fff; cursor:pointer; }
+    .qr-btn.ghost { background:#fff; color: var(--black, #0a0a0a); }
+    .qr-btn:disabled { opacity:.4; cursor:not-allowed; }
+    .qr-tool-hero h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); }
+    .qr-panel input[type=color] { height: 2.9rem; padding: .3rem; cursor: pointer; }
+    .qr-note { font-size:.9rem; color: var(--soft, #55554f); margin-top:.8rem; }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <main id="main">
+    <section class="hero page-hero qr-tool-hero">
+      <div class="wrap">
+        <div class="crumb" style="font-size:.9rem;margin-bottom:1rem"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / QR Code Generator</div>
+        <h1>QR Code Generator<span class="dot">.</span></h1>
+        <p class="lead">Turn a link or text into a QR code. Pick the size and colours, then download it as a PNG. Nothing you type is uploaded.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="qr-wrap">
+          <div class="qr-panel">
+            <label for="qr-text">Link or text</label>
+            <textarea id="qr-text" placeholder="https://example.com or any text" maxlength="1200"></textarea>
+            <div class="qr-row">
+              <div>
+                <label for="qr-size">Size</label>
+                <select id="qr-size">
+                  <option value="256">256 px</option>
+                  <option value="512" selected>512 px</option>
+                  <option value="1024">1024 px</option>
+                </select>
+              </div>
+              <div>
+                <label for="qr-ecl">Error correction</label>
+                <select id="qr-ecl">
+                  <option value="L">Low (7%)</option>
+                  <option value="M" selected>Medium (15%)</option>
+                  <option value="Q">Quartile (25%)</option>
+                  <option value="H">High (30%)</option>
+                </select>
+              </div>
+              <div>
+                <label for="qr-fg">Dark colour</label>
+                <input id="qr-fg" type="color" value="#0a0a0a">
+              </div>
+              <div>
+                <label for="qr-bg">Background colour</label>
+                <input id="qr-bg" type="color" value="#ffffff">
+              </div>
+            </div>
+            <p class="qr-note">Higher error correction still scans if part of the code is damaged, but the code gets denser. Use Medium unless you plan to print it on something rough.</p>
+          </div>
+          <div class="qr-panel qr-preview">
+            <canvas id="qr-canvas" width="512" height="512" aria-label="QR code preview"></canvas>
+            <p class="qr-msg" id="qr-msg">Type a link or text to make a QR code.</p>
+            <div class="qr-actions">
+              <button class="qr-btn" id="qr-download" disabled>Download PNG</button>
+              <button class="qr-btn ghost" id="qr-reset">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <p class="eyebrow">// about/</p>
+        <h2>About this tool<span class="dot">.</span></h2>
+        <p>A QR code stores your text so a phone camera can read it. Most people use one to open a link, but it also works for Wi-Fi details, contact text, or a short note.</p>
+        <p>The code is drawn in your browser. Nothing you type or download is sent to our servers.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <p class="eyebrow">// faq/</p>
+        <h2>Questions<span class="dot">.</span></h2>
+        <details>
+          <summary>Is this QR code generator free?</summary>
+          <p>Yes. There is no sign-up, no watermark, and no limit on how many codes you make.</p>
+        </details>
+        <details>
+          <summary>Do the codes expire?</summary>
+          <p>No. The code stores the text itself, not a link to our site, so it keeps working as long as the link or text is valid.</p>
+        </details>
+        <details>
+          <summary>What size should I download for printing?</summary>
+          <p>Choose 1024 px for posters or cards. Keep the code at least 2 cm wide when printed, and leave a blank margin around it.</p>
+        </details>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <h3>Your privacy</h3>
+        <p>This tool runs in your browser. The text you enter is not sent to our servers, and we do not ask for an account. Read the <a href="/support/#privacy">privacy policies</a> for details.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var text = $('qr-text'), size = $('qr-size'), ecl = $('qr-ecl'), fg = $('qr-fg'), bg = $('qr-bg');
+  var canvas = $('qr-canvas'), msg = $('qr-msg'), dl = $('qr-download'), reset = $('qr-reset');
+  var ctx = canvas.getContext('2d');
+
+  function clearCanvas() {
+    canvas.width = 512; canvas.height = 512;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, 512, 512);
+    dl.disabled = true;
+  }
+
+  function draw() {
+    var value = text.value;
+    if (!value.trim()) { clearCanvas(); msg.textContent = 'Type a link or text to make a QR code.'; return; }
+    if (typeof qrcode !== 'function') { clearCanvas(); msg.textContent = 'The QR engine did not load. Check your connection and try again.'; return; }
+    var qr;
+    try {
+      qr = qrcode(0, ecl.value);
+      qr.addData(value);
+      qr.make();
+    } catch (e) {
+      clearCanvas(); msg.textContent = 'That is too much text for one QR code. Try a shorter link or lower error correction.'; return;
+    }
+    var n = qr.getModuleCount(), margin = 4;
+    var px = parseInt(size.value, 10);
+    var cell = Math.max(1, Math.floor(px / (n + margin * 2)));
+    var total = cell * (n + margin * 2);
+    canvas.width = total; canvas.height = total;
+    ctx.fillStyle = bg.value; ctx.fillRect(0, 0, total, total);
+    ctx.fillStyle = fg.value;
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+      if (qr.isDark(r, c)) ctx.fillRect((c + margin) * cell, (r + margin) * cell, cell, cell);
+    }
+    msg.textContent = 'Size ' + total + ' px. Scan it with your phone camera to check.';
+    dl.disabled = false;
+  }
+
+  dl.addEventListener('click', function () {
+    canvas.toBlob(function (blob) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'qr-code.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    }, 'image/png');
+  });
+
+  reset.addEventListener('click', function () {
+    text.value = ''; size.value = '512'; ecl.value = 'M'; fg.value = '#0a0a0a'; bg.value = '#ffffff';
+    clearCanvas(); msg.textContent = 'Type a link or text to make a QR code.';
+  });
+
+  [text, size, ecl, fg, bg].forEach(function (el) { el.addEventListener('input', draw); el.addEventListener('change', draw); });
+  clearCanvas();
+})();
+</script>
+</body>
+</html>
