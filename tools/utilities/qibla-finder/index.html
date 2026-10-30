@@ -233,41 +233,6 @@
           </div>
         </div>
 
-        <div class="q-side">
-          <div class="q-card q-kaaba">
-            <span class="q-label">Qibla bearing</span>
-            <h2>Al-Ka‘bah Al-Musharrafah</h2>
-            <p class="q-arabic" lang="ar">الكعبة المشرفة • Makkah</p>
-            <div class="q-stat">
-              <div><span class="q-label">Bearing</span><div class="q-big" id="qb-deg">–</div></div>
-              <div><span class="q-label">Distance</span><div class="q-big" id="qb-dist-km">–</div></div>
-            </div>
-            <div class="q-meta"><span>Coordinates: 21.4225° N, 39.8262° E</span><b id="qb-dir">Set your position</b></div>
-          </div>
-
-          <div class="q-card q-aqsa">
-            <span class="q-label q-brass">The first Qibla • Al-Qiblah Al-Ula</span>
-            <h2>Masjid Al-Aqsa</h2>
-            <p class="q-arabic" lang="ar">المسجد الأقصى المبارك • Al-Quds</p>
-            <div class="q-stat">
-              <div><span class="q-label">Bearing</span><div class="q-big" id="qb-t-aqsa">–</div></div>
-              <div><span class="q-label">Distance</span><div class="q-big" id="qb-t-aqsa-km">–</div></div>
-            </div>
-            <div class="q-meta"><span>Coordinates: 31.7761° N, 35.2358° E</span><b style="color:var(--brass-deep)">Al-Haram Al-Sharif</b></div>
-          </div>
-
-          <div class="q-card q-sep">
-            <div style="display:flex;gap:.8rem;align-items:center;min-width:0">
-              <div class="ic" aria-hidden="true">Δ</div>
-              <div style="min-width:0"><b>Angle between the two bearings</b><p class="q-sub">Makkah and Jerusalem, seen from your position.</p></div>
-            </div>
-            <div style="text-align:right">
-              <div class="num" id="qb-sep">–</div>
-              <p class="q-sub" style="font-size:12px;margin:0">Makkah to Jerusalem <span id="qb-mj">–</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="q-wrap q-prayer" id="prayer">
@@ -362,6 +327,7 @@
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
+  function setT(id, v){ var el = document.getElementById(id); if (el) el.textContent = v; }
   var KAABA = [21.4225, 39.8262], AQSA = [31.7761, 35.2358];
   var ALIGN = 3, DEAD = 1.5, ALPHA = 0.08;
   var R = Math.PI / 180;
@@ -445,7 +411,7 @@
 
   $('qb-t-aqsa') && 0;
   var kaabaKm = distanceKm(KAABA[0], KAABA[1], AQSA[0], AQSA[1]);
-  $('qb-mj').textContent = fmtKm(kaabaKm);
+  setT('qb-mj', fmtKm(kaabaKm));
 
   function setMsg(t){ msg.textContent = t || ''; }
 
@@ -634,12 +600,12 @@
     aqsa = bearingTo(la, lo, AQSA[0], AQSA[1]);
     var kmK = distanceKm(la, lo, KAABA[0], KAABA[1]), kmA = distanceKm(la, lo, AQSA[0], AQSA[1]);
     var sep = norm360(qibla - aqsa); if (sep > 180) sep = 360 - sep;
-    $('qb-deg').textContent = Math.round(qibla) + '°';
-    $('qb-dir').textContent = cardinal(qibla);
-    $('qb-dist-km').textContent = fmtKm(kmK);
-    $('qb-t-aqsa').textContent = Math.round(aqsa) + '°';
-    $('qb-t-aqsa-km').textContent = fmtKm(kmA);
-    $('qb-sep').textContent = Math.round(sep) + '°';
+    setT('qb-deg', Math.round(qibla) + '°');
+    setT('qb-dir', cardinal(qibla));
+    setT('qb-dist-km', fmtKm(kmK));
+    setT('qb-t-aqsa', Math.round(aqsa) + '°');
+    setT('qb-t-aqsa-km', fmtKm(kmA));
+    setT('qb-sep', Math.round(sep) + '°');
     $('leg-qibla').textContent = Math.round(qibla) + '°';
     $('leg-aqsa').textContent = Math.round(aqsa) + '°';
     $('cal-loc').textContent = la.toFixed(2) + ', ' + lo.toFixed(2);
