@@ -35,180 +35,169 @@
   <link rel="stylesheet" href="/styles.css">
   <style>
     :root {
-      --em-0: #041711;
-      --em-1: #0c1f19;
-      --em-2: #10231d;
-      --em-3: #1b2e27;
-      --gold: #d4af37;
-      --gold-hi: #f2ca50;
-      --gold-lo: #aa820a;
-      --pale-gold: #f3e5ab;
-      --ink: #d2e7dd;
-      --ink-mute: #99907c;
-      --lock: #4edea3;
+      --em-0: #041711; --em-1: #0c1f19; --em-2: #10231d; --em-3: #1b2e27;
+      --gold: #d4af37; --gold-hi: #f2ca50; --gold-lo: #aa820a; --pale-gold: #f3e5ab;
+      --ink: #d2e7dd; --ink-mute: #a39a84; --lock: #4edea3;
     }
-    /* Header keeps the site's light design so the menu matches every page. */
     .site-header { position: relative; background: #fbfbfa; border-bottom: 1px solid var(--line, #dcdcd8); }
+    .site-header .wordmark { flex-shrink: 0; white-space: nowrap; }
 
-    .qb-hero {
-      background: var(--em-0);
-      color: var(--ink);
-      position: relative;
-      overflow: hidden;
-      padding-bottom: 2.5rem;
-    }
+    /* ---------- Hero ---------- */
+    .qb-hero { background: var(--em-0); color: var(--ink); position: relative; overflow: hidden; padding: 3rem 0 4.4rem; }
     .qb-hero::before {
-      content: "";
-      position: absolute; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d4af37' stroke-opacity='.12' stroke-width='1'%3E%3Cpath d='M60 10 L77 43 L110 60 L77 77 L60 110 L43 77 L10 60 L43 43 Z'/%3E%3Ccircle cx='60' cy='60' r='26'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: 120px 120px;
-      pointer-events: none;
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%2523d4af37' stroke-opacity='.16' stroke-width='1'%3E%3Cpolygon points='50.0,6.0 57.7,31.5 81.1,18.9 68.5,42.3 94.0,50.0 68.5,57.7 81.1,81.1 57.7,68.5 50.0,94.0 42.3,68.5 18.9,81.1 31.5,57.7 6.0,50.0 31.5,42.3 18.9,18.9 42.3,31.5'/%3E%3Cpolygon points='0.0,-30.0 5.0,-12.0 21.2,-21.2 12.0,-5.0 30.0,0.0 12.0,5.0 21.2,21.2 5.0,12.0 0.0,30.0 -5.0,12.0 -21.2,21.2 -12.0,5.0 -30.0,0.0 -12.0,-5.0 -21.2,-21.2 -5.0,-12.0'/%3E%3Cpolygon points='100.0,-30.0 105.0,-12.0 121.2,-21.2 112.0,-5.0 130.0,0.0 112.0,5.0 121.2,21.2 105.0,12.0 100.0,30.0 95.0,12.0 78.8,21.2 88.0,5.0 70.0,0.0 88.0,-5.0 78.8,-21.2 95.0,-12.0'/%3E%3Cpolygon points='0.0,70.0 5.0,88.0 21.2,78.8 12.0,95.0 30.0,100.0 12.0,105.0 21.2,121.2 5.0,112.0 0.0,130.0 -5.0,112.0 -21.2,121.2 -12.0,105.0 -30.0,100.0 -12.0,95.0 -21.2,78.8 -5.0,88.0'/%3E%3Cpolygon points='100.0,70.0 105.0,88.0 121.2,78.8 112.0,95.0 130.0,100.0 112.0,105.0 121.2,121.2 105.0,112.0 100.0,130.0 95.0,112.0 78.8,121.2 88.0,105.0 70.0,100.0 88.0,95.0 78.8,78.8 95.0,88.0'/%3E%3Ccircle cx='50' cy='50' r='12'/%3E%3C/g%3E%3C/svg%3E"); background-size: 100px 100px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
     }
-    .qb-hero .wrap { position: relative; }
+    .qb-hero .wrap { position: relative; text-align: center; }
+    .qb-hero .crumb { text-align: left; font-size: .88rem; margin-bottom: 1.4rem; }
     .qb-hero .crumb, .qb-hero .crumb a { color: var(--ink-mute); }
     .qb-hero .crumb a { text-decoration-color: var(--gold); }
-    .qb-hero h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 600; color: var(--pale-gold); font-size: clamp(2.4rem, 6vw, 3.6rem); letter-spacing: -0.01em; }
+    .qb-bism { font-family: "Amiri", serif; font-size: 1.2rem; color: var(--gold); margin: 0; direction: rtl; }
+    .qb-arabic { font-family: "Amiri", serif; font-size: clamp(2rem, 6vw, 3rem); color: var(--gold-hi); margin: .3rem 0 .1rem; line-height: 1.5; direction: rtl; }
+    .qb-hero h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 600; color: var(--pale-gold); font-size: clamp(2.3rem, 6vw, 3.6rem); letter-spacing: -.01em; margin: 0; line-height: 1.1; }
     .qb-hero h1 .dot { color: var(--gold-hi); }
-    .qb-hero .lead { color: var(--ink); }
-    .qb-arabic { font-family: "Amiri", serif; font-size: clamp(1.8rem, 5vw, 2.4rem); color: var(--gold-hi); margin: 0 0 .2rem; line-height: 1.4; }
+    .qb-hero .lead { color: var(--ink); max-width: 36rem; margin: 1rem auto 0; }
+    .qb-scallops { position: absolute; left: 0; right: 0; bottom: 0; height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 14 A14 14 0 0 1 28 14 Z' fill='%2523041711'/%3E%3C/svg%3E") repeat-x 0 100%; background-size: 28px 14px; }
 
-    .qb-stage { background: var(--em-0); padding: 1.5rem 0 3rem; position: relative; }
-    .qb-stage::before {
-      content: ""; position: absolute; top: -2rem; left: 50%; transform: translateX(-50%);
-      width: min(720px, 90vw); height: 4rem; pointer-events: none;
-      background: radial-gradient(ellipse at 50% 0%, rgba(212,175,55,.12), transparent 70%);
-    }
-    .qb-wrap { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap:2rem; align-items:start; }
-    @media (max-width: 46rem) { .qb-wrap { grid-template-columns: 1fr; } }
-    .qb-panel {
-      background: var(--em-1);
-      border: 1px solid rgba(212,175,55,.35);
-      border-radius: 1.25rem;
-      padding: 1.5rem;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 24px 48px -28px rgba(0,0,0,.8);
-      color: var(--ink);
-    }
+    /* ---------- Stage ---------- */
+    .qb-stage { background: var(--em-0); padding: 2.4rem 0 0; position: relative; }
+    .qb-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 1.75rem; align-items: stretch; }
+    @media (max-width: 52rem) { .qb-grid { grid-template-columns: minmax(0, 1fr); } }
+    .qb-side { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
+    .qb-panel { background: var(--em-1); border: 1px solid rgba(212,175,55,.35); border-radius: 1.25rem; padding: 1.5rem; color: var(--ink); min-width: 0; }
     .qb-panel p { color: var(--ink); }
-    .qb-tag {
-      display: inline-block; font-family: "Space Mono", monospace; font-size: .72rem; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--gold-hi); border: 1px solid rgba(212,175,55,.4);
-      padding: .25rem .6rem; border-radius: .4rem; margin-bottom: 1rem;
+    .qb-arch {
+      background: var(--em-1); border: 1px solid rgba(212,175,55,.45); color: var(--ink); min-width: 0;
+      border-radius: 50% 50% 1.25rem 1.25rem / 12% 12% 1.25rem 1.25rem;
+      padding: 2.8rem 1.25rem 1.7rem; display: flex; flex-direction: column; align-items: center; text-align: center;
+      box-shadow: inset 0 0 0 6px var(--em-1), inset 0 0 0 7px rgba(212,175,55,.25);
     }
+    .qb-tag {
+      display: inline-block; font-family: "Space Mono", monospace; font-size: .7rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold-hi); border: 1px solid rgba(212,175,55,.4);
+      padding: .25rem .6rem; border-radius: .4rem; margin-bottom: 1.1rem;
+    }
+    .qb-panel .qb-tag { margin-bottom: 1rem; }
 
     .qb-dial {
-      position: relative;
-      width: min(340px, 82vw);
-      aspect-ratio: 1;
-      margin: 0 auto;
-      border-radius: 50%;
+      position: relative; width: min(340px, 80vw); aspect-ratio: 1; margin: 0 auto; border-radius: 50%;
       background: radial-gradient(circle at 50% 45%, var(--em-2) 0%, var(--em-0) 72%, #01110c 100%);
-      box-shadow:
-        inset 0 2px 6px rgba(255,255,255,.12),
-        inset 0 -10px 24px rgba(0,0,0,.7),
-        0 0 0 4px var(--em-0),
-        0 0 0 6px var(--gold),
-        0 0 0 7px rgba(212,175,55,.25),
-        0 22px 50px -10px rgba(0,0,0,.85);
+      box-shadow: inset 0 2px 6px rgba(255,255,255,.12), inset 0 -10px 24px rgba(0,0,0,.7),
+        0 0 0 4px var(--em-0), 0 0 0 6px var(--gold), 0 0 0 7px rgba(212,175,55,.25), 0 22px 50px -10px rgba(0,0,0,.85);
       transition: box-shadow .4s ease;
     }
     .qb-dial.locked {
-      box-shadow:
-        inset 0 2px 6px rgba(255,255,255,.12),
-        inset 0 -10px 24px rgba(0,0,0,.7),
-        0 0 0 4px var(--em-0),
-        0 0 0 6px var(--gold-hi),
-        0 0 0 7px rgba(242,202,80,.5),
-        0 0 40px 6px rgba(242,202,80,.35);
+      box-shadow: inset 0 2px 6px rgba(255,255,255,.12), inset 0 -10px 24px rgba(0,0,0,.7),
+        0 0 0 4px var(--em-0), 0 0 0 6px var(--gold-hi), 0 0 0 7px rgba(242,202,80,.5), 0 0 40px 6px rgba(242,202,80,.35);
     }
-    .qb-ring { position:absolute; inset:0; transition: transform .2s ease-out; }
+    .qb-ring { position: absolute; inset: 0; transition: transform .2s ease-out; }
     .qb-ticks {
-      position: absolute; inset: 10px; border-radius: 50%; pointer-events: none;
-      background: repeating-conic-gradient(from -0.4deg, rgba(212,175,55,.8) 0deg .8deg, transparent .8deg 5deg);
-      -webkit-mask: radial-gradient(circle, transparent 90%, #000 91%, #000 97%, transparent 98%);
-              mask: radial-gradient(circle, transparent 90%, #000 91%, #000 97%, transparent 98%);
+      position: absolute; inset: 9px; border-radius: 50%; pointer-events: none;
+      background: repeating-conic-gradient(from -0.4deg, rgba(212,175,55,.85) 0deg .9deg, transparent .9deg 5deg);
+      -webkit-mask: radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);
+              mask: radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);
     }
-    .qb-ring span {
-      position:absolute; left:50%; transform:translateX(-50%);
-      font-family: "Space Mono", monospace; font-size:.85rem; font-weight:700; color: var(--gold-hi);
-    }
-    .qb-ring .n { top:1.1rem; color: var(--pale-gold); }
-    .qb-ring .s { bottom:1.1rem; }
-    .qb-ring .e { left:auto; right:1.1rem; top:50%; transform:translateY(-50%); }
-    .qb-ring .w { left:1.1rem; top:50%; transform:translateY(-50%); }
-    .qb-star {
-      position: absolute; left: 50%; top: 50%; width: 46%; height: 46%; transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-    .qb-needle { position:absolute; inset:0; transform-origin:50% 50%; transition: transform .2s ease-out; pointer-events:none; z-index:1; }
+    .qb-ring span { position: absolute; left: 50%; transform: translateX(-50%); font-family: "Space Mono", monospace; font-size: .85rem; font-weight: 700; color: var(--gold-hi); }
+    .qb-ring .n { top: 1.2rem; color: #e0785f; }
+    .qb-ring .s { bottom: 1.2rem; }
+    .qb-ring .e { left: auto; right: 1.2rem; top: 50%; transform: translateY(-50%); }
+    .qb-ring .w { left: 1.2rem; top: 50%; transform: translateY(-50%); }
+    .qb-star { position: absolute; left: 50%; top: 50%; width: 46%; height: 46%; transform: translate(-50%, -50%); pointer-events: none; }
+    .qb-needle { position: absolute; inset: 0; transform-origin: 50% 50%; transition: transform .2s ease-out; pointer-events: none; z-index: 1; }
     .qb-needle::before {
-      content:""; position:absolute; top:12%; left:50%; width:0; height:0; transform:translateX(-50%);
-      border-left:10px solid transparent; border-right:10px solid transparent; border-bottom:22px solid var(--gold-hi);
+      content: ""; position: absolute; top: 12%; left: 50%; width: 0; height: 0; transform: translateX(-50%);
+      border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 22px solid var(--gold-hi);
       filter: drop-shadow(0 0 4px rgba(242,202,80,.6));
     }
     .qb-needle::after {
-      content:""; position:absolute; top:calc(12% + 20px); bottom:50%; left:50%; width:4px; margin-left:-2px;
-      background: linear-gradient(to top, var(--gold), var(--gold-hi)); border-radius:3px;
+      content: ""; position: absolute; top: calc(12% + 20px); bottom: 50%; left: 50%; width: 4px; margin-left: -2px;
+      background: linear-gradient(to top, var(--gold), var(--gold-hi)); border-radius: 3px;
     }
     .qb-hub {
-      position:absolute; left:50%; top:50%; width:46px; height:46px; margin:-23px 0 0 -23px;
-      background:#050505; border:2px solid var(--gold-hi); border-radius:4px; z-index:2; pointer-events:none;
+      position: absolute; left: 50%; top: 50%; width: 42px; height: 42px; margin: -21px 0 0 -21px;
+      background: #050505; border: 2px solid var(--gold-hi); border-radius: 4px; z-index: 2; pointer-events: none;
       box-shadow: 0 0 14px rgba(242,202,80,.35);
     }
-    .qb-hub::before { content:""; position:absolute; left:-2px; right:-2px; top:8px; height:7px; background: var(--gold-hi); }
+    .qb-hub::before { content: ""; position: absolute; left: -2px; right: -2px; top: 7px; height: 6px; background: var(--gold-hi); }
 
-    .qb-tele {
-      display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:.5rem; margin-top:1.4rem;
-    }
-    .qb-tele div { background: var(--em-2); border:1px solid rgba(212,175,55,.18); border-radius:.6rem; padding:.55rem .6rem; }
-    .qb-tele span { display:block; font-family:"Space Mono", monospace; font-size:.66rem; letter-spacing:.1em; color: var(--ink-mute); text-transform:uppercase; }
-    .qb-tele strong { display:block; font-family:"Space Mono", monospace; font-size:.85rem; color: var(--gold-hi); font-weight:700; margin-top:.2rem; }
-
-    .qb-big {
-      font-family: "Playfair Display", Georgia, serif; font-size: clamp(2.6rem, 7vw, 3.6rem); font-weight:600;
-      letter-spacing:-.01em; margin:1.2rem 0 .2rem; text-align:center; color: var(--gold-hi);
-    }
-    .qb-sub { text-align:center; color: var(--ink); margin:0; }
-    .qb-turn { text-align:center; font-family:"Space Mono", monospace; font-size:.85rem; color: var(--ink-mute); min-height:1.3em; margin:.5rem 0 0; }
-    .qb-dial.locked ~ .qb-turn, .qb-turn.ok { color: var(--lock); }
-    .qb-btns { display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-top:1.25rem; }
+    .qb-big { font-family: "Playfair Display", Georgia, serif; font-size: clamp(2.5rem, 7vw, 3.4rem); font-weight: 600; letter-spacing: -.01em; margin: 1.2rem 0 .1rem; text-align: center; color: var(--gold-hi); line-height: 1.1; }
+    .qb-sub { text-align: center; color: var(--ink); margin: 0; }
+    .qb-turn { text-align: center; font-family: "Space Mono", monospace; font-size: .82rem; color: var(--ink-mute); min-height: 1.3em; margin: .5rem 0 0; }
+    .qb-turn.ok { color: var(--lock); }
+    .qb-btns { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; }
     .qb-btn {
-      font: inherit; font-weight:700; font-size:.98rem; padding:.7rem 1.25rem; border-radius:999px; cursor:pointer;
-      border:1px solid var(--gold-hi); background: linear-gradient(135deg, #f2ca50 0%, #aa820a 100%); color:#2a1f00;
+      font: inherit; font-weight: 700; font-size: .95rem; padding: .7rem 1.25rem; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--gold-hi); background: linear-gradient(135deg, #f2ca50 0%, #aa820a 100%); color: #2a1f00;
       box-shadow: 0 0 22px rgba(242,202,80,.25);
     }
     .qb-btn:hover { filter: brightness(1.06); }
-    .qb-btn.ghost { background: transparent; color: var(--gold-hi); border:1px solid rgba(212,175,55,.6); box-shadow:none; }
+    .qb-btn.ghost { background: transparent; color: var(--gold-hi); border: 1px solid rgba(212,175,55,.6); box-shadow: none; }
     .qb-btn.ghost:hover { background: rgba(212,175,55,.12); }
-    .qb-btn:disabled { opacity:.45; cursor:not-allowed; }
-    .qb-manual { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1rem; }
-    .qb-manual label { display:block; font-family: "Space Mono", monospace; font-size:.75rem; color: var(--gold); margin-bottom:.35rem; letter-spacing:.06em; }
+    .qb-btn:disabled { opacity: .45; cursor: not-allowed; }
+    .qb-msg { min-height: 1.4em; text-align: center; color: var(--gold-hi); font-size: .92rem; margin: .8rem 0 0; }
+
+    .qb-manual { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
+    @media (max-width: 30rem) { .qb-manual { grid-template-columns: minmax(0, 1fr); } }
+    .qb-manual label { display: block; font-family: "Space Mono", monospace; font-size: .72rem; color: var(--gold); margin-bottom: .35rem; letter-spacing: .06em; }
     .qb-manual input {
-      width:100%; font-family:"Space Mono", monospace; font-size:.95rem; padding:.6rem .7rem;
-      border:1px solid rgba(212,175,55,.4); border-radius:.6rem; background: var(--em-0); color: var(--pale-gold);
+      width: 100%; min-width: 0; font-family: "Space Mono", monospace; font-size: .95rem; padding: .6rem .7rem;
+      border: 1px solid rgba(212,175,55,.4); border-radius: .6rem; background: var(--em-0); color: var(--pale-gold);
     }
     .qb-manual input::placeholder { color: #5f6a62; }
     .qb-manual input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
-    .qb-msg { min-height:1.4em; text-align:center; color: var(--gold-hi); font-size:.95rem; margin:.9rem 0 0; }
-    .qb-note { font-size:.9rem; color: var(--ink-mute); margin-top:.8rem; }
-    .qb-divider { display:flex; align-items:center; justify-content:center; gap:.8rem; margin: 2.5rem 0 0; }
-    .qb-divider::before, .qb-divider::after { content:""; height:1px; width:min(120px, 25vw); background: linear-gradient(to right, transparent, var(--gold)); }
-    .qb-divider::after { background: linear-gradient(to left, transparent, var(--gold)); }
-    .qb-divider svg { width: 26px; height: 26px; }
+    .qb-manual .qb-btns { margin-top: .9rem; }
+    .qb-note { font-size: .88rem; color: var(--ink-mute); margin: .8rem 0 0; }
 
-    .qb-prayer { margin-top: 2rem; }
-    .qb-prayer-top { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; align-items:flex-end; }
-    .qb-next-label { font-family:"Space Mono", monospace; font-size:.75rem; letter-spacing:.1em; color: var(--ink-mute); text-transform:uppercase; margin:0; }
-    .qb-next-time { font-family:"Playfair Display", Georgia, serif; font-size:clamp(1.9rem,5vw,2.5rem); color: var(--gold-hi); margin:.25rem 0 0; font-weight:600; line-height:1.2; }
-    .qb-prayer-ctrl label { display:block; font-family:"Space Mono", monospace; font-size:.72rem; color: var(--gold); letter-spacing:.06em; margin-bottom:.3rem; }
-    .qb-prayer-ctrl select { font: inherit; font-size:.9rem; padding:.5rem .6rem; background: var(--em-0); color: var(--pale-gold); border:1px solid rgba(212,175,55,.4); border-radius:.6rem; }
-    .qb-times { list-style:none; margin:1.1rem 0 0; padding:0; display:grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap:.5rem; }
-    .qb-time { display:flex; justify-content:space-between; align-items:center; gap:.5rem; background: var(--em-2); border:1px solid rgba(212,175,55,.18); border-radius:.7rem; padding:.7rem .8rem; }
-    .qb-time .nm { font-family:"Playfair Display", Georgia, serif; font-size:1.05rem; color: var(--pale-gold); }
-    .qb-time .tm { font-family:"Space Mono", monospace; font-size:.9rem; color: var(--ink); white-space:nowrap; }
-    .qb-time.next { border-color: var(--gold-hi); box-shadow: 0 0 18px rgba(242,202,80,.25); }
+    .qb-tele { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: .5rem; }
+    .qb-tele div { background: var(--em-2); border: 1px solid rgba(212,175,55,.2); border-radius: .6rem; padding: .6rem .65rem; min-width: 0; }
+    .qb-tele span { display: block; font-family: "Space Mono", monospace; font-size: .64rem; letter-spacing: .1em; color: var(--ink-mute); text-transform: uppercase; }
+    .qb-tele strong { display: block; font-family: "Space Mono", monospace; font-size: .85rem; color: var(--gold-hi); font-weight: 700; margin-top: .25rem; overflow-wrap: anywhere; }
+    .qb-tele-note { font-size: .86rem; color: var(--ink-mute); margin: .9rem 0 0; }
+
+    /* ---------- Prayer times ---------- */
+    .qb-prayer { margin-top: 1.75rem; padding: 1.6rem 1.5rem 1.5rem; }
+    .qb-prayer-top { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+    .qb-next-label { font-family: "Space Mono", monospace; font-size: .74rem; letter-spacing: .1em; color: var(--ink-mute); text-transform: uppercase; margin: 0; }
+    .qb-next-time { font-family: "Playfair Display", Georgia, serif; font-size: clamp(2rem, 5vw, 2.6rem); color: var(--gold-hi); margin: .2rem 0 0; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
+    .qb-prayer-ctrl label { display: block; font-family: "Space Mono", monospace; font-size: .72rem; color: var(--gold); letter-spacing: .06em; margin-bottom: .3rem; }
+    .qb-prayer-ctrl select { font: inherit; font-size: .9rem; padding: .5rem .6rem; background: var(--em-0); color: var(--pale-gold); border: 1px solid rgba(212,175,55,.4); border-radius: .6rem; max-width: 100%; }
+    .qb-times { list-style: none; margin: 1.3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: .6rem; }
+    .qb-time {
+      display: flex; flex-direction: column; gap: .25rem; background: var(--em-2); border: 1px solid rgba(212,175,55,.2);
+      border-radius: 1rem 1rem .5rem .5rem; padding: .85rem .9rem; position: relative; min-width: 0;
+    }
+    .qb-time::before { content: ""; position: absolute; left: 50%; top: -1px; transform: translateX(-50%); width: 36%; height: 6px; border: 1px solid rgba(212,175,55,.2); border-bottom: 0; border-radius: 6px 6px 0 0; }
+    .qb-time .nm { font-family: "Playfair Display", Georgia, serif; font-size: 1.08rem; color: var(--pale-gold); }
+    .qb-time .tm { font-family: "Space Mono", monospace; font-size: .92rem; color: var(--ink); white-space: nowrap; }
+    .qb-time.next { border-color: var(--gold-hi); box-shadow: 0 0 20px rgba(242,202,80,.25); background: #173a2e; }
     .qb-time.next .nm, .qb-time.next .tm { color: var(--gold-hi); }
-    .qb-time.sunrise .nm { color: var(--ink-mute); font-size:.95rem; }
-    .qb-prayer-empty { color: var(--ink-mute); text-align:center; margin: 1rem 0 0; }
+    .qb-time.sunrise .nm { color: var(--ink-mute); font-size: .98rem; }
+    .qb-time.passed .tm { color: var(--ink-mute); }
+    .qb-prayer-empty { color: var(--ink-mute); text-align: center; margin: 1rem 0 0; list-style: none; grid-column: 1 / -1; }
+    .qb-prayer .qb-btns { margin-top: 1.2rem; }
+
+    /* ---------- Dividers ---------- */
+    .qb-strip { height: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16' viewBox='0 0 24 16'%3E%3Cpath d='M12 1 L15 8 L12 15 L9 8 Z M0 8 L3 8 M21 8 L24 8' fill='none' stroke='%2523d4af37' stroke-width='1.1'/%3E%3Ccircle cx='12' cy='8' r='1.6' fill='%2523d4af37'/%3E%3C/svg%3E") repeat-x 50% 50%; background-size: 24px 16px; opacity: .8; margin: 2.2rem auto 0; max-width: min(640px, 90%); }
+
+    /* Info sections below keep the site's own styling. */
+    .qb-info { padding-top: 2.5rem; }
+
+    /* Info sections in the same dark theme */
+    .qb-info { background: var(--em-0); color: var(--ink); padding: 2.6rem 0 3.2rem; position: relative; }
+    .qb-info p, .qb-info summary, .qb-info li { color: var(--ink); }
+    .qb-info .eyebrow { color: var(--gold); }
+    .qb-info h2 { font-family: "Playfair Display", Georgia, serif; color: var(--pale-gold); font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 600; letter-spacing: -.01em; margin: .3rem 0 1rem; }
+    .qb-info h2 .dot, .qb-info h3 .dot { color: var(--gold-hi); }
+    .qb-info h3 { font-family: "Playfair Display", Georgia, serif; color: var(--pale-gold); font-size: 1.5rem; font-weight: 600; margin: 0 0 .6rem; }
+    .qb-info .wrap > p { max-width: 42rem; }
+    .qb-info details { border-top: 1px solid rgba(212,175,55,.25); padding: .9rem 0; }
+    .qb-info details:last-of-type { border-bottom: 1px solid rgba(212,175,55,.25); }
+    .qb-info summary { cursor: pointer; font-weight: 600; color: var(--pale-gold); }
+    .qb-info details p { margin: .6rem 0 0; color: var(--ink); }
+    .qb-info a { color: var(--gold-hi); }
+    .qb-info .wrap > section, .qb-info .wrap > div { margin-bottom: 2rem; }
   </style>
 </head>
 <body>
@@ -221,36 +210,28 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
   <main id="main">
-    <section class="hero page-hero qb-hero">
+    <section class="qb-hero">
       <div class="wrap">
-        <div class="crumb" style="font-size:.9rem;margin-bottom:1rem"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / Qibla Finder</div>
-        <p class="qb-arabic" lang="ar" dir="rtl">اتجاه القبلة</p>
+        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / Qibla Finder</div>
+        <p class="qb-bism" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        <p class="qb-arabic" lang="ar">اتجاه القبلة</p>
         <h1>Qibla Finder<span class="dot">.</span></h1>
         <p class="lead">Find the direction of the Kaaba from where you are. Your location is used on this device only and is not sent to us.</p>
       </div>
+      <div class="qb-scallops" aria-hidden="true"></div>
     </section>
+
     <section class="qb-stage">
       <div class="wrap">
-        <div class="qb-wrap">
-          <div class="qb-panel">
+        <div class="qb-grid">
+          <div class="qb-arch">
             <span class="qb-tag">Live compass</span>
             <div class="qb-dial" id="qb-dial" aria-label="Compass dial">
               <div class="qb-ring" id="qb-ring">
                 <div class="qb-ticks"></div>
                 <span class="n">N</span><span class="e">E</span><span class="s">S</span><span class="w">W</span>
               </div>
-              <svg class="qb-star" viewBox="0 0 100 100" aria-hidden="true">
-                <defs>
-                  <linearGradient id="qbGold" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#f2ca50"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#aa820a"/>
-                  </linearGradient>
-                </defs>
-                <g fill="none" stroke="url(#qbGold)" stroke-width="1.1" opacity=".8">
-                  <polygon points="50,6 61,39 94,50 61,61 50,94 39,61 6,50 39,39"/>
-                  <polygon points="50,6 61,39 94,50 61,61 50,94 39,61 6,50 39,39" transform="rotate(45 50 50)" stroke-opacity=".55"/>
-                  <circle cx="50" cy="50" r="22"/>
-                </g>
-              </svg>
+              <svg class="qb-star" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="qbGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2ca50"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#aa820a"/></linearGradient></defs><g fill="none" stroke="url(#qbGold)" stroke-width="1.2"><polygon points="50.0,4.0 58.4,29.7 82.5,17.5 70.3,41.6 96.0,50.0 70.3,58.4 82.5,82.5 58.4,70.3 50.0,96.0 41.6,70.3 17.5,82.5 29.7,58.4 4.0,50.0 29.7,41.6 17.5,17.5 41.6,29.7"/><polygon points="50.0,4.0 58.4,29.7 82.5,17.5 70.3,41.6 96.0,50.0 70.3,58.4 82.5,82.5 58.4,70.3 50.0,96.0 41.6,70.3 17.5,82.5 29.7,58.4 4.0,50.0 29.7,41.6 17.5,17.5 41.6,29.7" transform="rotate(22.5 50 50)" stroke-opacity=".5"/><circle cx="50" cy="50" r="24" stroke-opacity=".7"/><circle cx="50" cy="50" r="13" stroke-opacity=".7"/></g></svg>
               <div class="qb-needle" id="qb-needle" title="Qibla direction"></div>
               <div class="qb-hub" aria-hidden="true"></div>
             </div>
@@ -263,51 +244,57 @@
               <button class="qb-btn ghost" id="qb-compass">Turn on compass</button>
             </div>
             <p class="qb-msg" id="qb-msg" role="status"></p>
-            <div class="qb-tele" aria-label="Telemetry">
-              <div><span>Bearing</span><strong id="qb-t-bearing">–</strong></div>
-              <div><span>Makkah target</span><strong>21.4225°N 39.8262°E</strong></div>
-              <div><span>Range</span><strong id="qb-t-range">–</strong></div>
-            </div>
           </div>
-          <div class="qb-panel">
-            <span class="qb-tag">Manual position</span>
-            <p class="qb-sub" style="text-align:left;margin:0 0 .6rem">Or type your position. Use decimals, for example 34.00 and 71.58 for Peshawar.</p>
-            <div class="qb-manual">
-              <div><label for="qb-lat">LATITUDE</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0"></div>
-              <div><label for="qb-lon">LONGITUDE</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.6"></div>
+
+          <div class="qb-side">
+            <div class="qb-panel">
+              <span class="qb-tag">Manual position</span>
+              <p class="qb-sub" style="text-align:left;margin:0">Or type your position. Use decimals, for example 34.00 and 71.58 for Peshawar.</p>
+              <div class="qb-manual">
+                <div><label for="qb-lat">LATITUDE</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0"></div>
+                <div><label for="qb-lon">LONGITUDE</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.6"></div>
+              </div>
+              <div class="qb-btns"><button class="qb-btn ghost" id="qb-calc">Calculate</button></div>
+              <p class="qb-note">Without the compass, the number is the direction from true north. Turn yourself until the arrow on the dial points to the top of the screen, or use the number with a compass app.</p>
             </div>
-            <div class="qb-btns"><button class="qb-btn ghost" id="qb-calc">Calculate</button></div>
-            <p class="qb-note">Without the compass, the number is the direction from true north. Turn yourself until the arrow on the dial points to the top of the screen, or use the number with a compass app.</p>
-            <p class="qb-note">Phone compasses can be off near metal or magnets. Move the phone in a figure of eight to calibrate it. The dial shows "Aligned" when the phone is within 3° of the Qibla.</p>
+            <div class="qb-panel">
+              <span class="qb-tag">Telemetry</span>
+              <div class="qb-tele">
+                <div><span>Bearing</span><strong id="qb-t-bearing">–</strong></div>
+                <div><span>Makkah target</span><strong>21.4225°N 39.8262°E</strong></div>
+                <div><span>Range</span><strong id="qb-t-range">–</strong></div>
+              </div>
+              <p class="qb-tele-note">Phone compasses can be off near metal or magnets. Move the phone in a figure of eight to calibrate it. The dial shows "Aligned" when the phone is within 3° of the Qibla.</p>
+            </div>
           </div>
         </div>
-          <div class="qb-panel qb-prayer">
-            <span class="qb-tag">Prayer times</span>
-            <div class="qb-prayer-top">
-              <div>
-                <p class="qb-next-label" id="qb-next-label">Set your location to see prayer times</p>
-                <p class="qb-next-time" id="qb-next-time">–</p>
-              </div>
-              <div class="qb-prayer-ctrl">
-                <label for="qb-method">METHOD</label>
-                <select id="qb-method">
-                  <option value="karachi_hanafi">Karachi (Hanafi Asr)</option>
-                  <option value="karachi_shafi">Karachi (Shafi'i Asr)</option>
-                  <option value="mwl">Muslim World League</option>
-                  <option value="isna">ISNA (North America)</option>
-                </select>
-              </div>
+
+        <div class="qb-panel qb-prayer">
+          <span class="qb-tag">Prayer times</span>
+          <div class="qb-prayer-top">
+            <div>
+              <p class="qb-next-label" id="qb-next-label">Set your location to see prayer times</p>
+              <p class="qb-next-time" id="qb-next-time">–</p>
             </div>
-            <ul class="qb-times" id="qb-times" aria-label="Prayer times for today"></ul>
-            <div class="qb-btns"><button class="qb-btn ghost" id="qb-adhan">Preview adhan</button></div>
-            <p class="qb-note">Times are worked out in your browser from your location and the method you choose, and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</p>
+            <div class="qb-prayer-ctrl">
+              <label for="qb-method">METHOD</label>
+              <select id="qb-method">
+                <option value="karachi_hanafi">Karachi (Hanafi Asr)</option>
+                <option value="karachi_shafi">Karachi (Shafi'i Asr)</option>
+                <option value="mwl">Muslim World League</option>
+                <option value="isna">ISNA (North America)</option>
+              </select>
+            </div>
           </div>
-        <div class="qb-divider" aria-hidden="true">
-          <svg viewBox="0 0 26 26"><path d="M13 1 L16 9 L24 13 L16 17 L13 25 L10 17 L2 13 L10 9 Z" fill="none" stroke="#d4af37" stroke-width="1.5"/></svg>
+          <ul class="qb-times" id="qb-times" aria-label="Prayer times for today"></ul>
+          <div class="qb-btns"><button class="qb-btn ghost" id="qb-adhan">Preview adhan</button></div>
+          <p class="qb-note">Times are worked out in your browser from your location and the method you choose, and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</p>
         </div>
       </div>
+      <div class="qb-strip" aria-hidden="true"></div>
     </section>
-    <section class="section tight">
+
+    <section class="section tight qb-info">
       <div class="wrap">
         <p class="eyebrow">// about/</p>
         <h2>About this tool<span class="dot">.</span></h2>
@@ -315,7 +302,7 @@
         <p>Your location is read by your browser only when you press the button, and it is used only to calculate the direction. It is not stored, uploaded or shared. The tool does not use a map service.</p>
       </div>
     </section>
-    <section class="section tight">
+    <section class="section tight qb-info">
       <div class="wrap">
         <p class="eyebrow">// faq/</p>
         <h2>Questions<span class="dot">.</span></h2>
@@ -333,7 +320,7 @@
         </details>
       </div>
     </section>
-    <section class="section tight">
+    <section class="section tight qb-info">
       <div class="wrap">
         <h3>Your privacy</h3>
         <p>Your location and compass reading stay on your device. We do not store them or send them to our servers. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
