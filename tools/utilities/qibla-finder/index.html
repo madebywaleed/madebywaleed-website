@@ -266,7 +266,7 @@
         <p class="q-label">// about/</p>
         <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">About this tool.</h2>
         <p>The Qibla is the direction of the Kaaba in Makkah. This tool works out the great-circle bearing from your position, and shows the bearing and distance to Masjid Al-Aqsa and the angle between the two. The sun's position and prayer times are worked out from your position and the date.</p>
-        <p>Your location is read by your browser only when you press the button, and it is used only for these calculations. It is not stored, uploaded or shared. The tool does not use a map service.</p>
+        <p>Your location is read by your browser only when you press the button. The page saves it in your browser on this device, so it can find you again next time. It is never uploaded or shared. The tool does not use a map service.</p>
         <p class="q-label" style="margin-top:2rem">// faq/</p>
         <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">Questions.</h2>
         <details>
@@ -283,7 +283,7 @@
         </details>
         <p class="q-label" style="margin-top:2rem">// privacy/</p>
         <h3 class="q-serif" style="font-size:1.5rem;color:var(--emerald)">Your privacy</h3>
-        <p>Your location and compass reading stay on your device. We do not store them or send them to our servers. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+        <p>Your location is saved only in your browser on this device, so the page can remember it. We do not store it or send it to our servers. Compass readings are used live and are not saved. To delete the saved location, clear this site's data in your browser settings. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
       </div>
     </section>
   </main>
@@ -574,6 +574,7 @@
 
   function setObserver(la, lo){
     observer = [la, lo];
+    try { localStorage.setItem('qb-observer', JSON.stringify([la, lo])); } catch(e){}
     qibla = bearingTo(la, lo, KAABA[0], KAABA[1]);
     aqsa = bearingTo(la, lo, AQSA[0], AQSA[1]);
     var kmK = distanceKm(la, lo, KAABA[0], KAABA[1]), kmA = distanceKm(la, lo, AQSA[0], AQSA[1]);
@@ -622,6 +623,10 @@
     });
   });
 
+  try {
+    var saved = JSON.parse(localStorage.getItem('qb-observer'));
+    if (saved && isFinite(saved[0]) && isFinite(saved[1])) setObserver(saved[0], saved[1]);
+  } catch(e){}
   drawDial();
   setInterval(tick, 1000);
   tick();
