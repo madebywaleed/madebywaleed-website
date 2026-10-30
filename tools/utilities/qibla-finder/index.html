@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Qibla Finder – Direction to the Kaaba | Made by Waleed</title>
   <meta name="description" content="Find the direction of the Qibla from where you are, with the distance to the Kaaba. Uses your location on this device only.">
@@ -18,7 +18,7 @@
   <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/dev.css">
   <script src="/script.js" defer></script>
@@ -34,28 +34,95 @@
   </script>
   <link rel="stylesheet" href="/styles.css">
   <style>
+    :root {
+      --isl-green: #0e4d3c;
+      --isl-green-deep: #083528;
+      --isl-gold: #b8902f;
+      --isl-gold-soft: #e3c77a;
+      --isl-cream: #fbf7ec;
+    }
+    .site-header { position: relative; background: var(--isl-cream); border-bottom: 1px solid var(--isl-gold); }
+    .qb-hero {
+      background: var(--isl-green);
+      color: #f6efd9;
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 2.5rem;
+    }
+    .qb-hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23e3c77a' stroke-opacity='.13' stroke-width='1'%3E%3Cpath d='M60 10 L77 43 L110 60 L77 77 L60 110 L43 77 L10 60 L43 43 Z'/%3E%3Ccircle cx='60' cy='60' r='26'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      pointer-events: none;
+    }
+    .qb-hero .wrap { position: relative; }
+    .qb-hero h1, .qb-hero .lead, .qb-hero .crumb, .qb-hero .crumb a { color: #f6efd9; }
+    .qb-hero .crumb a { text-decoration-color: var(--isl-gold-soft); }
+    .qb-hero h1 .dot { color: var(--isl-gold-soft); }
     .qb-hero h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); }
-    .qb-wrap { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap:2rem; align-items:start; margin-top:1.5rem; }
+    .qb-arabic { font-family: "Amiri", serif; font-size: clamp(1.8rem, 5vw, 2.4rem); color: var(--isl-gold-soft); margin: 0 0 .2rem; line-height: 1.4; }
+    .qb-wrap { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap:2rem; align-items:start; margin-top:-1.5rem; }
     @media (max-width: 46rem) { .qb-wrap { grid-template-columns: 1fr; } }
-    .qb-panel { background:#fff; border:1px solid var(--line); border-radius:16px; padding:1.25rem; }
-    .qb-dial { position:relative; width:min(300px,80vw); aspect-ratio:1; margin:0 auto; border-radius:50%; border:2px solid var(--black,#0a0a0a); background:#fff; }
-    .qb-ring { position:absolute; inset:0; transition: transform .25s linear; }
-    .qb-ring span { position:absolute; left:50%; transform:translateX(-50%); font-family: var(--mono,"JetBrains Mono",monospace); font-size:.85rem; font-weight:600; }
-    .qb-ring .n { top:.4rem; } .qb-ring .s { bottom:.4rem; } .qb-ring .e { left:auto; right:.5rem; top:50%; transform:translateY(-50%); } .qb-ring .w { left:.5rem; top:50%; transform:translateY(-50%); }
-    .qb-needle { position:absolute; inset:0; transform-origin:50% 50%; transition: transform .25s linear; pointer-events:none; }
-    .qb-needle::before { content:""; position:absolute; top:9%; left:50%; width:0; height:0; transform:translateX(-50%); border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:24px solid var(--black,#0a0a0a); }
-    .qb-needle::after { content:""; position:absolute; top:calc(9% + 22px); bottom:50%; left:50%; width:5px; margin-left:-2.5px; background: var(--black,#0a0a0a); border-radius:3px; }
-    .qb-big { font-family: var(--display,"Bricolage Grotesque",sans-serif); font-size:clamp(2.4rem,7vw,3.4rem); font-weight:700; letter-spacing:-.03em; margin:1rem 0 .2rem; text-align:center; }
+    .qb-panel {
+      background: var(--isl-cream);
+      border: 1px solid var(--isl-gold);
+      border-radius: 18px;
+      padding: 1.4rem;
+      box-shadow: 0 1px 0 rgba(184,144,47,.25), 0 12px 30px -18px rgba(14,77,60,.35);
+    }
+    .qb-dial {
+      position: relative;
+      width: min(300px, 80vw);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #ffffff 0 58%, #f3ecd6 100%);
+      border: 3px solid var(--isl-green);
+      box-shadow: 0 0 0 6px var(--isl-cream), 0 0 0 8px var(--isl-gold);
+    }
+    .qb-dial::before {
+      content: ""; position: absolute; inset: 14px; border-radius: 50%;
+      border: 1px dashed var(--isl-gold); opacity: .7; pointer-events: none;
+    }
+    .qb-ring { position:absolute; inset:0; transition: transform .2s ease-out; }
+    .qb-ring span { position:absolute; left:50%; transform:translateX(-50%); font-family: var(--mono,"JetBrains Mono",monospace); font-size:.85rem; font-weight:700; color: var(--isl-green); }
+    .qb-ring .n { top:.5rem; color: #a3372b; }
+    .qb-ring .s { bottom:.5rem; }
+    .qb-ring .e { left:auto; right:.6rem; top:50%; transform:translateY(-50%); }
+    .qb-ring .w { left:.6rem; top:50%; transform:translateY(-50%); }
+    .qb-needle { position:absolute; inset:0; transform-origin:50% 50%; transition: transform .2s ease-out; pointer-events:none; }
+    .qb-needle::before {
+      content:""; position:absolute; top:9%; left:50%; width:0; height:0; transform:translateX(-50%);
+      border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:24px solid var(--isl-gold);
+    }
+    .qb-needle::after {
+      content:""; position:absolute; top:calc(9% + 22px); bottom:50%; left:50%; width:6px; margin-left:-3px;
+      background: var(--isl-green); border-radius:3px;
+    }
+    .qb-hub {
+      position:absolute; left:50%; top:50%; width:44px; height:44px; margin:-22px 0 0 -22px;
+      background:#111; border:2px solid var(--isl-gold); border-radius:4px; z-index:2; pointer-events:none;
+    }
+    .qb-hub::before { content:""; position:absolute; left:-2px; right:-2px; top:7px; height:7px; background: var(--isl-gold); }
+    .qb-big { font-family: var(--display,"Bricolage Grotesque",sans-serif); font-size:clamp(2.4rem,7vw,3.4rem); font-weight:700; letter-spacing:-.03em; margin:1.2rem 0 .2rem; text-align:center; color: var(--isl-green-deep); }
     .qb-sub { text-align:center; color: var(--soft,#55554f); margin:0; }
     .qb-btns { display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-top:1.25rem; }
-    .qb-btn { font: inherit; font-weight:600; font-size:1rem; padding:.7rem 1.2rem; border-radius:999px; border:1px solid var(--black,#0a0a0a); background:var(--black,#0a0a0a); color:#fff; cursor:pointer; }
-    .qb-btn.ghost { background:#fff; color:var(--black,#0a0a0a); }
+    .qb-btn { font: inherit; font-weight:600; font-size:1rem; padding:.7rem 1.2rem; border-radius:999px; border:1px solid var(--isl-green); background:var(--isl-green); color:#fff; cursor:pointer; }
+    .qb-btn:hover { background: var(--isl-green-deep); }
+    .qb-btn.ghost { background:transparent; color:var(--isl-green); }
+    .qb-btn.ghost:hover { background: #fff; }
     .qb-btn:disabled { opacity:.4; cursor:not-allowed; }
     .qb-manual { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1rem; }
-    .qb-manual label { display:block; font-family: var(--mono,"JetBrains Mono",monospace); font-size:.8rem; color: var(--soft,#55554f); margin-bottom:.3rem; }
-    .qb-manual input { width:100%; font:inherit; font-size:1rem; padding:.6rem .7rem; border:1px solid var(--line); border-radius:10px; background:#fff; }
-    .qb-msg { min-height:1.4em; text-align:center; color: var(--soft,#55554f); font-size:.95rem; margin:.8rem 0 0; }
+    .qb-manual label { display:block; font-family: var(--mono,"JetBrains Mono",monospace); font-size:.8rem; color: var(--isl-green); margin-bottom:.3rem; }
+    .qb-manual input { width:100%; font:inherit; font-size:1rem; padding:.6rem .7rem; border:1px solid var(--isl-gold); border-radius:10px; background:#fff; }
+    .qb-manual input:focus { outline: 2px solid var(--isl-gold-soft); outline-offset: 1px; }
+    .qb-msg { min-height:1.4em; text-align:center; color: var(--isl-green); font-size:.95rem; margin:.8rem 0 0; }
     .qb-note { font-size:.9rem; color: var(--soft,#55554f); margin-top:.8rem; }
+    .qb-divider { display:flex; align-items:center; justify-content:center; gap:.8rem; margin: 2.5rem 0 0; }
+    .qb-divider::before, .qb-divider::after { content:""; height:1px; width:min(120px, 25vw); background: var(--isl-gold); }
+    .qb-divider svg { width: 26px; height: 26px; }
   </style>
 </head>
 <body>
@@ -71,6 +138,7 @@
     <section class="hero page-hero qb-hero">
       <div class="wrap">
         <div class="crumb" style="font-size:.9rem;margin-bottom:1rem"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / Qibla Finder</div>
+        <p class="qb-arabic" lang="ar" dir="rtl">اتجاه القبلة</p>
         <h1>Qibla Finder<span class="dot">.</span></h1>
         <p class="lead">Find the direction of the Kaaba from where you are. Your location is used on this device only and is not sent to us.</p>
       </div>
@@ -84,6 +152,7 @@
                 <span class="n">N</span><span class="e">E</span><span class="s">S</span><span class="w">W</span>
               </div>
               <div class="qb-needle" id="qb-needle" title="Qibla direction"></div>
+              <div class="qb-hub" aria-hidden="true"></div>
             </div>
             <p class="qb-big" id="qb-deg">– °</p>
             <p class="qb-sub" id="qb-dir">Press "Use my location" to start.</p>
@@ -104,6 +173,9 @@
             <p class="qb-note">Without the compass, the number is the direction from true north. Turn yourself until the arrow on the dial points to the top of the screen, or use the number with a compass app.</p>
             <p class="qb-note">Phone compasses can be off near metal or magnets. Move the phone in a figure of eight to calibrate it.</p>
           </div>
+        </div>
+        <div class="qb-divider" aria-hidden="true">
+          <svg viewBox="0 0 26 26"><path d="M13 1 L16 9 L24 13 L16 17 L13 25 L10 17 L2 13 L10 9 Z" fill="none" stroke="#b8902f" stroke-width="1.5"/></svg>
         </div>
       </div>
     </section>
@@ -159,7 +231,10 @@
   var $ = function (id) { return document.getElementById(id); };
   var deg = $('qb-deg'), dir = $('qb-dir'), dist = $('qb-dist'), msg = $('qb-msg');
   var ring = $('qb-ring'), needle = $('qb-needle'), compassBtn = $('qb-compass');
-  var qibla = null, heading = null;
+  var qibla = null;
+  var shown = null;            // heading currently drawn on the dial
+  var sx = 0, sy = 0, haveSmooth = false;  // smoothed heading as a unit vector
+  var gotAbsolute = false, useRelativeFallback = false;
 
   function toRad(d) { return d * Math.PI / 180; }
   function toDeg(r) { return r * 180 / Math.PI; }
@@ -191,26 +266,61 @@
     compassBtn.disabled = false;
     drawDial();
   }
+
+  // Draw the dial. The ring and needle only move when the smoothed heading
+  // changes by at least 1.5 degrees, so the compass stays steady.
   function drawDial() {
-    if (heading === null) { ring.style.transform = 'rotate(0deg)'; needle.style.transform = 'rotate(' + (qibla || 0) + 'deg)'; return; }
-    ring.style.transform = 'rotate(' + (-heading) + 'deg)';
-    needle.style.transform = 'rotate(' + ((qibla - heading + 360) % 360) + 'deg)';
+    if (shown === null) {
+      ring.style.transform = 'rotate(0deg)';
+      needle.style.transform = 'rotate(' + (qibla || 0) + 'deg)';
+      return;
+    }
+    ring.style.transform = 'rotate(' + (-shown) + 'deg)';
+    needle.style.transform = 'rotate(' + ((qibla - shown + 360) % 360) + 'deg)';
   }
+
+  // Average headings as vectors so the value never jumps across 0/360.
+  function feedHeading(h) {
+    var r = toRad(h);
+    if (!haveSmooth) { sx = Math.cos(r); sy = Math.sin(r); haveSmooth = true; }
+    else {
+      var a = 0.08; // lower = steadier, higher = quicker
+      sx = sx * (1 - a) + Math.cos(r) * a;
+      sy = sy * (1 - a) + Math.sin(r) * a;
+    }
+    var smooth = (toDeg(Math.atan2(sy, sx)) + 360) % 360;
+    if (shown === null || Math.abs(((smooth - shown + 540) % 360) - 180) >= 1.5) {
+      shown = smooth;
+      drawDial();
+    }
+  }
+
+  // Android: only the absolute event is used, because the relative one drifts.
+  function onAbsolute(e) {
+    if (typeof e.alpha !== 'number') return;
+    gotAbsolute = true;
+    feedHeading((360 - e.alpha) % 360);
+  }
+  // iOS sends the true heading as webkitCompassHeading on this event.
+  // Other browsers only use it as a fallback if no absolute event arrives.
   function onOrientation(e) {
-    var h = null;
-    if (typeof e.webkitCompassHeading === 'number') h = e.webkitCompassHeading;
-    else if (e.absolute === true && typeof e.alpha === 'number') h = (360 - e.alpha + 360) % 360;
-    else if (typeof e.alpha === 'number') h = (360 - e.alpha + 360) % 360;
-    if (h === null) return;
-    heading = h; drawDial();
+    if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
+      feedHeading(e.webkitCompassHeading);
+      return;
+    }
+    if (useRelativeFallback && !gotAbsolute && typeof e.alpha === 'number') {
+      feedHeading((360 - e.alpha) % 360);
+    }
   }
+
   function startCompass() {
     var req = window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'
       ? DeviceOrientationEvent.requestPermission() : Promise.resolve('granted');
     req.then(function (state) {
       if (state !== 'granted') { msg.textContent = 'Compass permission was not given. The direction number still works.'; return; }
-      window.addEventListener('deviceorientationabsolute', onOrientation, true);
+      window.addEventListener('deviceorientationabsolute', onAbsolute, true);
       window.addEventListener('deviceorientation', onOrientation, true);
+      setTimeout(function () { if (!gotAbsolute) useRelativeFallback = true; }, 1500);
       msg.textContent = 'Compass on. Move the phone in a figure of eight to calibrate it.';
       compassBtn.disabled = true;
     }).catch(function () { msg.textContent = 'This phone or browser cannot give a compass reading. The direction number still works.'; });
