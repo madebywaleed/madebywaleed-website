@@ -198,26 +198,7 @@
   <main id="main">
     <section class="q-top">
       <div class="q-wrap">
-        <div class="q-topcard">
-          <div class="q-title">
-            <div class="q-badge" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13 13l-4.5 2.5L11 11z"/></svg></div>
-            <div>
-              <h1>Sacred Directional Horizons<span class="q-chip">Qibla and Al-Aqsa</span></h1>
-              <p class="q-sub" id="obs-line">Set your position to see the bearings from where you are.</p>
-            </div>
-          </div>
-          <div class="q-solar">
-            <span class="q-label">Sun now</span>
-            <strong id="sun-out">–</strong>
-          </div>
-        </div>
-        <div class="q-tabs" role="navigation" aria-label="On this page" style="margin-top:1rem">
-          <a href="#compass" class="on">Compass dial</a><a href="#prayer">Prayer times</a><a href="#calibration">Calibration</a>
-          <span style="margin-left:auto;align-self:center;padding:.45rem .9rem;font-size:.9rem;color:var(--muted)" id="top-next">Next prayer: set location</span>
-        </div>
         <div class="q-observer">
-          <div><span class="q-label" style="display:block;margin-bottom:.4rem">Your position</span>
-            <button class="q-btn" id="qb-locate" type="button">Use my location</button></div>
           <div><label for="qb-lat">Latitude</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0151"></div>
           <div><label for="qb-lon">Longitude</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.5249"></div>
           <div><button class="q-btn ghost" id="qb-calc" type="button">Calculate</button></div>
@@ -227,6 +208,7 @@
     </section>
 
     <section class="q-wrap" id="compass" style="scroll-margin-top:1rem">
+      <div style="margin-bottom:1rem"><button class="q-btn" id="qb-locate" type="button">Use my location</button></div>
       <div class="q-main">
         <div class="q-card q-dialcard" id="qb-card">
           <div class="q-dialwrap" id="qb-dial" aria-label="Compass dial">
@@ -460,7 +442,8 @@
   var dial = $('qb-dial'), ring = $('qb-ring'), needK = $('qb-needle'), needA = $('qb-needle-aqsa');
   var latIn = $('qb-lat'), lonIn = $('qb-lon'), msg = $('qb-msg'), turn = $('qb-turn');
   var compassBtn = $('qb-compass'), methodSel = $('qb-method'), timesUl = $('qb-times');
-  var sunOut = $('sun-out'), topNext = $('top-next'), subEl = $('prayer-sub'), obsLine = $('obs-line');
+  var dummy = { textContent: '' };
+  var sunOut = $('sun-out') || dummy, topNext = $('top-next') || dummy, subEl = $('prayer-sub') || dummy, obsLine = $('obs-line') || dummy;
 
   var observer = null, qibla = null, aqsa = null, shown = null, sx = null, cx = null;
   var compassOn = false, sensorMode = null, lastEvt = 0, dayTimes = [], renderedKey = '';
