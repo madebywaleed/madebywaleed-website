@@ -251,8 +251,7 @@
       </div>
       <ul class="q-times" id="qb-times" aria-label="Prayer times for today"></ul>
       <div class="q-prayer-foot">
-        <span>Times are worked out in your browser and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</span>
-        <button class="q-btn ghost" id="qb-adhan" type="button">Preview adhan</button>
+        <span><b>Note:</b> Times are worked out in your browser and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</span>
       </div>
         </div>
       </div>
@@ -615,7 +614,7 @@
     }, { enableHighAccuracy:true, timeout:15000, maximumAge:300000 });
   });
   compassBtn.addEventListener('click', function(){ startCompass(false); });
-  $('qb-adhan').addEventListener('click', function(){
+  if ($('qb-adhan')) $('qb-adhan').addEventListener('click', function(){
     var a = new Audio('adhan.mp3');
     a.play().catch(function(){
       setMsg('The adhan recording is not on this site yet, so a short chime plays instead.');
