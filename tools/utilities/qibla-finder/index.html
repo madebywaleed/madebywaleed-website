@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qibla Finder – Direction to the Kaaba | Made by Waleed</title>
+  <meta name="description" content="Find the direction of the Qibla from where you are, with the distance to the Kaaba. Uses your location on this device only.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Qibla Finder | Made by Waleed">
+  <meta property="og:description" content="Find the direction of the Qibla from where you are. Your location stays on your device.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/utilities/qibla-finder/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/utilities/qibla-finder/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <script src="/script.js" defer></script>
+<link rel="stylesheet" href="/header.css">
+  <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5ZCFGLFVLV');
+  </script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .qb-hero h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); }
+    .qb-wrap { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap:2rem; align-items:start; margin-top:1.5rem; }
+    @media (max-width: 46rem) { .qb-wrap { grid-template-columns: 1fr; } }
+    .qb-panel { background:#fff; border:1px solid var(--line); border-radius:16px; padding:1.25rem; }
+    .qb-dial { position:relative; width:min(300px,80vw); aspect-ratio:1; margin:0 auto; border-radius:50%; border:2px solid var(--black,#0a0a0a); background:#fff; }
+    .qb-ring { position:absolute; inset:0; transition: transform .25s linear; }
+    .qb-ring span { position:absolute; left:50%; transform:translateX(-50%); font-family: var(--mono,"JetBrains Mono",monospace); font-size:.85rem; font-weight:600; }
+    .qb-ring .n { top:.4rem; } .qb-ring .s { bottom:.4rem; } .qb-ring .e { left:auto; right:.5rem; top:50%; transform:translateY(-50%); } .qb-ring .w { left:.5rem; top:50%; transform:translateY(-50%); }
+    .qb-needle { position:absolute; inset:0; transform-origin:50% 50%; transition: transform .25s linear; pointer-events:none; }
+    .qb-needle::before { content:""; position:absolute; top:9%; left:50%; width:0; height:0; transform:translateX(-50%); border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:24px solid var(--black,#0a0a0a); }
+    .qb-needle::after { content:""; position:absolute; top:calc(9% + 22px); bottom:50%; left:50%; width:5px; margin-left:-2.5px; background: var(--black,#0a0a0a); border-radius:3px; }
+    .qb-big { font-family: var(--display,"Bricolage Grotesque",sans-serif); font-size:clamp(2.4rem,7vw,3.4rem); font-weight:700; letter-spacing:-.03em; margin:1rem 0 .2rem; text-align:center; }
+    .qb-sub { text-align:center; color: var(--soft,#55554f); margin:0; }
+    .qb-btns { display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-top:1.25rem; }
+    .qb-btn { font: inherit; font-weight:600; font-size:1rem; padding:.7rem 1.2rem; border-radius:999px; border:1px solid var(--black,#0a0a0a); background:var(--black,#0a0a0a); color:#fff; cursor:pointer; }
+    .qb-btn.ghost { background:#fff; color:var(--black,#0a0a0a); }
+    .qb-btn:disabled { opacity:.4; cursor:not-allowed; }
+    .qb-manual { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1rem; }
+    .qb-manual label { display:block; font-family: var(--mono,"JetBrains Mono",monospace); font-size:.8rem; color: var(--soft,#55554f); margin-bottom:.3rem; }
+    .qb-manual input { width:100%; font:inherit; font-size:1rem; padding:.6rem .7rem; border:1px solid var(--line); border-radius:10px; background:#fff; }
+    .qb-msg { min-height:1.4em; text-align:center; color: var(--soft,#55554f); font-size:.95rem; margin:.8rem 0 0; }
+    .qb-note { font-size:.9rem; color: var(--soft,#55554f); margin-top:.8rem; }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <main id="main">
+    <section class="hero page-hero qb-hero">
+      <div class="wrap">
+        <div class="crumb" style="font-size:.9rem;margin-bottom:1rem"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / Qibla Finder</div>
+        <h1>Qibla Finder<span class="dot">.</span></h1>
+        <p class="lead">Find the direction of the Kaaba from where you are. Your location is used on this device only and is not sent to us.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="qb-wrap">
+          <div class="qb-panel">
+            <div class="qb-dial" id="qb-dial" aria-label="Compass dial">
+              <div class="qb-ring" id="qb-ring">
+                <span class="n">N</span><span class="e">E</span><span class="s">S</span><span class="w">W</span>
+              </div>
+              <div class="qb-needle" id="qb-needle" title="Qibla direction"></div>
+            </div>
+            <p class="qb-big" id="qb-deg">– °</p>
+            <p class="qb-sub" id="qb-dir">Press "Use my location" to start.</p>
+            <p class="qb-sub" id="qb-dist"></p>
+            <div class="qb-btns">
+              <button class="qb-btn" id="qb-locate">Use my location</button>
+              <button class="qb-btn ghost" id="qb-compass" disabled>Turn on compass</button>
+            </div>
+            <p class="qb-msg" id="qb-msg" role="status"></p>
+          </div>
+          <div class="qb-panel">
+            <p class="qb-sub" style="text-align:left;margin:0 0 .6rem">Or type your position. Use decimals, for example 34.00 and 71.58 for Peshawar.</p>
+            <div class="qb-manual">
+              <div><label for="qb-lat">Latitude</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0"></div>
+              <div><label for="qb-lon">Longitude</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.6"></div>
+            </div>
+            <div class="qb-btns"><button class="qb-btn ghost" id="qb-calc">Calculate</button></div>
+            <p class="qb-note">Without the compass, the number is the direction from true north. Turn yourself until the arrow on the dial points to the top of the screen, or use the number with a compass app.</p>
+            <p class="qb-note">Phone compasses can be off near metal or magnets. Move the phone in a figure of eight to calibrate it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <p class="eyebrow">// about/</p>
+        <h2>About this tool<span class="dot">.</span></h2>
+        <p>The Qibla is the direction of the Kaaba in Makkah. This tool works out the direction from your position using the great-circle bearing, and shows the distance to the Kaaba.</p>
+        <p>Your location is read by your browser only when you press the button, and it is used only to calculate the direction. It is not stored, uploaded or shared. The tool does not use a map service.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <p class="eyebrow">// faq/</p>
+        <h2>Questions<span class="dot">.</span></h2>
+        <details>
+          <summary>Why does it ask for my location?</summary>
+          <p>To work out the Qibla from where you are. Without your location, no direction can be calculated. If you prefer not to share it, type your latitude and longitude instead.</p>
+        </details>
+        <details>
+          <summary>Is the direction exact?</summary>
+          <p>The calculation is exact for your position. The compass depends on your phone's sensors, so it can be a few degrees off. Use a dedicated compass for the final check, and ask a knowledgeable person if you need a ruling for a particular place.</p>
+        </details>
+        <details>
+          <summary>Does it work on iPhone?</summary>
+          <p>Yes. On iPhone, the compass needs your permission, which you give when you press "Turn on compass". Without it, the direction and distance still work.</p>
+        </details>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <h3>Your privacy</h3>
+        <p>Your location and compass reading stay on your device. We do not store them or send them to our servers. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+(function () {
+  var KAABA_LAT = 21.4225, KAABA_LON = 39.8262;
+  var $ = function (id) { return document.getElementById(id); };
+  var deg = $('qb-deg'), dir = $('qb-dir'), dist = $('qb-dist'), msg = $('qb-msg');
+  var ring = $('qb-ring'), needle = $('qb-needle'), compassBtn = $('qb-compass');
+  var qibla = null, heading = null;
+
+  function toRad(d) { return d * Math.PI / 180; }
+  function toDeg(r) { return r * 180 / Math.PI; }
+  function bearingTo(lat, lon) {
+    var p1 = toRad(lat), p2 = toRad(KAABA_LAT), dl = toRad(KAABA_LON - lon);
+    var y = Math.sin(dl) * Math.cos(p2);
+    var x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(dl);
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  }
+  function distanceKm(lat, lon) {
+    var R = 6371, p1 = toRad(lat), p2 = toRad(KAABA_LAT);
+    var dp = toRad(KAABA_LAT - lat), dl = toRad(KAABA_LON - lon);
+    var a = Math.sin(dp / 2) * Math.sin(dp / 2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2);
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  function cardinal(b) {
+    var names = ['N','NE','E','SE','S','SW','W','NW'];
+    return names[Math.round(b / 45) % 8];
+  }
+  function show(lat, lon) {
+    if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+      msg.textContent = 'Please enter a latitude between -90 and 90, and a longitude between -180 and 180.'; return;
+    }
+    qibla = bearingTo(lat, lon);
+    deg.textContent = Math.round(qibla) + '°';
+    dir.textContent = 'From true north, ' + cardinal(qibla) + '. Turn until the arrow points up.';
+    dist.textContent = 'About ' + Math.round(distanceKm(lat, lon)).toLocaleString() + ' km to the Kaaba.';
+    msg.textContent = '';
+    compassBtn.disabled = false;
+    drawDial();
+  }
+  function drawDial() {
+    if (heading === null) { ring.style.transform = 'rotate(0deg)'; needle.style.transform = 'rotate(' + (qibla || 0) + 'deg)'; return; }
+    ring.style.transform = 'rotate(' + (-heading) + 'deg)';
+    needle.style.transform = 'rotate(' + ((qibla - heading + 360) % 360) + 'deg)';
+  }
+  function onOrientation(e) {
+    var h = null;
+    if (typeof e.webkitCompassHeading === 'number') h = e.webkitCompassHeading;
+    else if (e.absolute === true && typeof e.alpha === 'number') h = (360 - e.alpha + 360) % 360;
+    else if (typeof e.alpha === 'number') h = (360 - e.alpha + 360) % 360;
+    if (h === null) return;
+    heading = h; drawDial();
+  }
+  function startCompass() {
+    var req = window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'
+      ? DeviceOrientationEvent.requestPermission() : Promise.resolve('granted');
+    req.then(function (state) {
+      if (state !== 'granted') { msg.textContent = 'Compass permission was not given. The direction number still works.'; return; }
+      window.addEventListener('deviceorientationabsolute', onOrientation, true);
+      window.addEventListener('deviceorientation', onOrientation, true);
+      msg.textContent = 'Compass on. Move the phone in a figure of eight to calibrate it.';
+      compassBtn.disabled = true;
+    }).catch(function () { msg.textContent = 'This phone or browser cannot give a compass reading. The direction number still works.'; });
+  }
+
+  $('qb-locate').addEventListener('click', function () {
+    if (!navigator.geolocation) { msg.textContent = 'Your browser cannot share location. Type your position below.'; return; }
+    msg.textContent = 'Getting your location…';
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      show(pos.coords.latitude, pos.coords.longitude);
+    }, function () {
+      msg.textContent = 'Location was not shared. You can type your position below.';
+    }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 600000 });
+  });
+  $('qb-calc').addEventListener('click', function () {
+    show(parseFloat($('qb-lat').value), parseFloat($('qb-lon').value));
+  });
+  compassBtn.addEventListener('click', startCompass);
+  drawDial();
+})();
+</script>
+</body>
+</html>
