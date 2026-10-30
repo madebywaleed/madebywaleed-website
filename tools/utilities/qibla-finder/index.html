@@ -198,11 +198,6 @@
   <main id="main">
     <section class="q-top">
       <div class="q-wrap">
-        <div class="q-observer">
-          <div><label for="qb-lat">Latitude</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0151"></div>
-          <div><label for="qb-lon">Longitude</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.5249"></div>
-          <div><button class="q-btn ghost" id="qb-calc" type="button">Calculate</button></div>
-        </div>
         <p class="q-msg" id="qb-msg" role="status"></p>
       </div>
     </section>
@@ -656,7 +651,7 @@
 
   // Events
   methodSel.addEventListener('change', function(){ renderPrayers(); tick(); });
-  $('qb-calc').addEventListener('click', function(){
+  if ($('qb-calc')) $('qb-calc').addEventListener('click', function(){
     var la = parseFloat(latIn.value), lo = parseFloat(lonIn.value);
     if (isNaN(la) || isNaN(lo) || la < -90 || la > 90 || lo < -180 || lo > 180){
       setMsg('Enter a latitude between -90 and 90, and a longitude between -180 and 180.'); return;
@@ -668,7 +663,7 @@
     setMsg('Finding your position…');
     navigator.geolocation.getCurrentPosition(function(p){
       var la = p.coords.latitude, lo = p.coords.longitude;
-      latIn.value = la.toFixed(4); lonIn.value = lo.toFixed(4);
+      if (latIn) { latIn.value = la.toFixed(4); lonIn.value = lo.toFixed(4); }
       setMsg(''); setObserver(la, lo);
     }, function(err){
       setMsg(err.code === 1 ? 'Location permission was refused. You can type your position instead.' : 'Could not get your location. Type your position instead.');
