@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan and EMI Calculator | Made by Waleed</title>
+  <meta name="description" content="Work out the monthly payment (EMI) on a loan, the total interest and a yearly repayment schedule.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Loan and EMI Calculator | Made by Waleed">
+  <meta property="og:description" content="Work out the monthly payment (EMI) on a loan, the total interest and a yearly repayment schedule.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/calculators/loan-emi/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/calculators/loan-emi/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <script src="/script.js" defer></script>
+<link rel="stylesheet" href="/header.css">
+  <link rel="stylesheet" href="/tools/calculators/calculators.css">
+  <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5ZCFGLFVLV');
+  </script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <main id="main">
+    <section class="hero page-hero calc-hero">
+      <div class="wrap">
+        <div class="crumb" style="font-size:.9rem;margin-bottom:1rem"><a href="/tools/">Tools</a> / <a href="/tools/calculators/">Calculators</a> / Loan and EMI calculator</div>
+        <h1>Loan and EMI calculator<span class="dot">.</span></h1>
+        <p class="lead">Monthly payment, total interest and a yearly repayment schedule for an equal-instalment loan.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+
+        <div class="calc-grid">
+          <div class="calc-card">
+            <h3>Loan details</h3>
+            <p class="calc-sub">Enter the amount, yearly interest rate and how long you will repay.</p>
+            <div class="calc-field"><label for="l-amt">LOAN AMOUNT</label><input id="l-amt" inputmode="decimal" value="1000000"></div>
+            <div class="calc-row">
+              <div class="calc-field"><label for="l-rate">INTEREST RATE (% PER YEAR)</label><input id="l-rate" inputmode="decimal" value="12"></div>
+              <div class="calc-field"><label for="l-term">TERM</label><input id="l-term" inputmode="decimal" value="10"></div>
+            </div>
+            <div class="calc-field"><label for="l-unit">TERM IN</label>
+              <select id="l-unit"><option value="years" selected>Years</option><option value="months">Months</option></select></div>
+            <div class="calc-out"><p class="calc-big" id="l-out">–</p>
+              <ul class="calc-lines" id="l-lines"></ul></div>
+            <p class="calc-err" id="l-err"></p>
+          </div>
+
+          <div class="calc-card">
+            <h3>Repayment by year</h3>
+            <p class="calc-sub">How each year's payments split between the loan and interest.</p>
+            <div class="calc-table-wrap">
+              <table class="calc-table" id="l-table">
+                <thead><tr><th>Year</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="calc-note">The monthly payment is the standard equal-instalment (EMI) formula. Real loans may add fees, insurance or different rules for early repayment, so check your lender's figures before you decide. This calculator does not give financial advice.</p>
+
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+
+function $(id){ return document.getElementById(id); }
+function num(id){ var el=$(id); if(!el) return null; var v=parseFloat(el.value); return isFinite(v) ? v : null; }
+function f(n, dp){ return Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: dp === undefined ? 2 : dp }); }
+function on(ids, fn){ ids.forEach(function(id){ var el=$(id); if(el){ el.addEventListener('input', fn); el.addEventListener('change', fn); } }); }
+
+function setLines(id, rows){ var ul=$(id); ul.innerHTML=''; rows.forEach(function(r){ var li=document.createElement('li'); var a=document.createElement('span'); a.textContent=r[0]; var b=document.createElement('span'); b.textContent=r[1]; li.appendChild(a); li.appendChild(b); ul.appendChild(li); }); }
+function calc(){
+  var P=num('l-amt'), R=num('l-rate'), T=num('l-term'), unit=$('l-unit').value, err=$('l-err');
+  err.textContent='';
+  var tbody=$('l-table').querySelector('tbody'); tbody.innerHTML='';
+  if(P===null||R===null||T===null||T<=0||P<=0||R<0){
+    $('l-out').textContent='–'; setLines('l-lines', []);
+    if(P!==null&&P<=0) err.textContent='Enter a loan amount above 0.';
+    if(T!==null&&T<=0) err.textContent='Enter a term above 0.';
+    return;
+  }
+  var n = Math.round(unit==='years' ? T*12 : T);
+  if(n<1){ err.textContent='The term must be at least 1 month.'; return; }
+  var r = R/100/12;
+  var emi = r===0 ? P/n : P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  var total = emi*n, interest = total - P;
+  $('l-out').textContent = 'Monthly payment ' + f(emi);
+  setLines('l-lines', [['Total payable', f(total)], ['Total interest', f(interest)], ['Number of payments', f(n,0)]]);
+  // yearly schedule
+  var bal=P, yp=0, yi=0, year=1;
+  for(var m=1; m<=n; m++){
+    var intM = bal*r;
+    var prin = (m===n) ? bal : emi - intM;
+    bal -= prin; if(bal<0 || m===n) bal = Math.max(0, bal);
+    yp += prin; yi += intM;
+    if(m%12===0 || m===n){
+      var tr=document.createElement('tr');
+      [String(year), f(yp), f(yi), f(bal)].forEach(function(v, i){ var td=document.createElement('td'); td.textContent=v; tr.appendChild(td); });
+      tbody.appendChild(tr);
+      yp=0; yi=0; year++;
+    }
+  }
+}
+on(['l-amt','l-rate','l-term','l-unit'], calc);
+calc();
+
+</script>
+</body>
+</html>

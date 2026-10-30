@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BMI Calculator | Made by Waleed</title>
+  <meta name="description" content="Calculate your body mass index (BMI) and the healthy weight range for your height, in metric or imperial units.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="BMI Calculator | Made by Waleed">
+  <meta property="og:description" content="Calculate your body mass index (BMI) and the healthy weight range for your height, in metric or imperial units.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/calculators/bmi/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/calculators/bmi/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <script src="/script.js" defer></script>
+<link rel="stylesheet" href="/header.css">
+  <link rel="stylesheet" href="/tools/calculators/calculators.css">
+  <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5ZCFGLFVLV');
+  </script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <main id="main">
+    <section class="hero page-hero calc-hero">
+      <div class="wrap">
+        <div class="crumb" style="font-size:.9rem;margin-bottom:1rem"><a href="/tools/">Tools</a> / <a href="/tools/calculators/">Calculators</a> / BMI calculator</div>
+        <h1>BMI calculator<span class="dot">.</span></h1>
+        <p class="lead">Body mass index and the healthy weight range for your height. Metric or imperial. Nothing you enter is uploaded.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+
+        <div class="calc-grid">
+          <div class="calc-card">
+            <h3>Your measurements</h3>
+            <p class="calc-sub">Adults aged 18 and over.</p>
+            <div class="calc-field"><label for="b-unit">UNITS</label>
+              <select id="b-unit"><option value="metric" selected>Metric (kg, cm)</option><option value="imperial">Imperial (lb, ft and in)</option></select></div>
+            <div id="b-metric">
+              <div class="calc-row">
+                <div class="calc-field"><label for="b-cm">HEIGHT (CM)</label><input id="b-cm" inputmode="decimal" value="175"></div>
+                <div class="calc-field"><label for="b-kg">WEIGHT (KG)</label><input id="b-kg" inputmode="decimal" value="70"></div>
+              </div>
+            </div>
+            <div id="b-imperial" class="calc-hidden">
+              <div class="calc-row">
+                <div class="calc-field"><label for="b-ft">HEIGHT (FEET)</label><input id="b-ft" inputmode="decimal" value="5"></div>
+                <div class="calc-field"><label for="b-in">HEIGHT (INCHES)</label><input id="b-in" inputmode="decimal" value="9"></div>
+              </div>
+              <div class="calc-field"><label for="b-lb">WEIGHT (LB)</label><input id="b-lb" inputmode="decimal" value="154"></div>
+            </div>
+            <p class="calc-err" id="b-err"></p>
+          </div>
+
+          <div class="calc-card">
+            <h3>Your result</h3>
+            <p class="calc-sub">Body mass index (BMI) is weight divided by height squared.</p>
+            <div class="calc-out"><p class="calc-big" id="b-out">–</p>
+              <ul class="calc-lines" id="b-lines"></ul></div>
+            <div class="calc-gauge" aria-hidden="true"><div class="calc-marker" id="b-marker" style="left:0%"></div></div>
+            <div class="calc-scale" aria-hidden="true"><span>15</span><span>18.5</span><span>25</span><span>30</span><span>35</span></div>
+          </div>
+        </div>
+        <p class="calc-note">Categories use the WHO adult cut-offs. Many adults of South Asian and other Asian backgrounds face higher health risk at lower BMI, so some guidance uses 23 and 27.5 as cut-offs. Both are shown. BMI does not measure body fat directly, so it is a screening guide, not a diagnosis. Talk to a doctor about your own health.</p>
+
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+
+function $(id){ return document.getElementById(id); }
+function num(id){ var el=$(id); if(!el) return null; var v=parseFloat(el.value); return isFinite(v) ? v : null; }
+function f(n, dp){ return Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: dp === undefined ? 2 : dp }); }
+function on(ids, fn){ ids.forEach(function(id){ var el=$(id); if(el){ el.addEventListener('input', fn); el.addEventListener('change', fn); } }); }
+
+function setLines(id, rows){ var ul=$(id); ul.innerHTML=''; rows.forEach(function(r){ var li=document.createElement('li'); var a=document.createElement('span'); a.textContent=r[0]; var b=document.createElement('span'); b.textContent=r[1]; li.appendChild(a); li.appendChild(b); ul.appendChild(li); }); }
+function cat(bmi, lo, hi, ov){ if(bmi<lo) return 'Underweight'; if(bmi<hi) return 'Healthy weight'; if(bmi<ov) return 'Overweight'; return 'Obesity'; }
+function calc(){
+  var imperial = $('b-unit').value==='imperial';
+  $('b-metric').classList.toggle('calc-hidden', imperial);
+  $('b-imperial').classList.toggle('calc-hidden', !imperial);
+  var err=$('b-err'); err.textContent='';
+  var hM, kg;
+  if(imperial){
+    var ft=num('b-ft'), inch=num('b-in'), lb=num('b-lb');
+    if(ft===null||inch===null||lb===null){ return blank(); }
+    hM = (ft*12 + inch) * 0.0254; kg = lb * 0.45359237;
+  } else {
+    var cm=num('b-cm'), k=num('b-kg');
+    if(cm===null||k===null){ return blank(); }
+    hM = cm/100; kg = k;
+  }
+  if(hM<=0.5 || hM>2.7 || kg<=0 || kg>400){ err.textContent='Check the height and weight.'; return blank(); }
+  var bmi = kg/(hM*hM);
+  var lo = 18.5*hM*hM, hi = 24.9*hM*hM;
+  var toU = function(x){ return imperial ? f(x/0.45359237,0)+' lb' : f(x,1)+' kg'; };
+  $('b-out').textContent = f(bmi,1) + ' · ' + cat(bmi, 18.5, 25, 30);
+  setLines('b-lines', [
+    ['WHO category', cat(bmi, 18.5, 25, 30)],
+    ['South Asian / Asian guide', cat(bmi, 18.5, 23, 27.5)],
+    ['Healthy weight for your height', toU(lo) + ' to ' + toU(hi)]
+  ]);
+  var pos = Math.max(0, Math.min(100, (bmi-15)/(35-15)*100));
+  $('b-marker').style.left = pos + '%';
+}
+function blank(){ $('b-out').textContent='–'; setLines('b-lines', []); $('b-marker').style.left='0%'; }
+on(['b-unit','b-cm','b-kg','b-ft','b-in','b-lb'], calc);
+calc();
+
+</script>
+</body>
+</html>
