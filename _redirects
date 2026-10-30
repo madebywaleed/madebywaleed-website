@@ -10,3 +10,16 @@
 /istiqamah/ /apps/istiqamah/ 301
 /status-saver /apps/status-saver/ 301
 /status-saver/ /apps/status-saver/ 301
+
+# Tools reorganised into category hubs (Oct 2026)
+/tools/keyboard-tester /tools/device-testers/keyboard-tester/ 301
+/tools/keyboard-tester/ /tools/device-testers/keyboard-tester/ 301
+/tools/mouse-tester /tools/device-testers/mouse-tester/ 301
+/tools/mouse-tester/ /tools/device-testers/mouse-tester/ 301
+/tools/gamepad-tester /tools/device-testers/gamepad-tester/ 301
+/tools/gamepad-tester/ /tools/device-testers/gamepad-tester/ 301
+/tools/universal-converter /tools/converters/universal-converter/ 301
+/tools/universal-converter/ /tools/converters/universal-converter/ 301
+/tools/document-converter /tools/converters/document-converter/ 301
+/tools/document-converter/ /tools/converters/document-converter/ 301
+/tools/document-converter/* /tools/converters/document-converter/:splat 301

@@ -11,42 +11,42 @@
   <url><loc>https://madeby.waleedkhan.agency/apps/yadawana/support</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/status-saver/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/waraq-scanner/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/keyboard-tester/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/mouse-tester/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/gamepad-tester/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/device-testers/keyboard-tester/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/device-testers/mouse-tester/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/device-testers/gamepad-tester/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/waraq-scanner/privacy</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/waraq-scanner/support</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/istiqamah/privacy</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/istiqamah/support</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/status-saver/privacy</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/status-saver/support</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/universal-converter/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/Privacy/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/csv-to-excel/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/images-to-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/pdf-to-images/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/merge-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/split-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/compress-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/pdf-to-word/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/pdf-to-powerpoint/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/pdf-to-excel/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/rotate-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/crop-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/add-page-numbers/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/watermark-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/organize-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/sign-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/redact-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/scan-to-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/pdf-to-markdown/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/edit-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/compare-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/repair-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/html-to-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/ocr-pdf/</loc></url>
-  <url><loc>https://madeby.waleedkhan.agency/tools/document-converter/pdf-forms/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/universal-converter/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/Privacy/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/csv-to-excel/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/images-to-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/pdf-to-images/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/merge-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/split-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/compress-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/pdf-to-word/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/pdf-to-powerpoint/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/pdf-to-excel/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/rotate-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/crop-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/add-page-numbers/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/watermark-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/organize-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/sign-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/redact-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/scan-to-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/pdf-to-markdown/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/edit-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/compare-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/repair-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/html-to-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/ocr-pdf/</loc></url>
+  <url><loc>https://madeby.waleedkhan.agency/tools/converters/document-converter/pdf-forms/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/privacy-policy/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/guides/</loc></url>
   <url><loc>https://madeby.waleedkhan.agency/apps/status-saver/guides/save-whatsapp-statuses/</loc></url>

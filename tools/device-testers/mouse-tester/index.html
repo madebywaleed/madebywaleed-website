@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mouse Tester | Buttons, Scroll Wheel, Polling Rate &amp; DPI - Made by Waleed</title>
+  <meta name="description" content="Free online mouse tester. Check every button including side buttons, find double-clicking switches and scroll wheel faults, estimate polling rate and DPI, and test your click speed.">
+  <meta property="og:title" content="Mouse Tester by Made by Waleed">
+  <meta property="og:description" content="Test buttons, double-click faults, scroll wheel, polling rate and DPI. Free, no sign-up.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/device-testers/mouse-tester/">
+  <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/device-testers/mouse-tester/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <style>
+/* Layout: mouse diagram beside a large test pad, then a grid of individual tests. Same system as Keyboard Tester. */
+:root {
+  --bg: #e9ecf1;
+  --surface: #f7f8fb;
+  --case: #cfd5de;
+  --cap: #fdfdfe;
+  --cap-edge: #b9c1cd;
+  --fg: #1c2330;
+  --muted: #5d6879;
+  --line: #d3d9e2;
+  --done: #2f5bd8;
+  --done-soft: #dbe4fb;
+  --held: #e08a1c;
+  --held-ink: #2a1600;
+  --bad: #d23b3b;
+  --ok: #2fb35a;
+  --violet: #8a4fd8;
+  --display: "Instrument Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a1f28; --case: #252c37; --cap: #2f3744; --cap-edge: #11151b;
+    --fg: #e6ebf3; --muted: #93a0b4; --line: #2c3441;
+    --done: #6e93ff; --done-soft: #23325c; --held: #f0a43a; --held-ink: #231300;
+    --bad: #ff6b6b; --ok: #4ade80; --violet: #b48cff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a1f28; --case: #252c37; --cap: #2f3744; --cap-edge: #11151b;
+  --fg: #e6ebf3; --muted: #93a0b4; --line: #2c3441;
+  --done: #6e93ff; --done-soft: #23325c; --held: #f0a43a; --held-ink: #231300;
+  --bad: #ff6b6b; --ok: #4ade80; --violet: #b48cff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin: 0; }
+.crumb { font-size: 0.85rem; color: var(--muted); }
+.crumb a, .foot a, .tips a { color: var(--fg); }
+.foot { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 16px; margin: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--display); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 40px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
+h1 { margin: 0; font-size: 1.9rem; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
+.sub { margin: 4px 0 0; color: var(--muted); max-width: 64ch; }
+.progress { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.count { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 0.95rem; }
+.count b { font-size: 1.35rem; color: var(--done); }
+.bar { width: 140px; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--done); transition: width .2s; }
+button, select, input[type="number"] {
+  font: 600 0.88rem var(--display); color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px;
+}
+button, select { cursor: pointer; }
+input[type="number"] { width: 5.5em; font-family: var(--mono); font-weight: 500; }
+button:hover, select:hover { border-color: var(--muted); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--done); outline-offset: 2px; }
+button.primary { background: var(--fg); color: var(--surface); border-color: var(--fg); }
+
+.top { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 760px) { .top { grid-template-columns: 1fr; } }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.span2 { grid-column: span 2; }
+.span3 { grid-column: 1 / -1; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .span2, .span3 { grid-column: auto; } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.panel h2 { margin: 0; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tag-est { font-size: 0.68rem; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+
+.mouse { width: 100%; max-width: 210px; height: auto; margin: 0 auto; display: block; }
+.mouse .body { fill: var(--case); stroke: var(--cap-edge); stroke-width: 2; }
+.mouse .z { fill: var(--cap); stroke: var(--cap-edge); stroke-width: 2; transition: fill .12s; }
+.mouse .z.done { fill: var(--done-soft); stroke: var(--done); }
+.mouse .z.held { fill: var(--held); stroke: var(--held); }
+.mouse .z.chat { stroke: var(--bad); stroke-width: 4; }
+.mouse .arr { fill: var(--cap-edge); transition: fill .12s; }
+.mouse .arr.done { fill: var(--done); }
+.mouse .arr.flash { fill: var(--held); }
+.mouse text { font: 600 11px var(--display); fill: var(--muted); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--mono); font-size: 0.78rem; padding: 3px 7px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); }
+.chip.on { background: var(--done-soft); border-color: var(--done); color: var(--done); }
+.chip.bad { border-color: var(--bad); color: var(--bad); }
+.chip.opt { border-style: dashed; }
+
+.pad { position: relative; min-height: 340px; border-radius: 10px; background: var(--bg); border: 1px dashed var(--cap-edge); overflow: hidden; cursor: crosshair; touch-action: none; user-select: none; -webkit-user-select: none; flex: 1; }
+.pad canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.pad .hint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--muted); pointer-events: none; padding: 16px; font-size: 0.95rem; }
+.pad.used .hint { display: none; }
+.padstats { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 0.85rem; color: var(--muted); }
+.padstats b { font-family: var(--mono); color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+table { border-collapse: collapse; width: 100%; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-weight: 500; font-size: 0.8rem; position: sticky; top: 0; background: var(--surface); }
+td.num { font-family: var(--mono); }
+.scroll { overflow-x: auto; }
+.pill { display: inline-block; font-size: 0.75rem; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+.pill.ok { border-color: var(--done); color: var(--done); background: var(--done-soft); }
+.pill.hold { border-color: var(--held); background: var(--held); color: var(--held-ink); }
+.pill.bad { border-color: var(--bad); color: var(--bad); }
+
+.stat { font-family: var(--mono); font-size: 2.2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat small { font-family: var(--display); font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-left: 6px; }
+dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; font-size: 0.88rem; }
+dt { color: var(--muted); }
+dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.wheelgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.wcell { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px; text-align: center; }
+.wcell span { display: block; font-size: 0.75rem; color: var(--muted); }
+.wcell b { font-family: var(--mono); font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.wcell.on { border-color: var(--done); background: var(--done-soft); }
+.wcell.on b { color: var(--done); }
+.target { min-height: 110px; border-radius: 10px; border: 1px dashed var(--muted); background: var(--bg); display: grid; place-items: center; text-align: center; padding: 12px; cursor: pointer; user-select: none; -webkit-user-select: none; font-weight: 600; transition: background .1s; }
+.target.live { background: var(--done-soft); border-color: var(--done); border-style: solid; color: var(--done); }
+.target.hit { background: var(--held); border-color: var(--held); color: var(--held-ink); border-style: solid; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.empty, .note { color: var(--muted); font-size: 0.86rem; margin: 0; }
+.logwrap { max-height: 280px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+.logwrap table { font-family: var(--mono); font-size: 0.78rem; }
+tr.bad td { color: var(--bad); }
+.check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--fg); }
+.tips { color: var(--muted); font-size: 0.86rem; margin: 0; padding-left: 18px; display: grid; gap: 4px; max-width: 90ch; }
+.toast { font-size: 0.88rem; color: var(--done); min-height: 1.3em; margin-top: -10px; }
+@media (prefers-reduced-motion: reduce) { .bar i, .mouse .z, .target { transition: none; } }
+
+.mbw-top { display: flex; align-items: center; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.mbw-brand { font: 700 1rem var(--mono); letter-spacing: -0.04em; color: var(--fg); text-decoration: none; }
+.mbw-brand::after { content: "_"; color: var(--done); }
+.mbw-links { display: flex; gap: 4px; flex-wrap: wrap; }
+.mbw-links a { font: 500 0.85rem var(--mono); color: var(--fg); text-decoration: none; padding: 6px 12px; border-radius: 99px; }
+.mbw-links a:hover { background: var(--line); }
+.mbw-links a[aria-current="page"] { background: var(--line); font-weight: 700; }
+.mbw-links a.mbw-support { background: var(--fg); color: var(--surface); font-weight: 700; }
+.mbw-links a:focus-visible, .mbw-brand:focus-visible, .mbw-foot a:focus-visible { outline: 2px solid var(--done); outline-offset: 2px; }
+.mbw-foot { border-top: 1px solid var(--line); padding-top: 20px; display: flex; flex-direction: column; gap: 18px; font-size: 0.88rem; }
+.mbw-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 220px)); gap: 18px 32px; }
+.mbw-cols div { display: flex; flex-direction: column; gap: 5px; }
+.mbw-cols p { margin: 0 0 2px; font: 500 0.72rem var(--mono); color: var(--muted); text-transform: lowercase; }
+.mbw-cols p::before { content: "// "; }
+.mbw-foot a { color: var(--fg); text-decoration: none; }
+.mbw-foot a:hover { text-decoration: underline; }
+.mbw-legal { margin: 0; color: var(--muted); font-size: 0.8rem; }
+@media (max-width: 560px) { .mbw-cols { grid-template-columns: 1fr 1fr; } }
+.toolswitch{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0 0}.toolswitch a{font-size:.8rem;padding:.35rem .75rem;border-radius:999px;border:1px solid currentColor;text-decoration:none;opacity:.85}.toolswitch a:hover{opacity:1}
+
+/* Ad slot: one unit below the tool, clear of the controls */
+.ad-slot { margin: 1.5rem auto; max-width: 1180px; padding: 0 16px; min-height: 100px; }
+.ad-label { display: block; text-align: center; font: 0.7rem monospace; color: #888; margin-bottom: 0.4rem; letter-spacing: 0.04em; }
+.ad-slot ins { display: block; width: 100%; }
+
+/* Side ad rails: only on wide screens, so they never cover the tool */
+.ad-rail { display: none; }
+@media (min-width: 1520px) {
+  .ad-rail { display: block; position: fixed; top: 120px; width: 150px; z-index: 1; }
+  .ad-left { left: 8px; }
+  .ad-right { right: 8px; }
+}
+.amz-card { max-width: 1180px; margin: 1.5rem auto; padding: 1rem 16px; text-align: center; font: 0.9rem monospace; }
+.amz-title { margin: 0 0 0.4rem; font-weight: 700; }
+.amz-link { display: inline-block; padding: 0.5rem 1rem; border: 1px solid currentColor; border-radius: 999px; text-decoration: none; color: inherit; }
+.amz-disc { margin: 0.5rem 0 0; font-size: 0.7rem; opacity: 0.7; }
+</style>
+<link rel="stylesheet" href="/header.css">
+  <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5ZCFGLFVLV');
+  </script>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header><div aria-hidden="true" style="height:5.5rem"></div>
+  <div class="crumb"><a href="/tools/">Tools</a> / Mouse Tester</div><nav class="toolswitch" aria-label="Free tools"><a href="/tools/device-testers/keyboard-tester/">Keyboard</a><a href="/tools/device-testers/mouse-tester/">Mouse</a><a href="/tools/device-testers/gamepad-tester/">Gamepad</a><a href="/tools/converters/universal-converter/">Converter</a></nav>
+  <header>
+    <div>
+      <h1>Mouse Tester</h1>
+      <p class="sub">Click every button, scroll the wheel and move the mouse over the test pad. Below are checks for double-clicking switches, scroll wheel faults, polling rate, DPI and click speed.</p>
+    </div>
+    <div class="progress">
+      <div class="count"><b id="nDone">0</b> / 7 checks</div>
+      <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+      <button id="copy" type="button">Copy report</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </header>
+
+  <div class="top">
+    <section class="panel">
+      <h2>Your mouse</h2>
+      <svg class="mouse" viewBox="0 0 200 300" aria-label="Mouse diagram">
+        <rect class="z" id="z3" x="3" y="196" width="16" height="36" rx="6"/>
+        <rect class="z" id="z4" x="3" y="154" width="16" height="36" rx="6"/>
+        <path class="body" d="M100 10 C155 10 185 55 185 120 L185 200 C185 260 150 292 100 292 C50 292 15 260 15 200 L15 120 C15 55 45 10 100 10 Z"/>
+        <path class="z" id="z0" d="M96 12 C48 14 16 56 16 120 L16 134 L96 134 Z"/>
+        <path class="z" id="z2" d="M104 12 C152 14 184 56 184 120 L184 134 L104 134 Z"/>
+        <rect class="z" id="z1" x="88" y="42" width="24" height="54" rx="12"/>
+        <path class="arr" id="aU" d="M100 26 L108 36 L92 36 Z"/>
+        <path class="arr" id="aD" d="M100 112 L108 102 L92 102 Z"/>
+        <path class="arr" id="aL" d="M74 69 L84 61 L84 77 Z"/>
+        <path class="arr" id="aR" d="M126 69 L116 61 L116 77 Z"/>
+        <text x="48" y="100" text-anchor="middle">Left</text>
+        <text x="152" y="100" text-anchor="middle">Right</text>
+        <text x="27" y="176" text-anchor="start">Forward</text>
+        <text x="27" y="218" text-anchor="start">Back</text>
+      </svg>
+      <div class="chips" id="checks"></div>
+      <p class="note">Dashed chips are optional: tilt-wheel left and right only exist on some mice.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Test pad</h2>
+      <div class="pad" id="pad">
+        <canvas id="cv"></canvas>
+        <div class="hint">Click, right-click, scroll and move here.<br>Side buttons won't take you back a page.</div>
+      </div>
+      <div class="padstats">
+        <span>Position <b id="pos">–</b></span>
+        <span>Speed <b id="speed">–</b></span>
+        <span>Last button <b id="lastBtn">–</b></span>
+        <span>Held now <b id="heldNow">none</b></span>
+      </div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="grid">
+    <section class="panel span2">
+      <h2>Buttons</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Button</th><th>Status</th><th>Presses</th><th>Last hold</th><th>Double-press flags</th></tr></thead>
+          <tbody id="btnTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Double-click fault
+        <select id="thresh" aria-label="Fault window">
+          <option value="20">20 ms</option><option value="40" selected>40 ms</option><option value="60">60 ms</option>
+        </select>
+      </h2>
+      <div class="stat"><span id="chatTotal">0</span><small>suspicious presses</small></div>
+      <p class="note">A worn switch can turn one click into two. Any press that starts within this window after the same button was released is flagged, because a finger can't click that fast. Click each button normally 20 or so times to check.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Scroll wheel</h2>
+      <div class="wheelgrid">
+        <div class="wcell" id="wU"><span>Up</span><b>0</b></div>
+        <div class="wcell" id="wD"><span>Down</span><b>0</b></div>
+        <div class="wcell" id="wL"><span>Left</span><b>0</b></div>
+        <div class="wcell" id="wR"><span>Right</span><b>0</b></div>
+      </div>
+      <dl>
+        <dt>Last step</dt><dd id="wDelta">–</dd>
+        <dt>Direction slips</dt><dd id="wJumps">0</dd>
+      </dl>
+      <p class="note">Scroll over the test pad. A "slip" is when the wheel briefly goes the wrong way while you scroll steadily, the most common wheel fault.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Polling rate <span class="tag-est">estimate</span></h2>
+      <div class="stat"><span id="pollEst">–</span><small id="pollSub">Hz</small></div>
+      <dl>
+        <dt>Right now</dt><dd id="pollLive">move the mouse</dd>
+        <dt>Peak</dt><dd id="pollPeak">–</dd>
+      </dl>
+      <p class="note" id="pollNote">Move the mouse quickly in circles anywhere on this page for a few seconds. Slow movement sends fewer reports, so the number will read low.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Click speed
+        <select id="cpsLen" aria-label="Test length"><option value="5">5 s</option><option value="10" selected>10 s</option></select>
+      </h2>
+      <div class="target" id="cpsBox">Click here as fast as you can to start</div>
+      <dl>
+        <dt>Clicks per second</dt><dd id="cpsVal">–</dd>
+        <dt>Best</dt><dd id="cpsBest">–</dd>
+      </dl>
+    </section>
+
+    <section class="panel">
+      <h2>Double-click</h2>
+      <div class="target" id="dblBox">Double-click here</div>
+      <dl>
+        <dt>Double-clicks</dt><dd id="dblCount">0</dd>
+        <dt>Time between clicks</dt><dd id="dblGap">–</dd>
+      </dl>
+      <p class="note">Checks that your computer recognises a double-click, and how fast yours are.</p>
+    </section>
+
+    <section class="panel">
+      <h2>DPI check <span class="tag-est">estimate</span></h2>
+      <div class="row">
+        <label for="dist">Distance</label>
+        <input type="number" id="dist" value="10" min="1" step="0.5">
+        <select id="unit" aria-label="Unit"><option value="cm">cm</option><option value="in">inches</option></select>
+        <button id="dpiBtn" type="button" class="primary">Start</button>
+      </div>
+      <div class="stat"><span id="dpiVal">–</span><small>DPI</small></div>
+      <p class="note" id="dpiNote">Put the mouse at the start of a ruler. Press Start, move the mouse exactly that distance to the right, then click. For an accurate result, turn off Windows "Enhance pointer precision".</p>
+    </section>
+
+    <section class="panel span3">
+      <h2>Event log
+        <span class="row">
+          <label class="check"><input type="checkbox" id="showUp"> Button releases</label>
+          <label class="check"><input type="checkbox" id="showWheel" checked> Scroll</label>
+        </span>
+      </h2>
+      <div class="logwrap">
+        <table>
+          <thead><tr><th>Time</th><th>Event</th><th>Detail</th><th>Position</th><th>Gap</th></tr></thead>
+          <tbody id="log"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel span3">
+      <h2>Good to know</h2>
+      <ul class="tips">
+        <li>Polling rate and DPI are estimates. A browser sees the mouse through the computer, so mouse software and pointer settings can change the numbers. Very high polling rates (4000–8000 Hz) may read lower here.</li>
+        <li>Extra buttons beyond Back and Forward (for example a DPI button or extra side buttons) are usually handled by the mouse or its software, so browsers can't see them. If you set one to act as a key press, the <a href="../keyboard-tester/">Keyboard Tester</a> can test it.</li>
+        <li>Right-click menus are switched off on this page so the right button can be tested.</li>
+        <li>Nothing is saved or sent anywhere.</li>
+      </ul>
+    </section>
+    <section class="panel span3 tool-guide">
+      <h2>How to test your mouse</h2>
+      <ol>
+        <li>Click each button, including the left, right, middle, Back and Forward buttons, to check that each one registers.</li>
+        <li>Scroll the wheel up, down and, if your mouse has one, left and right. Watch for a wheel that skips or slips.</li>
+        <li>Click each button about 20 times at a normal speed to check for double-clicks, where one click registers as two.</li>
+        <li>Move the mouse quickly in circles for the polling rate test, and use the DPI check with a ruler for a rough reading.</li>
+      </ol>
+
+      <h2>What each test checks</h2>
+      <ul class="tips">
+        <li><strong>Test pad</strong> shows your position, speed and the last button you pressed. Use it for a quick check of clicks and scrolling.</li>
+        <li><strong>Buttons</strong> shows which buttons are pressed, so you can see if a side button is not being detected.</li>
+        <li><strong>Double-click fault</strong> flags any press that starts too soon after the same button was released, a common sign of a worn switch.</li>
+        <li><strong>Scroll wheel</strong> counts each direction of scroll and flags wheel slips, where the wheel briefly moves the wrong way while you scroll steadily.</li>
+        <li><strong>Polling rate</strong> estimates how often the mouse reports its position to the computer.</li>
+        <li><strong>Click speed</strong> and <strong>Double-click</strong> show how fast you click and whether the computer recognises a double-click.</li>
+        <li><strong>DPI check</strong> gives a rough estimate of your mouse's sensitivity, measured against a distance you choose.</li>
+      </ul>
+
+      <h2>Signs your mouse may need attention</h2>
+      <ul class="tips">
+        <li>One click registers twice, or a double-click fault appears during the button test. This is often a worn switch.</li>
+        <li>The scroll wheel skips, slips or moves in the wrong direction.</li>
+        <li>A button does not register at all when you press it.</li>
+        <li>The polling rate reads low when you move the mouse quickly. Make sure you move it fast before deciding the mouse is slow.</li>
+      </ul>
+
+      <h2>Limits of a browser test</h2>
+      <ul class="tips">
+        <li>Polling rate and DPI are estimates. Mouse software and pointer settings can change the numbers. For the DPI check, turn off "Enhance pointer precision" in Windows for an accurate reading.</li>
+        <li>Very high polling rates, such as 4000 to 8000 Hz, may read lower here.</li>
+        <li>Extra buttons beyond Back and Forward, such as a DPI button, are usually handled by the mouse or its software. Browsers cannot see them. If you set one to act as a key press, the <a href="../keyboard-tester/">Keyboard Tester</a> can test it.</li>
+        <li>Right-click menus are switched off on this page so the right button can be tested.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>Is the Mouse Tester free?</summary>
+        <p>Yes. It is free, needs no sign-up, and runs in your browser.</p>
+      </details>
+      <details>
+        <summary>How do I know if my mouse has double-click problems?</summary>
+        <p>Click each button about 20 times at a normal speed. If the double-click fault panel flags presses, the switch may be worn. Check your mouse's warranty or contact the manufacturer if the problem is clear.</p>
+      </details>
+      <details>
+        <summary>What is DPI, and is the DPI check accurate?</summary>
+        <p>DPI means dots per inch, the sensitivity of the sensor. The DPI check is a rough estimate. Pointer settings and mouse software can change the result, so use it as a guide rather than an exact figure.</p>
+      </details>
+      <details>
+        <summary>Why does the scroll wheel show a slip?</summary>
+        <p>A slip means the wheel briefly moved the wrong way while you scrolled steadily. This is the most common wheel fault, and it can happen when the wheel's mechanism is worn or dirty.</p>
+      </details>
+      <details>
+        <summary>Is anything I click recorded?</summary>
+        <p>No. Clicks, scrolls and movements are not saved or sent anywhere.</p>
+      </details>
+    </section>
+  </div>
+  <aside class="ad-rail ad-left" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <script>
+      atOptions = {
+        'key' : '478ade4627d34119e9f9021008092f32',
+        'format' : 'iframe',
+        'height' : 600,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script src="https://www.highrevenueformat.com/478ade4627d34119e9f9021008092f32/invoke.js"></script>
+  </aside>
+  <aside class="ad-rail ad-right" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <script>
+      atOptions = {
+        'key' : '478ade4627d34119e9f9021008092f32',
+        'format' : 'iframe',
+        'height' : 600,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script src="https://www.highrevenueformat.com/478ade4627d34119e9f9021008092f32/invoke.js"></script>
+  </aside>
+  <div class="amz-card">
+    <p class="amz-title">Recommended on Amazon</p>
+    <a class="amz-link" href="https://link.amazon/B0babeX3m" target="_blank" rel="sponsored nofollow noopener">View on Amazon &rarr;</a>
+    <p class="amz-disc">As an Amazon Associate I earn from qualifying purchases.</p>
+  </div>
+  <div class="ad-slot" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+  <footer class="mbw-foot">
+    <div class="mbw-cols">
+      <div><p>Apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a></div>
+      <div><p>Tools</p><a href="/tools/device-testers/keyboard-tester/">Keyboard Tester</a><a href="/tools/device-testers/mouse-tester/">Mouse Tester</a><a href="/tools/device-testers/gamepad-tester/">Gamepad Tester</a><a href="/tools/converters/universal-converter/">Universal Converter</a><a href="/tools/converters/document-converter/">Document Converter</a></div>
+      <div><p>Made by Waleed</p><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">Privacy policies</a><a href="/privacy-policy/">Website privacy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></div>
+    </div>
+    <p class="mbw-legal">madeby@waleedkhan.agency · &copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar. Nothing you do on this page leaves your computer.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const NAMES = ["Left", "Middle", "Right", "Back", "Forward"];
+  const CHECKS = [["b0","Left click"],["b2","Right click"],["b1","Middle click"],["b3","Back"],["b4","Forward"],["wU","Scroll up"],["wD","Scroll down"],["wL","Tilt left",1],["wR","Tilt right",1]];
+
+  const st = {};
+  function fresh() {
+    Object.assign(st, {
+      done: new Set(),
+      btn: NAMES.map(() => ({ n: 0, chat: 0, held: false, down: 0, lastUp: null, dur: null })),
+      wheel: { wU: 0, wD: 0, wL: 0, wR: 0, jumps: 0, hist: [] },
+      t0: performance.now(), lastLogT: null
+    });
+  }
+  fresh();
+
+  // ---------- Checklist + table ----------
+  const checkEls = {};
+  CHECKS.forEach(([id, label, opt]) => {
+    const s = document.createElement("span"); s.className = "chip" + (opt ? " opt" : ""); s.textContent = label;
+    $("checks").appendChild(s); checkEls[id] = s;
+  });
+  const rows = NAMES.map((name, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${name}</td><td><span class="pill">Not pressed</span></td><td class="num">0</td><td class="num">–</td><td class="num">0</td>`;
+    $("btnTable").appendChild(tr);
+    return tr;
+  });
+  function markDone(id) { st.done.add(id); if (checkEls[id]) checkEls[id].classList.add("on"); updateProgress(); }
+  function updateProgress() {
+    const n = CHECKS.filter(c => !c[2] && st.done.has(c[0])).length;
+    $("nDone").textContent = n; $("barFill").style.width = (n / 7 * 100) + "%";
+  }
+  function paintBtn(i) {
+    const b = st.btn[i], tr = rows[i], z = $("z" + i);
+    const pill = b.held ? '<span class="pill hold">Held</span>' : b.chat ? '<span class="pill bad">Double-press</span>' : b.n ? '<span class="pill ok">Works</span>' : '<span class="pill">Not pressed</span>';
+    tr.children[1].innerHTML = pill;
+    tr.children[2].textContent = b.n;
+    tr.children[3].textContent = b.dur == null ? "–" : Math.round(b.dur) + " ms";
+    tr.children[4].textContent = b.chat;
+    tr.classList.toggle("bad", !!b.chat);
+    z.classList.toggle("done", b.n > 0); z.classList.toggle("held", b.held); z.classList.toggle("chat", b.chat > 0);
+    $("heldNow").textContent = st.btn.map((x, j) => x.held ? NAMES[j] : null).filter(Boolean).join(" + ") || "none";
+  }
+  function paintAll() {
+    NAMES.forEach((_, i) => paintBtn(i));
+    ["wU","wD","wL","wR"].forEach(k => { const c = $(k); c.querySelector("b").textContent = st.wheel[k]; c.classList.toggle("on", st.wheel[k] > 0); });
+    $("aU").classList.toggle("done", st.wheel.wU > 0); $("aD").classList.toggle("done", st.wheel.wD > 0);
+    $("aL").classList.toggle("done", st.wheel.wL > 0); $("aR").classList.toggle("done", st.wheel.wR > 0);
+    Object.entries(checkEls).forEach(([id, el]) => el.classList.toggle("on", st.done.has(id)));
+    $("chatTotal").textContent = st.btn.reduce((a, b) => a + b.chat, 0);
+    $("wJumps").textContent = st.wheel.jumps;
+    updateProgress();
+  }
+
+  let toastTimer;
+  function toast(msg) { $("toast").textContent = msg; clearTimeout(toastTimer); toastTimer = setTimeout(() => ($("toast").textContent = ""), 5000); }
+  const fmt = ms => ms < 1000 ? Math.round(ms) + " ms" : (ms / 1000).toFixed(2) + " s";
+
+  // ---------- Log ----------
+  const logBody = $("log");
+  function log(kind, detail, e, bad) {
+    if (kind === "release" && !$("showUp").checked) return;
+    if (kind === "scroll" && !$("showWheel").checked) return;
+    const t = performance.now();
+    const gap = st.lastLogT == null ? "–" : fmt(t - st.lastLogT); st.lastLogT = t;
+    const tr = document.createElement("tr"); if (bad) tr.className = "bad";
+    [((t - st.t0) / 1000).toFixed(3) + "s", kind + (bad ? " ⚠" : ""), detail, e ? `${Math.round(e.clientX)}, ${Math.round(e.clientY)}` : "–", gap]
+      .forEach(v => { const td = document.createElement("td"); td.textContent = v; tr.appendChild(td); });
+    logBody.prepend(tr);
+    while (logBody.children.length > 120) logBody.lastChild.remove();
+  }
+
+  // ---------- Pad drawing ----------
+  const pad = $("pad"), cv = $("cv"), ctx = cv.getContext("2d");
+  let W = 0, H = 0, dpr = 1, colors = {};
+  const trail = [], ripples = [];
+  function readColors() {
+    const cs = getComputedStyle(document.documentElement);
+    ["--done","--held","--ok","--bad","--violet","--muted","--fg"].forEach(k => (colors[k] = cs.getPropertyValue(k).trim()));
+  }
+  readColors();
+  try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readColors(); dirty(); }); } catch (e) {}
+  new MutationObserver(() => { readColors(); dirty(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  function resize() {
+    const r = pad.getBoundingClientRect(); dpr = window.devicePixelRatio || 1;
+    W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    dirty();
+  }
+  new ResizeObserver(resize).observe(pad);
+  const BTN_COLOR = ["--done", "--ok", "--held", "--bad", "--violet"];
+  let raf = 0;
+  function dirty() { if (!raf) raf = requestAnimationFrame(draw); }
+  function draw() {
+    raf = 0;
+    const now = performance.now();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    while (trail.length && now - trail[0].t > 700) trail.shift();
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    for (let i = 1; i < trail.length; i++) {
+      const a = 1 - (now - trail[i].t) / 700;
+      ctx.strokeStyle = colors["--fg"]; ctx.globalAlpha = Math.max(0, a) * 0.8; ctx.lineWidth = 1 + a * 2.5;
+      ctx.beginPath(); ctx.moveTo(trail[i - 1].x, trail[i - 1].y); ctx.lineTo(trail[i].x, trail[i].y); ctx.stroke();
+    }
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const r = ripples[i], age = (now - r.t) / 500;
+      if (age >= 1) { ripples.splice(i, 1); continue; }
+      ctx.globalAlpha = 1 - age; ctx.strokeStyle = colors[BTN_COLOR[r.b]] || colors["--fg"]; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(r.x, r.y, 6 + age * 34, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = ctx.strokeStyle; ctx.font = "600 12px " + getComputedStyle(document.body).fontFamily;
+      ctx.fillText(NAMES[r.b], r.x + 10, r.y - 10);
+    }
+    ctx.globalAlpha = 1;
+    if (trail.length || ripples.length) dirty();
+  }
+  function padPoint(e) { const r = pad.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top, inside: e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom }; }
+
+  // ---------- Buttons ----------
+  function isFormControl(t) { return t && t.closest && t.closest("input, select, label"); }
+  addEventListener("contextmenu", e => { if (!isFormControl(e.target)) e.preventDefault(); });
+  addEventListener("auxclick", e => { if (e.button === 1 || e.button >= 3) e.preventDefault(); });
+  addEventListener("mouseup", e => { if (e.button >= 3) e.preventDefault(); onUp(e); });
+  addEventListener("mousedown", e => {
+    if (e.button === 1 || e.button >= 3) e.preventDefault();
+    if (dpi.active && dpi.armed) { finishDpi(); return; }
+    onDown(e);
+  });
+
+  function onDown(e) {
+    const i = e.button; if (i < 0 || i > 4) { log("press", "button " + i, e); return; }
+    const b = st.btn[i], t = performance.now();
+    let bad = false;
+    // Fast clicking in the speed and double-click tests is deliberate, so don't flag it.
+    const deliberate = e.target && e.target.closest && e.target.closest("#cpsBox, #dblBox");
+    if (!deliberate && b.lastUp != null && t - b.lastUp < Number($("thresh").value)) { b.chat++; bad = true; toast(`${NAMES[i]} button registered twice within ${Math.round(t - b.lastUp)} ms. That can be a worn switch.`); }
+    b.n++; b.held = true; b.down = t;
+    markDone("b" + i);
+    $("lastBtn").textContent = NAMES[i];
+    const p = padPoint(e);
+    if (p.inside) { pad.classList.add("used"); ripples.push({ x: p.x, y: p.y, t, b: i }); dirty(); }
+    log("press", NAMES[i] + (bad ? " (double)" : ""), e, bad);
+    paintBtn(i);
+    $("chatTotal").textContent = st.btn.reduce((a, x) => a + x.chat, 0);
+  }
+  function onUp(e) {
+    const i = e.button; if (i < 0 || i > 4) return;
+    const b = st.btn[i], t = performance.now();
+    if (b.held) b.dur = t - b.down;
+    b.held = false; b.lastUp = t;
+    log("release", NAMES[i] + (b.dur != null ? ` after ${Math.round(b.dur)} ms` : ""), e);
+    paintBtn(i);
+  }
+  addEventListener("blur", () => { st.btn.forEach(b => (b.held = false)); NAMES.forEach((_, i) => paintBtn(i)); });
+
+  // ---------- Wheel ----------
+  const flashTimers = {};
+  function flash(id) { const el = $(id); el.classList.add("flash"); clearTimeout(flashTimers[id]); flashTimers[id] = setTimeout(() => el.classList.remove("flash"), 160); }
+  pad.addEventListener("wheel", e => {
+    e.preventDefault();
+    pad.classList.add("used");
+    const t = performance.now(), w = st.wheel;
+    let dir = null;
+    if (Math.abs(e.deltaY) >= Math.abs(e.deltaX) && e.deltaY !== 0) dir = e.deltaY < 0 ? "wU" : "wD";
+    else if (e.deltaX !== 0) dir = e.deltaX < 0 ? "wL" : "wR";
+    if (!dir) return;
+    w[dir]++; markDone(dir);
+    flash({ wU: "aU", wD: "aD", wL: "aL", wR: "aR" }[dir]);
+    // Direction slip: A, then opposite B, then A again, all within 200 ms.
+    const opp = { wU: "wD", wD: "wU", wL: "wR", wR: "wL" };
+    w.hist.push({ dir, t }); if (w.hist.length > 3) w.hist.shift();
+    let slip = false;
+    if (w.hist.length === 3) {
+      const [a, b, c] = w.hist;
+      if (a.dir === c.dir && b.dir === opp[a.dir] && c.t - a.t < 200) { w.jumps++; slip = true; w.hist = [c]; toast("The wheel jumped the wrong way while scrolling. If this keeps happening, the wheel sensor may be worn."); }
+    }
+    const unit = ["px", "lines", "pages"][e.deltaMode] || "";
+    const val = dir === "wU" || dir === "wD" ? e.deltaY : e.deltaX;
+    $("wDelta").textContent = `${Math.round(val * 100) / 100} ${unit}`;
+    const c = $(dir); c.querySelector("b").textContent = w[dir]; c.classList.add("on");
+    $("wJumps").textContent = w.jumps;
+    log("scroll", { wU: "up", wD: "down", wL: "left", wR: "right" }[dir] + ` ${Math.round(val * 100) / 100} ${unit}`, e, slip);
+  }, { passive: false });
+
+  // ---------- Movement + polling ----------
+  const hasCoalesced = typeof PointerEvent !== "undefined" && "getCoalescedEvents" in PointerEvent.prototype;
+  if (!hasCoalesced) $("pollNote").textContent = "This browser only reports mouse movement once per screen refresh, so it can't estimate polling rate. Try Chrome, Edge or Firefox.";
+  const RATES = [125, 250, 500, 1000, 2000, 4000, 8000];
+  const pts = []; const samples = []; let peak = 0;
+  let speedHist = [];
+  addEventListener("pointermove", e => {
+    if (e.pointerType && e.pointerType !== "mouse") return;
+    const evs = hasCoalesced ? e.getCoalescedEvents() : [e];
+    const list = evs.length ? evs : [e];
+    const r = pad.getBoundingClientRect();
+    for (const ev of list) {
+      pts.push(ev.timeStamp);
+      if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) {
+        trail.push({ x: ev.clientX - r.left, y: ev.clientY - r.top, t: performance.now() });
+      }
+    }
+    if (pts.length > 20000) pts.splice(0, pts.length - 20000);
+    const p = padPoint(e);
+    if (p.inside) {
+      pad.classList.add("used");
+      $("pos").textContent = `${Math.round(p.x)}, ${Math.round(p.y)}`;
+      const t = performance.now();
+      speedHist.push({ x: e.clientX, y: e.clientY, t });
+      while (speedHist.length > 2 && t - speedHist[0].t > 120) speedHist.shift();
+      if (speedHist.length > 1) {
+        const a = speedHist[0], b = speedHist[speedHist.length - 1];
+        const dt = (b.t - a.t) / 1000;
+        if (dt > 0) $("speed").textContent = Math.round(Math.hypot(b.x - a.x, b.y - a.y) / dt) + " px/s";
+      }
+      dirty();
+    }
+  });
+  setInterval(() => {
+    if (!hasCoalesced || pts.length < 2) return;
+    const last = pts[pts.length - 1];
+    const winStart = last - 250;
+    let i = pts.length - 1, maxGap = 0;
+    while (i > 0 && pts[i - 1] >= winStart) { maxGap = Math.max(maxGap, pts[i] - pts[i - 1]); i--; }
+    const count = pts.length - 1 - i;
+    const fresh = performance.now() - last < 120;
+    if (!fresh || count < 20 || maxGap > 25) { $("pollLive").textContent = fresh ? "move faster" : "move the mouse"; return; }
+    const rate = count / 0.25;
+    $("pollLive").textContent = Math.round(rate) + " Hz";
+    samples.push(rate); if (samples.length > 60) samples.shift();
+    peak = Math.max(peak, rate); $("pollPeak").textContent = Math.round(peak) + " Hz";
+    const sorted = samples.slice().sort((a, b) => a - b);
+    const p75 = sorted[Math.floor(sorted.length * 0.75)];
+    const snap = RATES.reduce((best, r) => Math.abs(Math.log(r / p75)) < Math.abs(Math.log(best / p75)) ? r : best, RATES[0]);
+    $("pollEst").textContent = "≈" + snap;
+    $("pollSub").textContent = samples.length < 8 ? "Hz · keep moving" : "Hz";
+  }, 250);
+
+  // ---------- Click speed ----------
+  const cps = { state: "idle", n: 0, start: 0, best: 0, timer: null };
+  const cpsBox = $("cpsBox");
+  cpsBox.addEventListener("mousedown", e => {
+    if (e.button !== 0) return;
+    const t = performance.now(), len = Number($("cpsLen").value) * 1000;
+    if (cps.state === "done") return;
+    if (cps.state === "idle") {
+      cps.state = "run"; cps.n = 0; cps.start = t; cpsBox.classList.add("live");
+      cps.timer = setInterval(() => {
+        const el = performance.now() - cps.start;
+        if (el >= len) {
+          clearInterval(cps.timer); cps.state = "done"; cpsBox.classList.remove("live");
+          const v = cps.n / (len / 1000); cps.best = Math.max(cps.best, v);
+          $("cpsVal").textContent = v.toFixed(1); $("cpsBest").textContent = cps.best.toFixed(1);
+          cpsBox.textContent = `${v.toFixed(1)} clicks per second`;
+          setTimeout(() => { cps.state = "idle"; cpsBox.textContent = "Click here to go again"; }, 1200);
+        } else {
+          cpsBox.textContent = `${cps.n} clicks · ${((len - el) / 1000).toFixed(1)} s left`;
+          $("cpsVal").textContent = el > 300 ? (cps.n / (el / 1000)).toFixed(1) : "–";
+        }
+      }, 100);
+    }
+    cps.n++;
+  });
+
+  // ---------- Double-click ----------
+  const dbl = { downs: [], n: 0 };
+  const dblBox = $("dblBox");
+  dblBox.addEventListener("mousedown", e => { if (e.button === 0) { dbl.downs.push(performance.now()); if (dbl.downs.length > 2) dbl.downs.shift(); } });
+  dblBox.addEventListener("dblclick", () => {
+    dbl.n++; $("dblCount").textContent = dbl.n;
+    if (dbl.downs.length === 2) $("dblGap").textContent = Math.round(dbl.downs[1] - dbl.downs[0]) + " ms";
+    dblBox.classList.add("hit"); dblBox.textContent = "Double-click registered";
+    setTimeout(() => { dblBox.classList.remove("hit"); dblBox.textContent = "Double-click here"; }, 700);
+  });
+
+  // ---------- DPI ----------
+  const dpi = { active: false, armed: false, sum: 0, raw: false, locked: false };
+  $("dpiBtn").addEventListener("click", async e => {
+    e.currentTarget.blur();
+    if (dpi.active) return;
+    Object.assign(dpi, { active: true, armed: false, sum: 0, raw: false, locked: false });
+    $("dpiVal").textContent = "0";
+    $("dpiNote").textContent = "Now move the mouse exactly that distance to the right, then click any button.";
+    try {
+      const r = pad.requestPointerLock({ unadjustedMovement: true });
+      if (r && r.then) { await r; dpi.raw = true; }
+    } catch (err) {
+      try { const r2 = pad.requestPointerLock(); if (r2 && r2.then) await r2; } catch (err2) {}
+    }
+    // Arm on the next tick so the Start click itself doesn't stop the test.
+    setTimeout(() => (dpi.armed = true), 0);
+  });
+  document.addEventListener("pointerlockchange", () => { dpi.locked = document.pointerLockElement === pad; });
+  addEventListener("mousemove", e => {
+    if (!dpi.active) return;
+    dpi.sum += e.movementX || 0;
+    const inches = $("unit").value === "cm" ? Number($("dist").value) / 2.54 : Number($("dist").value);
+    if (inches > 0) $("dpiVal").textContent = Math.round(Math.abs(dpi.sum) / inches);
+  });
+  function finishDpi() {
+    dpi.active = false; dpi.armed = false;
+    if (document.pointerLockElement) document.exitPointerLock();
+    const inches = $("unit").value === "cm" ? Number($("dist").value) / 2.54 : Number($("dist").value);
+    if (!(inches > 0) || !dpi.sum) { $("dpiVal").textContent = "–"; $("dpiNote").textContent = "No movement was measured. Press Start and try again."; return; }
+    const v = Math.abs(dpi.sum) / inches;
+    $("dpiVal").textContent = Math.round(v);
+    $("dpiNote").textContent = (dpi.raw ? "Measured from raw mouse movement, so pointer speed settings didn't affect it. " :
+      dpi.locked ? "Measured with the pointer locked. Pointer speed settings may affect the number. " :
+      "Your browser didn't allow pointer lock, so the result can be cut short at the screen edge and is affected by pointer speed settings. ") +
+      "Run it two or three times and compare.";
+  }
+
+  // ---------- Reset + report ----------
+  $("reset").addEventListener("click", e => {
+    e.currentTarget.blur();
+    fresh(); samples.length = 0; pts.length = 0; peak = 0;
+    ["pollEst","pollPeak","dpiVal","cpsVal","cpsBest","dblGap","wDelta","lastBtn","pos","speed"].forEach(id => ($(id).textContent = "–"));
+    $("pollLive").textContent = "move the mouse"; $("dblCount").textContent = "0"; dbl.n = 0; cps.best = 0;
+    logBody.innerHTML = ""; pad.classList.remove("used");
+    paintAll(); toast("Cleared. Start testing.");
+  });
+  $("copy").addEventListener("click", e => {
+    const btn = e.currentTarget; btn.blur();
+    const w = st.wheel;
+    const text = [
+      "Mouse test report",
+      ...NAMES.map((n, i) => `${n}: ${st.btn[i].n ? "works" : "not pressed"}, ${st.btn[i].n} presses${st.btn[i].chat ? `, ${st.btn[i].chat} double-press flags` : ""}`),
+      `Scroll: up ${w.wU}, down ${w.wD}, left ${w.wL}, right ${w.wR}, direction slips ${w.jumps}`,
+      `Polling rate (estimate): ${$("pollEst").textContent === "–" ? "not tested" : $("pollEst").textContent + " Hz"}`,
+      `DPI (estimate): ${$("dpiVal").textContent}`,
+      `Best clicks per second: ${$("cpsBest").textContent}`,
+      "Tested with Mouse Tester by Made by Waleed"
+    ].join("\n");
+    const ok = () => { btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy report"), 1800); };
+    const fallback = () => {
+      const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select(); let done = false; try { done = document.execCommand("copy"); } catch (err) {}
+      ta.remove(); done ? ok() : toast("Copy didn't work in this browser.");
+    };
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (err) { fallback(); }
+  });
+  ["thresh","cpsLen","unit","showUp","showWheel"].forEach(id => $(id).addEventListener("change", e => e.target.blur()));
+
+  paintAll();
+})();
+</script>
+
+  <script>
+    document.querySelectorAll('ins.adsbygoogle').forEach(function () {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
+    });
+  </script>
+<script src="/script.js"></script>
+</body>
+</html>
