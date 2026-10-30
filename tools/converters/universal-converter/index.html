@@ -16,16 +16,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
   <style>
     :root {
-      --base: #0f172a;
-      --glass: rgba(255,255,255,0.07);
-      --glass-line: rgba(255,255,255,0.18);
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --violet: #7c3aed;
-      --cyan: #06b6d4;
-      --amber: #f59e0b;
+      --base: #fbfbfa;
+      --glass: #ffffff;
+      --glass-line: #dcdcd8;
+      --text: #0a0a0a;
+      --muted: #55554f;
+      --violet: #0a0a0a;
+      --cyan: #0a0a0a;
+      --amber: #55554f;
       --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
       --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
       --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -43,6 +45,8 @@
       position: relative;
       overflow-x: hidden;
     }
+    /* Site design: no coloured orbs */
+    .orb { display: none !important; }
     /* Blurred colour orbs behind everything */
     .orb { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.55; z-index: 0; pointer-events: none; animation: drift 22s ease-in-out infinite alternate; }
     .orb-1 { width: 42rem; height: 42rem; background: var(--violet); top: -12rem; left: -10rem; }
@@ -59,7 +63,7 @@
       backdrop-filter: blur(16px);
       border: 1px solid var(--glass-line);
       border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
     }
 
     /* Top bar */
@@ -83,7 +87,7 @@
     label { display: block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.45rem; }
     .field { margin-bottom: 1.25rem; }
     .row { display: flex; gap: 0.5rem; align-items: stretch; }
-    input[type="text"], input[type="number"], input[type="password"], select {
+    input[type="text"], input[type="number"], input[type="password"], select { background: #ffffff !important; color: var(--text) !important; border: 1px solid var(--glass-line) !important;
       width: 100%;
       background: rgba(15,23,42,0.6);
       color: var(--text);
@@ -202,7 +206,7 @@
 
     /* Converter controls */
     select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 2.2rem; }
-    select option { background: #0f172a; color: var(--text); }
+    select option { background: #ffffff; color: var(--text); }
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     .swap { align-self: end; width: 3rem; height: 3rem; border-radius: 12px; border: 1px solid var(--glass-line); background: transparent; color: var(--text); font-size: 1.2rem; cursor: pointer; flex: 0 0 auto; }
     .swap:hover { color: var(--cyan); }
@@ -233,12 +237,12 @@
   </script>
 </head>
 <body>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
   <div class="orb orb-1" aria-hidden="true"></div>
   <div class="orb orb-2" aria-hidden="true"></div>
   <div class="orb orb-3" aria-hidden="true"></div>
 
-  <div class="page">
-    <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header><div aria-hidden="true" style="height:5.5rem"></div>
+  <div class="page"><div aria-hidden="true" style="height:5.5rem"></div>
 
     <!-- Header ad: responsive leaderboard above the tool -->
     <div class="ad-slot" aria-label="Advertisement">
