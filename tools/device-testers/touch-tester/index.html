@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Touchscreen Tester – Multi-Touch and Ghost Touch Test | Made by Waleed</title>
+  <meta name="description" content="Free online touchscreen tester. Place several fingers on the pad to check multi-touch, count simultaneous touch points and find ghost touches on your phone, tablet or touchpad.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Touchscreen Tester – Multi-Touch and Ghost Touch Test | Made by Waleed">
+  <meta property="og:description" content="Free online touchscreen tester. Place several fingers on the pad to check multi-touch, count simultaneous touch points and find ghost touches on your phone, tablet or touchpad.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/device-testers/touch-tester/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/device-testers/touch-tester/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <style>
+.tool { display: grid; gap: 1rem; margin-top: 1.5rem; }
+.tbox { background: #fff; border: 1px solid #dcdcd8; border-radius: 14px; padding: 1.2rem; color: #0a0a0a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tbox { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } }
+.tbox h2 { font-size: 1.1rem; margin: 0 0 .6rem; }
+.tool-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.tbtn { font: inherit; font-weight: 600; padding: .6rem 1.05rem; border-radius: 999px; border: 1px solid #0a0a0a; background: #0a0a0a; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+.tbtn.alt { background: transparent; color: inherit; border-color: #8a8a8a; }
+.tbtn:disabled { opacity: .45; cursor: default; }
+.tfield { font: inherit; padding: .55rem .7rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; min-width: 14rem; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; }
+.readout div { background: rgba(127,127,127,.09); border-radius: 10px; padding: .7rem .8rem; }
+.readout span { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
+.readout b { display: block; font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: .2rem; }
+.tnote { font-size: .92rem; opacity: .85; line-height: 1.6; }
+.tguide ol, .tguide ul { line-height: 1.7; padding-left: 1.3rem; }
+.meter { height: 18px; border-radius: 999px; background: rgba(127,127,127,.18); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,#2fb35a,#e0b02f 75%,#d23b3b); transition: width .05s linear; }
+.pad { position: relative; height: 320px; border-radius: 14px; border: 2px dashed #8a8a8a; touch-action: none; user-select: none; -webkit-user-select: none; overflow: hidden; background: rgba(127,127,127,.05); }
+.pad .tp { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(47,91,216,.35); border: 2px solid #2f5bd8; display: grid; place-items: center; font-weight: 700; font-size: .95rem; pointer-events: none; }
+.fullscreen-test { position: fixed; inset: 0; z-index: 9999; display: none; cursor: pointer; }
+.fullscreen-test.on { display: block; }
+.fullscreen-test .hint { position: absolute; left: 12px; bottom: 12px; font: 600 13px/1.4 system-ui, sans-serif; background: rgba(0,0,0,.55); color: #fff; padding: .45rem .65rem; border-radius: 8px; }
+.swatches { display: flex; flex-wrap: wrap; gap: .5rem; }
+.swatches button { font: inherit; font-size: .9rem; padding: .5rem .8rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; cursor: pointer; display: flex; gap: .45rem; align-items: center; }
+.swatches button i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid #8a8a8a; display: inline-block; }
+.snap { max-width: 100%; border-radius: 12px; border: 1px solid #8a8a8a; margin-top: .6rem; }
+.video-box { position: relative; background: #0a0a0a; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 9; }
+.video-box video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.faq details { border-top: 1px solid #dcdcd8; padding: .9rem 0; }
+.faq details:last-child { border-bottom: 1px solid #dcdcd8; }
+.faq summary { font-weight: 600; cursor: pointer; }
+.faq details p { margin: .5rem 0 0; line-height: 1.65; }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-5ZCFGLFVLV');</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Touchscreen Tester", "url": "https://madeby.waleedkhan.agency/tools/device-testers/touch-tester/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any web browser", "isAccessibleForFree": true, "description": "Free online touchscreen tester. Place several fingers on the pad to check multi-touch, count simultaneous touch points and find ghost touches on your phone, tablet or touchpad.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How many fingers can the touchscreen track?", "acceptedAnswer": {"@type": "Answer", "text": "The tester shows the limit your device reports. The number of fingers it can track at once may be lower in practice, depending on the hardware and the browser."}}, {"@type": "Question", "name": "Why does a mouse show only one point?", "acceptedAnswer": {"@type": "Answer", "text": "A mouse and a single-finger touchpad send one pointer at a time, so one touch point is correct for them."}}, {"@type": "Question", "name": "What is a ghost touch?", "acceptedAnswer": {"@type": "Answer", "text": "A ghost touch is a point the screen registers when nothing is touching it. If you see circles appear on their own, clean the screen, remove any case or screen protector that might cause it, and test again. Repeated ghost touches can mean a faulty screen."}}, {"@type": "Question", "name": "Does this test the touchscreen's accuracy?", "acceptedAnswer": {"@type": "Answer", "text": "It shows where the screen registers each touch, which is useful for spotting dead or missing areas. It does not measure exact positioning in millimetres."}}]}]}</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>  <main id="main">
+    <section class="hero page-hero">
+      <div class="wrap">
+        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/device-testers/">Device testers</a> / Touchscreen Tester</div>
+        <h1>Touchscreen Tester<span class="dot">.</span></h1>
+        <p class="lead">Place one or more fingers on the pad to see each touch point, count how many your screen detects at once, and check for ghost touches. Free, no sign-up.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="tool">
+          <div class="tbox">
+            <h2>Touch pad</h2>
+            <p class="tnote">Touch with one finger, then add more. Each touch point shows a numbered circle while it is held down.</p>
+            <div class="pad" id="pad"></div>
+          </div>
+          <div class="tbox">
+            <h2>Results</h2>
+            <div class="readout">
+              <div><span>Touching now</span><b id="now">0</b></div>
+              <div><span>Most at once (this session)</span><b id="max">0</b></div>
+              <div><span>Device reports up to</span><b id="hw">–</b></div>
+              <div><span>Last input type</span><b id="type">–</b></div>
+            </div>
+            <div class="tool-row" style="margin-top:.9rem"><button class="tbtn alt" id="reset">Reset counts</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap tguide">
+        <div class="tbox tguide">
+          <h2>What to look for</h2>
+          <ul>
+            <li>Each finger should produce one numbered circle that follows it, with nothing extra.</li>
+            <li>The "Most at once" count should match the number of fingers you use, up to the device's reported limit.</li>
+            <li>A circle that appears when nothing touches the screen is a ghost touch. Clean the screen and check again.</li>
+          </ul>
+          <p class="tnote">A mouse or a touchpad shows one point. The device limit is what the browser reports, and in practice the number of points a screen can track may be lower.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap faq">
+        <p class="eyebrow">// questions/</p><h2>Questions<span class="dot">.</span></h2>
+          <details><summary>How many fingers can the touchscreen track?</summary><p>The tester shows the limit your device reports. The number of fingers it can track at once may be lower in practice, depending on the hardware and the browser.</p></details>
+          <details><summary>Why does a mouse show only one point?</summary><p>A mouse and a single-finger touchpad send one pointer at a time, so one touch point is correct for them.</p></details>
+          <details><summary>What is a ghost touch?</summary><p>A ghost touch is a point the screen registers when nothing is touching it. If you see circles appear on their own, clean the screen, remove any case or screen protector that might cause it, and test again. Repeated ghost touches can mean a faulty screen.</p></details>
+          <details><summary>Does this test the touchscreen's accuracy?</summary><p>It shows where the screen registers each touch, which is useful for spotting dead or missing areas. It does not measure exact positioning in millimetres.</p></details>
+        <h3 style="margin-top:2rem">Your privacy</h3>
+        <p>These tests run in your browser. Your microphone and camera are used only while a test is running, and nothing you do is sent to our servers. We do not ask for your name, email or any account details. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var pad=document.getElementById('pad'), pts=new Map(), max=0, order=0;
+  function $(id){return document.getElementById(id);}
+  function rel(e){ var r=pad.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+  function update(){
+    $('now').textContent=pts.size;
+    max=Math.max(max, pts.size);
+    $('max').textContent=max;
+  }
+  pad.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    try { pad.setPointerCapture(e.pointerId); } catch(err){}
+    order++;
+    var d=document.createElement('div'); d.className='tp';
+    var p=rel(e); d.style.left=p.x+'px'; d.style.top=p.y+'px';
+    d.textContent=pts.size+1;
+    pad.appendChild(d);
+    pts.set(e.pointerId, d);
+    $('type').textContent = e.pointerType==='touch' ? 'Touch' : (e.pointerType==='pen' ? 'Pen' : 'Mouse or touchpad');
+    update();
+  });
+  pad.addEventListener('pointermove', function(e){
+    var d=pts.get(e.pointerId); if(!d) return;
+    var p=rel(e); d.style.left=p.x+'px'; d.style.top=p.y+'px';
+  });
+  function up(e){
+    var d=pts.get(e.pointerId); if(!d) return;
+    d.remove(); pts.delete(e.pointerId);
+    update();
+  }
+  pad.addEventListener('pointerup', up);
+  pad.addEventListener('pointercancel', up);
+  pad.addEventListener('lostpointercapture', up);
+  $('reset').addEventListener('click', function(){ max=0; update(); });
+  $('hw').textContent = navigator.maxTouchPoints ? navigator.maxTouchPoints+' points' : 'None (mouse only)';
+  update();
+})();
+</script>
+</body>
+</html>

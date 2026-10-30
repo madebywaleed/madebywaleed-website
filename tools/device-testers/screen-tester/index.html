@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Screen Tester – Dead Pixels, Solid Colours and Display Check | Made by Waleed</title>
+  <meta name="description" content="Free online screen tester. Check for dead and stuck pixels with full-screen solid colours, and see your screen size, pixel density, colour gamut and HDR support.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Screen Tester – Dead Pixels, Solid Colours and Display Check | Made by Waleed">
+  <meta property="og:description" content="Free online screen tester. Check for dead and stuck pixels with full-screen solid colours, and see your screen size, pixel density, colour gamut and HDR support.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/device-testers/screen-tester/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/device-testers/screen-tester/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <style>
+.tool { display: grid; gap: 1rem; margin-top: 1.5rem; }
+.tbox { background: #fff; border: 1px solid #dcdcd8; border-radius: 14px; padding: 1.2rem; color: #0a0a0a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tbox { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } }
+.tbox h2 { font-size: 1.1rem; margin: 0 0 .6rem; }
+.tool-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.tbtn { font: inherit; font-weight: 600; padding: .6rem 1.05rem; border-radius: 999px; border: 1px solid #0a0a0a; background: #0a0a0a; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+.tbtn.alt { background: transparent; color: inherit; border-color: #8a8a8a; }
+.tbtn:disabled { opacity: .45; cursor: default; }
+.tfield { font: inherit; padding: .55rem .7rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; min-width: 14rem; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; }
+.readout div { background: rgba(127,127,127,.09); border-radius: 10px; padding: .7rem .8rem; }
+.readout span { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
+.readout b { display: block; font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: .2rem; }
+.tnote { font-size: .92rem; opacity: .85; line-height: 1.6; }
+.tguide ol, .tguide ul { line-height: 1.7; padding-left: 1.3rem; }
+.meter { height: 18px; border-radius: 999px; background: rgba(127,127,127,.18); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,#2fb35a,#e0b02f 75%,#d23b3b); transition: width .05s linear; }
+.pad { position: relative; height: 320px; border-radius: 14px; border: 2px dashed #8a8a8a; touch-action: none; user-select: none; -webkit-user-select: none; overflow: hidden; background: rgba(127,127,127,.05); }
+.pad .tp { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(47,91,216,.35); border: 2px solid #2f5bd8; display: grid; place-items: center; font-weight: 700; font-size: .95rem; pointer-events: none; }
+.fullscreen-test { position: fixed; inset: 0; z-index: 9999; display: none; cursor: pointer; }
+.fullscreen-test.on { display: block; }
+.fullscreen-test .hint { position: absolute; left: 12px; bottom: 12px; font: 600 13px/1.4 system-ui, sans-serif; background: rgba(0,0,0,.55); color: #fff; padding: .45rem .65rem; border-radius: 8px; }
+.swatches { display: flex; flex-wrap: wrap; gap: .5rem; }
+.swatches button { font: inherit; font-size: .9rem; padding: .5rem .8rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; cursor: pointer; display: flex; gap: .45rem; align-items: center; }
+.swatches button i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid #8a8a8a; display: inline-block; }
+.snap { max-width: 100%; border-radius: 12px; border: 1px solid #8a8a8a; margin-top: .6rem; }
+.video-box { position: relative; background: #0a0a0a; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 9; }
+.video-box video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.faq details { border-top: 1px solid #dcdcd8; padding: .9rem 0; }
+.faq details:last-child { border-bottom: 1px solid #dcdcd8; }
+.faq summary { font-weight: 600; cursor: pointer; }
+.faq details p { margin: .5rem 0 0; line-height: 1.65; }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-5ZCFGLFVLV');</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Screen Tester", "url": "https://madeby.waleedkhan.agency/tools/device-testers/screen-tester/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any web browser", "isAccessibleForFree": true, "description": "Free online screen tester. Check for dead and stuck pixels with full-screen solid colours, and see your screen size, pixel density, colour gamut and HDR support.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I check a screen for dead pixels?", "acceptedAnswer": {"@type": "Answer", "text": "Start the full-screen test and step through solid black, white, red, green and blue. A dead pixel stays black on every colour, and a stuck pixel stays one colour. Look closely at each colour in a dim room, and check the edges and corners."}}, {"@type": "Question", "name": "Why does my screen look different from another device?", "acceptedAnswer": {"@type": "Answer", "text": "Every screen is calibrated differently, and brightness and colour settings change what you see. Compare with a second device in the same light if you need to judge colour."}}, {"@type": "Question", "name": "What do the colour gamut and HDR readings mean?", "acceptedAnswer": {"@type": "Answer", "text": "They show what your browser reports about the display. A wide gamut (Display P3) means the screen can show more colours than standard sRGB. HDR is shown as supported only when the display and the browser both report it."}}, {"@type": "Question", "name": "Does this test refresh rate or brightness?", "acceptedAnswer": {"@type": "Answer", "text": "No. The tester shows your screen size, pixel density, colour depth, gamut, HDR and dark mode settings. It does not measure refresh rate or brightness, which need dedicated hardware or your device's own settings."}}]}]}</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>  <main id="main">
+    <section class="hero page-hero">
+      <div class="wrap">
+        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/device-testers/">Device testers</a> / Screen Tester</div>
+        <h1>Screen Tester<span class="dot">.</span></h1>
+        <p class="lead">Step through full-screen solid colours to find dead or stuck pixels, and see what your display reports about itself. Free, no sign-up.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="tool">
+          <div class="tbox">
+            <h2>Full-screen colour test</h2>
+            <p class="tnote">Pick a colour to start full screen. Click, tap, or press the arrow keys or Space to move to the next colour. Press Esc to exit.</p>
+            <div class="swatches" id="swatches"></div>
+            <div class="tool-row" style="margin-top:.9rem"><button class="tbtn" id="start">Start full screen at black</button></div>
+          </div>
+          <div class="tbox">
+            <h2>Your display</h2>
+            <div class="readout">
+              <div><span>Viewport (CSS pixels)</span><b id="vp">–</b></div>
+              <div><span>Screen (CSS pixels)</span><b id="scr">–</b></div>
+              <div><span>Physical pixels</span><b id="phys">–</b></div>
+              <div><span>Pixel density</span><b id="dpr">–</b></div>
+              <div><span>Colour depth</span><b id="depth">–</b></div>
+              <div><span>Colour gamut</span><b id="gamut">–</b></div>
+              <div><span>HDR</span><b id="hdr">–</b></div>
+              <div><span>Dark mode</span><b id="dark">–</b></div>
+            </div>
+          </div>
+          <div class="fullscreen-test" id="full" role="dialog" aria-label="Full-screen colour test">
+            <div class="hint" id="hint"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap tguide">
+        <div class="tbox tguide">
+          <h2>How to check for dead pixels</h2>
+          <ol>
+            <li>Start full screen and step through black, white, red, green and blue.</li>
+            <li>Look for a dot that stays one colour, or stays black, on every screen. That is a stuck or dead pixel.</li>
+            <li>Check the edges and corners too, and test in a dim room.</li>
+          </ol>
+          <p class="tnote">The test shows a dot only where a pixel doesn't change colour. It can't repair a pixel, and a few fixed pixels on a phone or laptop are not always a fault. Ask the manufacturer or seller if you are unsure.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap faq">
+        <p class="eyebrow">// questions/</p><h2>Questions<span class="dot">.</span></h2>
+          <details><summary>How do I check a screen for dead pixels?</summary><p>Start the full-screen test and step through solid black, white, red, green and blue. A dead pixel stays black on every colour, and a stuck pixel stays one colour. Look closely at each colour in a dim room, and check the edges and corners.</p></details>
+          <details><summary>Why does my screen look different from another device?</summary><p>Every screen is calibrated differently, and brightness and colour settings change what you see. Compare with a second device in the same light if you need to judge colour.</p></details>
+          <details><summary>What do the colour gamut and HDR readings mean?</summary><p>They show what your browser reports about the display. A wide gamut (Display P3) means the screen can show more colours than standard sRGB. HDR is shown as supported only when the display and the browser both report it.</p></details>
+          <details><summary>Does this test refresh rate or brightness?</summary><p>No. The tester shows your screen size, pixel density, colour depth, gamut, HDR and dark mode settings. It does not measure refresh rate or brightness, which need dedicated hardware or your device's own settings.</p></details>
+        <h3 style="margin-top:2rem">Your privacy</h3>
+        <p>These tests run in your browser. Your microphone and camera are used only while a test is running, and nothing you do is sent to our servers. We do not ask for your name, email or any account details. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var COLORS=[['Black','#000000'],['White','#ffffff'],['Red','#ff0000'],['Green','#00ff00'],['Blue','#0000ff'],['Grey 25%','#404040'],['Grey 50%','#808080'],['Grey 75%','#bfbfbf']];
+  var idx=0, full=document.getElementById('full'), hint=document.getElementById('hint'), sw=document.getElementById('swatches');
+  function $(id){return document.getElementById(id);}
+  COLORS.forEach(function(c,i){
+    var b=document.createElement('button'); b.type='button';
+    var s=document.createElement('i'); s.style.background=c[1]; b.appendChild(s); b.appendChild(document.createTextNode(c[0]));
+    b.addEventListener('click', function(){ openAt(i); });
+    sw.appendChild(b);
+  });
+  function show(i){
+    idx=(i+COLORS.length)%COLORS.length;
+    full.style.background=COLORS[idx][1];
+    hint.textContent=COLORS[idx][0]+' ('+(idx+1)+' of '+COLORS.length+'). Click or arrow keys to change. Esc to exit.';
+    hint.style.color = (idx===0 || idx===2 || idx===4 || idx===5) ? '#ffffff' : '#000000';
+    hint.style.background = (hint.style.color==='#ffffff') ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.75)';
+    hint.style.color = (hint.style.color==='#ffffff') ? '#ffffff' : '#000000';
+  }
+  function openAt(i){
+    show(i); full.classList.add('on'); document.body.style.overflow='hidden';
+    try { if (full.requestFullscreen) full.requestFullscreen().catch(function(){}); } catch(e){}
+  }
+  function close(){
+    full.classList.remove('on'); document.body.style.overflow='';
+    try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){}); } catch(e){}
+  }
+  $('start').addEventListener('click', function(){ openAt(0); });
+  full.addEventListener('click', function(){ show(idx+1); });
+  document.addEventListener('keydown', function(e){
+    if (!full.classList.contains('on')) return;
+    if (e.key==='Escape') { close(); return; }
+    if (['ArrowRight','ArrowUp',' ','Enter'].indexOf(e.key)>-1) { e.preventDefault(); show(idx+1); }
+    if (['ArrowLeft','ArrowDown'].indexOf(e.key)>-1) { e.preventDefault(); show(idx-1); }
+  });
+  document.addEventListener('fullscreenchange', function(){ if (!document.fullscreenElement && full.classList.contains('on')) close(); });
+  function mq(q){ try { return window.matchMedia(q).matches; } catch(e){ return false; } }
+  function info(){
+    var dpr=window.devicePixelRatio||1;
+    $('vp').textContent=window.innerWidth+' × '+window.innerHeight;
+    $('scr').textContent=screen.width+' × '+screen.height;
+    $('phys').textContent=Math.round(screen.width*dpr)+' × '+Math.round(screen.height*dpr);
+    $('dpr').textContent=(Math.round(dpr*100)/100)+'×';
+    $('depth').textContent=(screen.colorDepth||'–')+' bit';
+    $('gamut').textContent = mq('(color-gamut: p3)') ? 'Wide (Display P3)' : (mq('(color-gamut: srgb)') ? 'sRGB' : 'Not reported');
+    $('hdr').textContent = mq('(dynamic-range: high)') ? 'Supported' : 'Standard range';
+    $('dark').textContent = mq('(prefers-color-scheme: dark)') ? 'On' : 'Off';
+  }
+  window.addEventListener('resize', info); info(); show(0);
+})();
+</script>
+</body>
+</html>

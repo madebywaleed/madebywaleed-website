@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Webcam and Camera Test – Live Preview, Resolution and Frame Rate | Made by Waleed</title>
+  <meta name="description" content="Free online webcam test. See a live camera preview, check resolution and frame rate, switch cameras and save a test snapshot, all in your browser with nothing uploaded.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Webcam and Camera Test – Live Preview, Resolution and Frame Rate | Made by Waleed">
+  <meta property="og:description" content="Free online webcam test. See a live camera preview, check resolution and frame rate, switch cameras and save a test snapshot, all in your browser with nothing uploaded.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/device-testers/camera-tester/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/device-testers/camera-tester/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <style>
+.tool { display: grid; gap: 1rem; margin-top: 1.5rem; }
+.tbox { background: #fff; border: 1px solid #dcdcd8; border-radius: 14px; padding: 1.2rem; color: #0a0a0a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tbox { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } }
+.tbox h2 { font-size: 1.1rem; margin: 0 0 .6rem; }
+.tool-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.tbtn { font: inherit; font-weight: 600; padding: .6rem 1.05rem; border-radius: 999px; border: 1px solid #0a0a0a; background: #0a0a0a; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+.tbtn.alt { background: transparent; color: inherit; border-color: #8a8a8a; }
+.tbtn:disabled { opacity: .45; cursor: default; }
+.tfield { font: inherit; padding: .55rem .7rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; min-width: 14rem; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; }
+.readout div { background: rgba(127,127,127,.09); border-radius: 10px; padding: .7rem .8rem; }
+.readout span { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
+.readout b { display: block; font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: .2rem; }
+.tnote { font-size: .92rem; opacity: .85; line-height: 1.6; }
+.tguide ol, .tguide ul { line-height: 1.7; padding-left: 1.3rem; }
+.meter { height: 18px; border-radius: 999px; background: rgba(127,127,127,.18); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,#2fb35a,#e0b02f 75%,#d23b3b); transition: width .05s linear; }
+.pad { position: relative; height: 320px; border-radius: 14px; border: 2px dashed #8a8a8a; touch-action: none; user-select: none; -webkit-user-select: none; overflow: hidden; background: rgba(127,127,127,.05); }
+.pad .tp { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(47,91,216,.35); border: 2px solid #2f5bd8; display: grid; place-items: center; font-weight: 700; font-size: .95rem; pointer-events: none; }
+.fullscreen-test { position: fixed; inset: 0; z-index: 9999; display: none; cursor: pointer; }
+.fullscreen-test.on { display: block; }
+.fullscreen-test .hint { position: absolute; left: 12px; bottom: 12px; font: 600 13px/1.4 system-ui, sans-serif; background: rgba(0,0,0,.55); color: #fff; padding: .45rem .65rem; border-radius: 8px; }
+.swatches { display: flex; flex-wrap: wrap; gap: .5rem; }
+.swatches button { font: inherit; font-size: .9rem; padding: .5rem .8rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; cursor: pointer; display: flex; gap: .45rem; align-items: center; }
+.swatches button i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid #8a8a8a; display: inline-block; }
+.snap { max-width: 100%; border-radius: 12px; border: 1px solid #8a8a8a; margin-top: .6rem; }
+.video-box { position: relative; background: #0a0a0a; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 9; }
+.video-box video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.faq details { border-top: 1px solid #dcdcd8; padding: .9rem 0; }
+.faq details:last-child { border-bottom: 1px solid #dcdcd8; }
+.faq summary { font-weight: 600; cursor: pointer; }
+.faq details p { margin: .5rem 0 0; line-height: 1.65; }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-5ZCFGLFVLV');</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Webcam and Camera Tester", "url": "https://madeby.waleedkhan.agency/tools/device-testers/camera-tester/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any web browser", "isAccessibleForFree": true, "description": "Free online webcam test. See a live camera preview, check resolution and frame rate, switch cameras and save a test snapshot, all in your browser with nothing uploaded.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is the frame rate lower than the camera's advertised rate?", "acceptedAnswer": {"@type": "Answer", "text": "Low light, the camera's own settings and the browser can all lower the frame rate. The number shown is what the browser reports for the stream."}}, {"@type": "Question", "name": "Is my camera image uploaded?", "acceptedAnswer": {"@type": "Answer", "text": "No. The preview and snapshot are made in your browser. A snapshot is saved to your device only when you press Save snapshot."}}, {"@type": "Question", "name": "Why does the preview stay blank?", "acceptedAnswer": {"@type": "Answer", "text": "Check that you allowed camera access, that no other app is using the camera, and that the page is loaded over HTTPS. Closing video calls or other camera apps often fixes it."}}, {"@type": "Question", "name": "Why is the preview mirrored?", "acceptedAnswer": {"@type": "Answer", "text": "Most laptop and front phone cameras show a mirror image by default, which feels natural when you look at yourself. Untick Mirror to see the image as the camera captures it."}}]}]}</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>  <main id="main">
+    <section class="hero page-hero">
+      <div class="wrap">
+        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/device-testers/">Device testers</a> / Camera Test</div>
+        <h1>Webcam and Camera Tester<span class="dot">.</span></h1>
+        <p class="lead">Check your webcam or phone camera with a live preview, see the resolution and frame rate it reports, and save a test snapshot. Free, no sign-up, and nothing is uploaded.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="tool">
+          <div class="tbox">
+            <h2>Live preview</h2>
+            <div class="tool-row" style="margin-bottom:.8rem">
+              <button class="tbtn" id="start">Start camera</button>
+              <button class="tbtn alt" id="stop" disabled>Stop</button>
+              <label for="dev" class="tnote">Camera</label>
+              <select id="dev" class="tfield" disabled><option>Default</option></select>
+              <label class="tnote" style="display:flex;gap:.4rem;align-items:center"><input type="checkbox" id="mirror" checked> Mirror</label>
+            </div>
+            <div class="video-box"><video id="video" autoplay playsinline muted></video></div>
+            <div class="readout" style="margin-top:.8rem">
+              <div><span>Resolution</span><b id="res">–</b></div>
+              <div><span>Frame rate</span><b id="fps">–</b></div>
+              <div><span>Status</span><b id="status">Off</b></div>
+            </div>
+            <div class="tool-row" style="margin-top:.9rem">
+              <button class="tbtn" id="snap" disabled>Take snapshot</button>
+              <a class="tbtn alt" id="save" href="#" download="camera-test.png" style="display:none">Save snapshot</a>
+            </div>
+            <img id="shot" class="snap" alt="Camera snapshot" style="display:none">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap tguide">
+        <div class="tbox tguide">
+          <h2>What to check</h2>
+          <ol>
+            <li>Press "Start camera" and allow access. Check that the preview is clear and in focus.</li>
+            <li>Compare the resolution with what you expect from your camera. Browsers may choose a lower resolution if the camera can't provide the one requested.</li>
+            <li>Take a snapshot and look at it at full size for focus, colour and dust or smudges on the lens.</li>
+          </ol>
+          <p class="tnote">Low light lowers the frame rate on many cameras, so test in the lighting you will actually use. A camera in use by another app may not start.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap faq">
+        <p class="eyebrow">// questions/</p><h2>Questions<span class="dot">.</span></h2>
+          <details><summary>Why is the frame rate lower than the camera's advertised rate?</summary><p>Low light, the camera's own settings and the browser can all lower the frame rate. The number shown is what the browser reports for the stream.</p></details>
+          <details><summary>Is my camera image uploaded?</summary><p>No. The preview and snapshot are made in your browser. A snapshot is saved to your device only when you press Save snapshot.</p></details>
+          <details><summary>Why does the preview stay blank?</summary><p>Check that you allowed camera access, that no other app is using the camera, and that the page is loaded over HTTPS. Closing video calls or other camera apps often fixes it.</p></details>
+          <details><summary>Why is the preview mirrored?</summary><p>Most laptop and front phone cameras show a mirror image by default, which feels natural when you look at yourself. Untick Mirror to see the image as the camera captures it.</p></details>
+        <h3 style="margin-top:2rem">Your privacy</h3>
+        <p>These tests run in your browser. Your microphone and camera are used only while a test is running, and nothing you do is sent to our servers. We do not ask for your name, email or any account details. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var stream=null;
+  function $(id){return document.getElementById(id);}
+  var video=$('video');
+  function setRunning(on){ $('start').disabled=on; $('stop').disabled=!on; $('snap').disabled=!on; $('dev').disabled=!on; }
+  function fillDevices(){
+    if(!navigator.mediaDevices||!navigator.mediaDevices.enumerateDevices) return;
+    navigator.mediaDevices.enumerateDevices().then(function(list){
+      var sel=$('dev'), cur=sel.value; sel.innerHTML='';
+      list.filter(function(d){return d.kind==='videoinput';}).forEach(function(d,i){
+        var o=document.createElement('option'); o.value=d.deviceId; o.textContent=d.label||('Camera '+(i+1)); sel.appendChild(o);
+      });
+      if(cur) sel.value=cur;
+    }).catch(function(){});
+  }
+  function start(deviceId){
+    var video_c = deviceId ? {deviceId:{exact:deviceId}, width:{ideal:1920}, height:{ideal:1080}} : {width:{ideal:1920}, height:{ideal:1080}};
+    navigator.mediaDevices.getUserMedia({video: video_c, audio:false}).then(function(s){
+      stream=s; video.srcObject=s;
+      var track=s.getVideoTracks()[0];
+      var st=track.getSettings ? track.getSettings() : {};
+      $('fps').textContent = st.frameRate ? Math.round(st.frameRate)+' fps' : 'Not reported';
+      video.onloadedmetadata=function(){ $('res').textContent=video.videoWidth+' × '+video.videoHeight; };
+      $('status').textContent='Live';
+      setRunning(true); fillDevices();
+    }).catch(function(err){
+      $('status').textContent = (err && err.name==='NotAllowedError') ? 'Permission refused' : 'No camera found';
+    });
+  }
+  function stop(){
+    if(stream) stream.getTracks().forEach(function(t){t.stop();});
+    stream=null; video.srcObject=null;
+    $('res').textContent='–'; $('fps').textContent='–'; $('status').textContent='Off';
+    setRunning(false);
+  }
+  function snap(){
+    if(!video.videoWidth) return;
+    var c=document.createElement('canvas'); c.width=video.videoWidth; c.height=video.videoHeight;
+    c.getContext('2d').drawImage(video,0,0,c.width,c.height);
+    var url=c.toDataURL('image/png');
+    $('shot').src=url; $('shot').style.display='block';
+    var a=$('save'); a.href=url; a.style.display='inline-block';
+  }
+  function applyMirror(){ video.style.transform = $('mirror').checked ? 'scaleX(-1)' : 'none'; }
+  $('mirror').addEventListener('change', applyMirror); applyMirror();
+  $('start').addEventListener('click', function(){ start(null); });
+  $('stop').addEventListener('click', stop);
+  $('snap').addEventListener('click', snap);
+  $('dev').addEventListener('change', function(){ stop(); start($('dev').value); });
+  if(navigator.mediaDevices) fillDevices();
+})();
+</script>
+</body>
+</html>

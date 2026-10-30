@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Speaker and Headphone Test – Left, Right and Frequency Sweep | Made by Waleed</title>
+  <meta name="description" content="Free online speaker test. Play left and right channel tones, check stereo separation and run a 20 Hz to 20 kHz frequency sweep on your phone, laptop or headphones.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Speaker and Headphone Test – Left, Right and Frequency Sweep | Made by Waleed">
+  <meta property="og:description" content="Free online speaker test. Play left and right channel tones, check stereo separation and run a 20 Hz to 20 kHz frequency sweep on your phone, laptop or headphones.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/device-testers/speaker-tester/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/device-testers/speaker-tester/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <style>
+.tool { display: grid; gap: 1rem; margin-top: 1.5rem; }
+.tbox { background: #fff; border: 1px solid #dcdcd8; border-radius: 14px; padding: 1.2rem; color: #0a0a0a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tbox { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } }
+.tbox h2 { font-size: 1.1rem; margin: 0 0 .6rem; }
+.tool-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.tbtn { font: inherit; font-weight: 600; padding: .6rem 1.05rem; border-radius: 999px; border: 1px solid #0a0a0a; background: #0a0a0a; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+.tbtn.alt { background: transparent; color: inherit; border-color: #8a8a8a; }
+.tbtn:disabled { opacity: .45; cursor: default; }
+.tfield { font: inherit; padding: .55rem .7rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; min-width: 14rem; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; }
+.readout div { background: rgba(127,127,127,.09); border-radius: 10px; padding: .7rem .8rem; }
+.readout span { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
+.readout b { display: block; font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: .2rem; }
+.tnote { font-size: .92rem; opacity: .85; line-height: 1.6; }
+.tguide ol, .tguide ul { line-height: 1.7; padding-left: 1.3rem; }
+.meter { height: 18px; border-radius: 999px; background: rgba(127,127,127,.18); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,#2fb35a,#e0b02f 75%,#d23b3b); transition: width .05s linear; }
+.pad { position: relative; height: 320px; border-radius: 14px; border: 2px dashed #8a8a8a; touch-action: none; user-select: none; -webkit-user-select: none; overflow: hidden; background: rgba(127,127,127,.05); }
+.pad .tp { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(47,91,216,.35); border: 2px solid #2f5bd8; display: grid; place-items: center; font-weight: 700; font-size: .95rem; pointer-events: none; }
+.fullscreen-test { position: fixed; inset: 0; z-index: 9999; display: none; cursor: pointer; }
+.fullscreen-test.on { display: block; }
+.fullscreen-test .hint { position: absolute; left: 12px; bottom: 12px; font: 600 13px/1.4 system-ui, sans-serif; background: rgba(0,0,0,.55); color: #fff; padding: .45rem .65rem; border-radius: 8px; }
+.swatches { display: flex; flex-wrap: wrap; gap: .5rem; }
+.swatches button { font: inherit; font-size: .9rem; padding: .5rem .8rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; cursor: pointer; display: flex; gap: .45rem; align-items: center; }
+.swatches button i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid #8a8a8a; display: inline-block; }
+.snap { max-width: 100%; border-radius: 12px; border: 1px solid #8a8a8a; margin-top: .6rem; }
+.video-box { position: relative; background: #0a0a0a; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 9; }
+.video-box video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.faq details { border-top: 1px solid #dcdcd8; padding: .9rem 0; }
+.faq details:last-child { border-bottom: 1px solid #dcdcd8; }
+.faq summary { font-weight: 600; cursor: pointer; }
+.faq details p { margin: .5rem 0 0; line-height: 1.65; }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-5ZCFGLFVLV');</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Speaker and Headphone Test", "url": "https://madeby.waleedkhan.agency/tools/device-testers/speaker-tester/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any web browser", "isAccessibleForFree": true, "description": "Free online speaker test. Play left and right channel tones, check stereo separation and run a 20 Hz to 20 kHz frequency sweep on your phone, laptop or headphones.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why can't I hear the highest tones in the sweep?", "acceptedAnswer": {"@type": "Answer", "text": "Most adults stop hearing above about 15 to 17 kHz, and small speakers can't reproduce the very high or very low ends. The sweep is a check of your equipment, not a hearing test."}}, {"@type": "Question", "name": "Why do the left and right tests sound the same?", "acceptedAnswer": {"@type": "Answer", "text": "Some devices play mono sound, so both sides sound alike. Stereo separation needs a stereo source and a stereo output, such as stereo headphones or a stereo speaker pair."}}, {"@type": "Question", "name": "What volume should I use?", "acceptedAnswer": {"@type": "Answer", "text": "Start low and raise the volume slowly. Use headphones at a low level, because loud tones can hurt your hearing, and the sweep can be sharp at high volume."}}, {"@type": "Question", "name": "Does this work with Bluetooth speakers and headphones?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The tones play through whichever output your device uses. Check that the right Bluetooth device is selected in your sound settings."}}]}]}</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>  <main id="main">
+    <section class="hero page-hero">
+      <div class="wrap">
+        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/device-testers/">Device testers</a> / Speaker Test</div>
+        <h1>Speaker and Headphone Test<span class="dot">.</span></h1>
+        <p class="lead">Play tones through the left speaker, the right speaker and both, and run a frequency sweep to check your speakers or headphones. Free, no sign-up.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <div class="tool">
+          <div class="tbox">
+            <h2>Tone tests</h2>
+            <p class="tnote">Turn the volume down first, then raise it to a comfortable level. Tones play for a few seconds each.</p>
+            <div class="tool-row" style="margin:.8rem 0">
+              <label for="vol">Volume</label>
+              <input id="vol" type="range" min="0" max="100" value="25" style="flex:1;min-width:10rem">
+              <span id="volv" style="font-variant-numeric:tabular-nums;min-width:3ch">25%</span>
+            </div>
+            <div class="tool-row">
+              <button class="tbtn" id="left">Left channel</button>
+              <button class="tbtn" id="right">Right channel</button>
+              <button class="tbtn" id="both">Both channels</button>
+              <button class="tbtn" id="sweep">Frequency sweep</button>
+              <button class="tbtn alt" id="stop">Stop</button>
+            </div>
+          </div>
+          <div class="tbox">
+            <h2>Now playing</h2>
+            <div class="readout">
+              <div><span>Status</span><b id="status">Stopped</b></div>
+              <div><span>Frequency</span><b id="freq">–</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap tguide">
+        <div class="tbox tguide">
+          <h2>What to listen for</h2>
+          <ul>
+            <li>Left channel should come from the left speaker or left earcup only. Right channel should come from the right only.</li>
+            <li>If both channels sound the same, or you hear only one side, check the cable, the Bluetooth device or the sound output settings.</li>
+            <li>Listen for rattling or buzzing during the sweep. That often points to a loose part or a damaged speaker.</li>
+          </ul>
+          <p class="tnote">Phone and laptop speakers can't reproduce very low or very high tones, so the sweep will sound quieter or silent at the ends. This is a quick check, not a sound quality measurement.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap faq">
+        <p class="eyebrow">// questions/</p><h2>Questions<span class="dot">.</span></h2>
+          <details><summary>Why can't I hear the highest tones in the sweep?</summary><p>Most adults stop hearing above about 15 to 17 kHz, and small speakers can't reproduce the very high or very low ends. The sweep is a check of your equipment, not a hearing test.</p></details>
+          <details><summary>Why do the left and right tests sound the same?</summary><p>Some devices play mono sound, so both sides sound alike. Stereo separation needs a stereo source and a stereo output, such as stereo headphones or a stereo speaker pair.</p></details>
+          <details><summary>What volume should I use?</summary><p>Start low and raise the volume slowly. Use headphones at a low level, because loud tones can hurt your hearing, and the sweep can be sharp at high volume.</p></details>
+          <details><summary>Does this work with Bluetooth speakers and headphones?</summary><p>Yes. The tones play through whichever output your device uses. Check that the right Bluetooth device is selected in your sound settings.</p></details>
+        <h3 style="margin-top:2rem">Your privacy</h3>
+        <p>These tests run in your browser. Your microphone and camera are used only while a test is running, and nothing you do is sent to our servers. We do not ask for your name, email or any account details. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var ctx=null, master=null, nodes=[], timers=[];
+  function $(id){return document.getElementById(id);}
+  function ensure(){
+    if(!ctx){
+      var AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC){ $('status').textContent='Audio not supported'; return null; }
+      ctx=new AC(); master=ctx.createGain(); master.connect(ctx.destination);
+    }
+    if(ctx.state==='suspended') ctx.resume();
+    master.gain.value = Number($('vol').value)/100;
+    return ctx;
+  }
+  function stopAll(){
+    timers.forEach(clearTimeout); timers=[];
+    nodes.forEach(function(n){ try{ n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} });
+    nodes=[];
+    $('status').textContent='Stopped'; $('freq').textContent='–';
+  }
+  function tone(label, pan, freq, secs){
+    stopAll();
+    var c=ensure(); if(!c) return;
+    var osc=c.createOscillator(), p=c.createStereoPanner ? c.createStereoPanner() : null;
+    osc.frequency.value=freq;
+    if(p){ p.pan.value=pan; osc.connect(p); p.connect(master); } else { osc.connect(master); }
+    osc.start(); osc.stop(c.currentTime+secs); nodes.push(osc);
+    $('status').textContent=label; $('freq').textContent=freq+' Hz';
+    timers.push(setTimeout(stopAll, secs*1000));
+  }
+  function sweep(){
+    stopAll();
+    var c=ensure(); if(!c) return;
+    var secs=12, osc=c.createOscillator();
+    osc.frequency.setValueAtTime(20, c.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(20000, c.currentTime+secs);
+    osc.connect(master); osc.start(); osc.stop(c.currentTime+secs); nodes.push(osc);
+    var t0=Date.now();
+    $('status').textContent='Sweeping 20 Hz to 20 kHz';
+    var iv=setInterval(function(){
+      var t=(Date.now()-t0)/1000;
+      if(t>=secs){ clearInterval(iv); return; }
+      $('freq').textContent=Math.round(20*Math.pow(1000, t/secs))+' Hz';
+    }, 150);
+    timers.push(iv); timers.push(setTimeout(stopAll, secs*1000));
+  }
+  $('vol').addEventListener('input', function(){
+    $('volv').textContent=$('vol').value+'%';
+    if(master) master.gain.value=Number($('vol').value)/100;
+  });
+  $('left').addEventListener('click', function(){ tone('Left channel', -1, 440, 3); });
+  $('right').addEventListener('click', function(){ tone('Right channel', 1, 440, 3); });
+  $('both').addEventListener('click', function(){ tone('Both channels', 0, 440, 3); });
+  $('sweep').addEventListener('click', sweep);
+  $('stop').addEventListener('click', stopAll);
+})();
+</script>
+</body>
+</html>
