@@ -168,6 +168,13 @@
     .q-pc.passed h3 { opacity: .55; }
     .q-pc .countdown b { color: var(--brass-soft); font-weight: 700; font-variant-numeric: tabular-nums; font-size: .9rem; }
     .q-pc .empty { color: var(--muted); font-size: .9rem; }
+    .q-tablewrap { overflow-x: auto; margin: 1rem 0; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .q-table { width: 100%; border-collapse: collapse; font-size: .95rem; font-variant-numeric: tabular-nums; }
+    .q-table th, .q-table td { text-align: left; padding: .65rem .9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .q-table th { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--surface); }
+    .q-table tr:last-child td { border-bottom: 0; }
+    .q-steps { padding-left: 1.3rem; line-height: 1.7; }
+    .q-steps li { margin-bottom: .4rem; }
     .q-prayer-foot { margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; background: var(--surface); border-radius: 12px; padding: .8rem 1rem; font-size: .9rem; color: var(--muted); }
     .q-prayer-foot b { color: var(--emerald); }
     .q-prayer-ctrl select { font: inherit; }
@@ -264,28 +271,249 @@
     <section class="q-info">
       <div class="q-wrap">
         <p class="q-label">// about/</p>
-        <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">About this tool.</h2>
-        <p>The Qibla is the direction of the Kaaba in Makkah. This tool works out the great-circle bearing from your position, and shows the bearing and distance to Masjid Al-Aqsa and the angle between the two. The sun's position and prayer times are worked out from your position and the date.</p>
-        <p>Your location is read by your browser only when you press the button. The page saves it in your browser on this device, so it can find you again next time. It is never uploaded or shared. The tool does not use a map service.</p>
-        <p class="q-label" style="margin-top:2rem">// faq/</p>
-        <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">Questions.</h2>
-        <details>
-          <summary>Why does it ask for my location?</summary>
-          <p>To work out the bearings and prayer times from where you are. Without your location, no direction can be calculated. If you prefer not to share it, type your latitude and longitude instead.</p>
-        </details>
-        <details>
-          <summary>Is the direction exact?</summary>
-          <p>The calculation is exact for your position. The compass depends on your phone's sensors, so it can be a few degrees off. Use a dedicated compass for the final check, and ask a knowledgeable person if you need a ruling for a particular place.</p>
-        </details>
-        <details>
-          <summary>Does it work on iPhone?</summary>
-          <p>Yes. On iPhone, the compass needs your permission, which you give when you press "Turn on compass". Without it, the bearings, distances and prayer times still work.</p>
-        </details>
-        <p class="q-label" style="margin-top:2rem">// privacy/</p>
+        <h2 class="q-serif" style="font-size:2.2rem;color:var(--emerald);margin:.3rem 0 .8rem">About the Qibla Finder</h2>
+        <p>The Qibla is the direction Muslims face in prayer, toward the Kaaba in Makkah. This free Qibla finder shows the exact direction from where you are, the distance to the Kaaba, the bearing to Masjid Al-Aqsa in Jerusalem, and prayer times for your location. It also shows the sun's position and works with a phone compass.</p>
+        <p>The tool calculates the great-circle bearing, which is the shortest path over the surface of the Earth. Enter nothing: press "Use my location" and the bearings and times are worked out in your browser.</p>
+
+        <h2 class="q-serif" style="font-size:1.9rem;color:var(--emerald);margin:2.2rem 0 .6rem">How the Qibla direction is calculated</h2>
+        <p>Makkah is at 21.4225° N, 39.8262° E. From your latitude and longitude, the bearing is the angle, measured clockwise from true north, of the great-circle path to Makkah. A bearing of 0° points north, 90° east, 180° south and 270° west. The distance is the great-circle distance along the same path.</p>
+        <p>Because the Earth is round, the direction changes with your position. Two cities that are close together can have bearings a degree or two apart, and cities far apart can differ by many degrees. The same is true of Masjid Al-Aqsa in Jerusalem, which sits at 31.7761° N, 35.2358° E.</p>
+
+        <h2 class="q-serif" style="font-size:1.9rem;color:var(--emerald);margin:2.2rem 0 .6rem">Qibla direction from major cities</h2>
+        <p>These are bearings from true north to the Kaaba, measured from each city's centre, with the straight-line distance. Use the Qibla Finder above for your exact position.</p>
+        <div class="q-tablewrap"><table class="q-table">
+          <thead><tr><th>City</th><th>Qibla bearing</th><th>Distance to Makkah</th></tr></thead>
+          <tbody>
+            <tr><td>Karachi</td><td>268°</td><td>2,800 km</td></tr>
+            <tr><td>Lahore</td><td>260°</td><td>3,598 km</td></tr>
+            <tr><td>Islamabad</td><td>256°</td><td>3,528 km</td></tr>
+            <tr><td>Peshawar</td><td>254°</td><td>3,401 km</td></tr>
+            <tr><td>Kabul</td><td>251°</td><td>3,217 km</td></tr>
+            <tr><td>Delhi</td><td>267°</td><td>3,835 km</td></tr>
+            <tr><td>Dhaka</td><td>278°</td><td>5,172 km</td></tr>
+            <tr><td>Mumbai</td><td>280°</td><td>3,452 km</td></tr>
+            <tr><td>Tehran</td><td>218°</td><td>1,944 km</td></tr>
+            <tr><td>Dubai</td><td>258°</td><td>1,631 km</td></tr>
+            <tr><td>Riyadh</td><td>244°</td><td>790 km</td></tr>
+            <tr><td>Cairo</td><td>136°</td><td>1,287 km</td></tr>
+            <tr><td>Istanbul</td><td>152°</td><td>2,405 km</td></tr>
+            <tr><td>London</td><td>119°</td><td>4,794 km</td></tr>
+            <tr><td>Paris</td><td>119°</td><td>4,496 km</td></tr>
+            <tr><td>Berlin</td><td>137°</td><td>4,130 km</td></tr>
+            <tr><td>New York</td><td>58°</td><td>10,306 km</td></tr>
+            <tr><td>Toronto</td><td>55°</td><td>10,496 km</td></tr>
+            <tr><td>Los Angeles</td><td>24°</td><td>13,424 km</td></tr>
+            <tr><td>Jakarta</td><td>295°</td><td>7,920 km</td></tr>
+            <tr><td>Kuala Lumpur</td><td>293°</td><td>6,974 km</td></tr>
+            <tr><td>Sydney</td><td>277°</td><td>13,236 km</td></tr>
+            <tr><td>Johannesburg</td><td>15°</td><td>5,446 km</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="q-serif" style="font-size:1.9rem;color:var(--emerald);margin:2.2rem 0 .6rem">Masjid Al-Aqsa and the first Qibla</h2>
+        <p>Masjid Al-Aqsa in Jerusalem, known in Arabic as Al-Masjid Al-Aqsa, is the first Qibla. According to the widely reported tradition, Muslims prayed toward Jerusalem for about sixteen to seventeen months after the migration to Madinah, before the direction changed to the Kaaba. Many Muslims still look to Al-Aqsa with deep respect, and the tool shows its bearing and distance alongside the Qibla.</p>
+
+        <h2 class="q-serif" style="font-size:1.9rem;color:var(--emerald);margin:2.2rem 0 .6rem">How to use the Qibla Finder</h2>
+        <ol class="q-steps">
+          <li>Press "Use my location" and allow location access in your browser.</li>
+          <li>Read the Qibla bearing and distance on the dial, and the bearing to Al-Aqsa.</li>
+          <li>Press "Turn on compass" on iPhone. On Android the compass usually starts by itself.</li>
+          <li>Turn yourself until the Qibla needle points to the top of the dial. The dial shows "Aligned with the Qibla" when you are within 3°.</li>
+          <li>Check the prayer times on the right, and choose the calculation method your mosque uses.</li>
+        </ol>
+        <p><b>Tips for a better compass reading:</b> hold the phone flat, then move it in a figure of eight to calibrate it. Keep magnets, metal objects, speakers and car mounts away from the phone. If the reading still seems wrong, check it against a dedicated compass or ask your local mosque.</p>
+
+        <h2 class="q-serif" style="font-size:1.9rem;color:var(--emerald);margin:2.2rem 0 .6rem">Prayer times and how they are calculated</h2>
+        <p>Muslims pray five times a day: Fajr at dawn, Dhuhr after the sun passes its highest point, Asr in the afternoon, Maghrib at sunset and Isha after dusk. Sunrise is not a prayer, but it marks the end of the time for Fajr.</p>
+        <p>The times here are calculated from your latitude, longitude and the date, using the sun's position. Fajr and Isha begin when the sun is a set angle below the horizon, which depends on the method. Maghrib begins at sunset, and Dhuhr when the sun passes its highest point. Asr depends on the length of a shadow, following either the Hanafi or the Shafi'i rule. The times are shown in your device's time zone.</p>
+
+        <h2 class="q-serif" style="font-size:1.9rem;color:var(--emerald);margin:2.2rem 0 .6rem">Prayer calculation methods</h2>
+        <p>Different communities use different sun angles for Fajr and Isha, and different rules for Asr. Choose the method your mosque uses. The angles below are the standard published values for each method.</p>
+        <div class="q-tablewrap"><table class="q-table">
+          <thead><tr><th>Method</th><th>Fajr angle</th><th>Isha</th><th>Asr rule</th><th>Commonly used in</th></tr></thead>
+          <tbody>
+            <tr><td>Karachi (Hanafi Asr)</td><td>18°</td><td>18°</td><td>Hanafi (shadow twice the object)</td><td>Pakistan and South Asia</td></tr>
+            <tr><td>Karachi (Shafi'i Asr)</td><td>18°</td><td>18°</td><td>Shafi'i (shadow equals the object)</td><td>Pakistan and South Asia</td></tr>
+            <tr><td>Muslim World League</td><td>18°</td><td>17°</td><td>Shafi'i</td><td>Europe and many other countries</td></tr>
+            <tr><td>ISNA</td><td>15°</td><td>15°</td><td>Shafi'i</td><td>North America</td></tr>
+            <tr><td>Umm al-Qura, Makkah</td><td>18.5°</td><td>90 min after Maghrib</td><td>Shafi'i</td><td>Saudi Arabia, Makkah</td></tr>
+            <tr><td>Egyptian General Authority</td><td>19.5°</td><td>17.5°</td><td>Shafi'i</td><td>Egypt</td></tr>
+            <tr><td>Kuwait</td><td>18°</td><td>17.5°</td><td>Shafi'i</td><td>Kuwait</td></tr>
+            <tr><td>Dubai</td><td>18.2°</td><td>18.2°</td><td>Shafi'i</td><td>United Arab Emirates</td></tr>
+            <tr><td>Singapore</td><td>20°</td><td>18°</td><td>Shafi'i</td><td>Singapore</td></tr>
+          </tbody>
+        </table></div>
+        <p>The methods shown here follow the Sunni school of thought. The page does not offer the Jafari (Shia) calculation methods.</p>
+
+        <p class="q-label" style="margin-top:2.4rem">// faq/</p>
+        <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">Frequently asked questions</h2>
+          <details>
+            <summary>What is the Qibla?</summary>
+            <p>The Qibla is the direction Muslims face when they pray. It points to the Kaaba, the cube-shaped building in the Grand Mosque in Makkah, Saudi Arabia. Muslims face the Qibla in every prayer (salah), and when they make supplication, perform burial prayers and slaughter animals for food.</p>
+          </details>
+          <details>
+            <summary>How does this tool find the Qibla direction?</summary>
+            <p>It uses the great-circle bearing, which is the shortest path over the surface of the Earth. From your latitude and longitude it works out the compass bearing from true north to the Kaaba at 21.4225° N, 39.8262° E. The same method gives the bearing and distance to Masjid Al-Aqsa in Jerusalem. The calculation runs in your browser.</p>
+          </details>
+          <details>
+            <summary>Why does it ask for my location?</summary>
+            <p>The bearings, distances, sun position and prayer times all depend on where you are. Without your location, no direction can be calculated. Your browser asks for permission first, and the location is only read when you press "Use my location".</p>
+          </details>
+          <details>
+            <summary>Is the direction exact?</summary>
+            <p>The calculation is exact for your position. The compass depends on your phone's sensors, which can be a few degrees off, especially near metal, magnets, speakers or in a car. The page counts the phone as aligned within 3°. For a final check, use a dedicated compass or an established mosque's direction.</p>
+          </details>
+          <details>
+            <summary>Does it work on iPhone?</summary>
+            <p>Yes. On iPhone, the compass needs your permission, which you give when you press "Turn on compass". Safari asks for this again on each visit. Without it, the bearings, distances and prayer times still work.</p>
+          </details>
+          <details>
+            <summary>Does it work on Android, laptops and tablets?</summary>
+            <p>On Android phones and tablets with a compass, the compass starts by itself in most browsers. Laptops and desktop computers have no compass, so the compass button does nothing there. The bearings, distances and prayer times still work on any device with a browser.</p>
+          </details>
+          <details>
+            <summary>Why do prayer times differ between apps and mosques?</summary>
+            <p>Prayer times depend on the calculation method. Each method sets the sun angle for Fajr and Isha, and the rule for Asr. Mosques also round times, and some use local timetables based on observation. Check this page against your local mosque's timetable, especially for Fajr and Isha.</p>
+          </details>
+          <details>
+            <summary>Which calculation method should I choose?</summary>
+            <p>Choose the method your local mosque or community uses. Karachi is widely used in Pakistan, Muslim World League across Europe and many other places, ISNA in North America, Umm al-Qura for Makkah, and Egyptian General Authority, Kuwait, Dubai and Singapore for their own countries and regions. If you are not sure, ask your mosque.</p>
+          </details>
+          <details>
+            <summary>What is the difference between Hanafi and Shafi'i Asr?</summary>
+            <p>Both mark Asr from the sun's position in the afternoon. Shafi'i, Maliki and Hanbali scholars take Asr to begin when a shadow is as long as the object plus its noon shadow. Hanafi scholars take it when the shadow is twice the object's length, which makes Asr later. Choose the one your mosque follows.</p>
+          </details>
+          <details>
+            <summary>Do the prayer times work without internet?</summary>
+            <p>The calculations run in your browser, so the bearings and prayer times don't need a server once the page has loaded. The page itself needs to load first, and you need internet to load it.</p>
+          </details>
+          <details>
+            <summary>Is my location shared or stored on a server?</summary>
+            <p>Your location is never sent to our servers or shared with anyone. The page saves the last location on your device, in your browser, so it can find you again next time. To delete it, clear this site's data in your browser settings.</p>
+          </details>
+
+        <p class="q-label" style="margin-top:2.4rem">// privacy/</p>
         <h3 class="q-serif" style="font-size:1.5rem;color:var(--emerald)">Your privacy</h3>
-        <p>Your location is saved only in your browser on this device, so the page can remember it. We do not store it or send it to our servers. Compass readings are used live and are not saved. To delete the saved location, clear this site's data in your browser settings. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+        <p>Your location is read by your browser only when you press "Use my location". The page saves the last location on your device, in your browser, so it can find you again next time. Your location is not uploaded, shared or sent to our servers, and compass readings are used live and not saved. To delete the saved location, clear this site's data in your browser settings. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+
+        <p class="q-label" style="margin-top:2.4rem">// more tools/</p>
+        <p>Find more free tools on the <a href="/tools/">Made by Waleed tools page</a>, including the <a href="/tools/calculators/">calculators</a>.</p>
       </div>
     </section>
+  <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "Qibla Finder",
+   "url": "https://madeby.waleedkhan.agency/tools/utilities/qibla-finder/",
+   "applicationCategory": "UtilitiesApplication",
+   "operatingSystem": "Any web browser",
+   "isAccessibleForFree": true,
+   "description": "Find the Qibla direction from where you are, with the bearing and distance to the Kaaba and Masjid Al-Aqsa, and prayer times for your location.",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "What is the Qibla?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The Qibla is the direction Muslims face when they pray. It points to the Kaaba, the cube-shaped building in the Grand Mosque in Makkah, Saudi Arabia. Muslims face the Qibla in every prayer (salah), and when they make supplication, perform burial prayers and slaughter animals for food."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How does this tool find the Qibla direction?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It uses the great-circle bearing, which is the shortest path over the surface of the Earth. From your latitude and longitude it works out the compass bearing from true north to the Kaaba at 21.4225° N, 39.8262° E. The same method gives the bearing and distance to Masjid Al-Aqsa in Jerusalem. The calculation runs in your browser."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Why does it ask for my location?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The bearings, distances, sun position and prayer times all depend on where you are. Without your location, no direction can be calculated. Your browser asks for permission first, and the location is only read when you press \"Use my location\"."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is the direction exact?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The calculation is exact for your position. The compass depends on your phone's sensors, which can be a few degrees off, especially near metal, magnets, speakers or in a car. The page counts the phone as aligned within 3°. For a final check, use a dedicated compass or an established mosque's direction."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does it work on iPhone?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. On iPhone, the compass needs your permission, which you give when you press \"Turn on compass\". Safari asks for this again on each visit. Without it, the bearings, distances and prayer times still work."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does it work on Android, laptops and tablets?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "On Android phones and tablets with a compass, the compass starts by itself in most browsers. Laptops and desktop computers have no compass, so the compass button does nothing there. The bearings, distances and prayer times still work on any device with a browser."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Why do prayer times differ between apps and mosques?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Prayer times depend on the calculation method. Each method sets the sun angle for Fajr and Isha, and the rule for Asr. Mosques also round times, and some use local timetables based on observation. Check this page against your local mosque's timetable, especially for Fajr and Isha."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Which calculation method should I choose?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Choose the method your local mosque or community uses. Karachi is widely used in Pakistan, Muslim World League across Europe and many other places, ISNA in North America, Umm al-Qura for Makkah, and Egyptian General Authority, Kuwait, Dubai and Singapore for their own countries and regions. If you are not sure, ask your mosque."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What is the difference between Hanafi and Shafi'i Asr?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Both mark Asr from the sun's position in the afternoon. Shafi'i, Maliki and Hanbali scholars take Asr to begin when a shadow is as long as the object plus its noon shadow. Hanafi scholars take it when the shadow is twice the object's length, which makes Asr later. Choose the one your mosque follows."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do the prayer times work without internet?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The calculations run in your browser, so the bearings and prayer times don't need a server once the page has loaded. The page itself needs to load first, and you need internet to load it."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is my location shared or stored on a server?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Your location is never sent to our servers or shared with anyone. The page saves the last location on your device, in your browser, so it can find you again next time. To delete it, clear this site's data in your browser settings."
+     }
+    }
+   ]
+  }
+ ]
+}
+  </script>
   </main>
   
   <footer class="site-footer">
