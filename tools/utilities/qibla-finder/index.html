@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Qibla Finder – Direction to the Kaaba | Made by Waleed</title>
-  <meta name="description" content="Find the direction of the Qibla from where you are, with the distance to the Kaaba. Uses your location on this device only.">
-  <meta name="theme-color" content="#041711">
+  <title>Qibla Finder – Direction to the Kaaba and Prayer Times | Made by Waleed</title>
+  <meta name="description" content="Find the Qibla from where you are, with the bearing to Masjid Al-Aqsa, the distance to the Kaaba and prayer times. Uses your location on this device only.">
+  <meta name="theme-color" content="#FBF9F5">
   <meta property="og:title" content="Qibla Finder | Made by Waleed">
   <meta property="og:description" content="Find the direction of the Qibla from where you are. Your location stays on your device.">
   <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
   <meta property="og:image" content="https://madeby.waleedkhan.agency/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Space+Mono:wght@400;700&family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/dev.css">
   <script src="/script.js" defer></script>
@@ -33,171 +33,157 @@
     gtag('config', 'G-5ZCFGLFVLV');
   </script>
   <link rel="stylesheet" href="/styles.css">
-  <style>
-    :root {
-      --em-0: #041711; --em-1: #0c1f19; --em-2: #10231d; --em-3: #1b2e27;
-      --gold: #d4af37; --gold-hi: #f2ca50; --gold-lo: #aa820a; --pale-gold: #f3e5ab;
-      --ink: #d2e7dd; --ink-mute: #a39a84; --lock: #4edea3;
+  <style>    :root {
+      --canvas: #FBF9F5; --surface: #F5F2EB; --card: #FFFFFF; --line: #E6DFD3;
+      --emerald: #144234; --emerald-deep: #002B20; --brass: #B38A38; --brass-deep: #8C6826;
+      --ink: #1A2421; --muted: #475550; --brass-soft: #FDCD74; --em-tint: rgba(20,66,52,.08);
+      --warm-glow: 0 4px 20px -2px rgba(179,138,56,.06), 0 2px 6px -1px rgba(26,36,33,.03);
+      --float-glow: 0 12px 32px -4px rgba(20,66,52,.08), 0 4px 12px -2px rgba(179,138,56,.08);
     }
-    .site-header { position: relative; background: #fbfbfa; border-bottom: 1px solid var(--line, #dcdcd8); }
-    .site-header .wordmark { flex-shrink: 0; white-space: nowrap; }
+    body { background: var(--canvas); }
+    .site-header { position: relative; }
 
-    /* ---------- Hero ---------- */
-    .qb-hero { background: var(--em-0); color: var(--ink); position: relative; overflow: hidden; padding: 3rem 0 4.4rem; }
-    .qb-hero::before {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%2523d4af37' stroke-opacity='.16' stroke-width='1'%3E%3Cpolygon points='50.0,6.0 57.7,31.5 81.1,18.9 68.5,42.3 94.0,50.0 68.5,57.7 81.1,81.1 57.7,68.5 50.0,94.0 42.3,68.5 18.9,81.1 31.5,57.7 6.0,50.0 31.5,42.3 18.9,18.9 42.3,31.5'/%3E%3Cpolygon points='0.0,-30.0 5.0,-12.0 21.2,-21.2 12.0,-5.0 30.0,0.0 12.0,5.0 21.2,21.2 5.0,12.0 0.0,30.0 -5.0,12.0 -21.2,21.2 -12.0,5.0 -30.0,0.0 -12.0,-5.0 -21.2,-21.2 -5.0,-12.0'/%3E%3Cpolygon points='100.0,-30.0 105.0,-12.0 121.2,-21.2 112.0,-5.0 130.0,0.0 112.0,5.0 121.2,21.2 105.0,12.0 100.0,30.0 95.0,12.0 78.8,21.2 88.0,5.0 70.0,0.0 88.0,-5.0 78.8,-21.2 95.0,-12.0'/%3E%3Cpolygon points='0.0,70.0 5.0,88.0 21.2,78.8 12.0,95.0 30.0,100.0 12.0,105.0 21.2,121.2 5.0,112.0 0.0,130.0 -5.0,112.0 -21.2,121.2 -12.0,105.0 -30.0,100.0 -12.0,95.0 -21.2,78.8 -5.0,88.0'/%3E%3Cpolygon points='100.0,70.0 105.0,88.0 121.2,78.8 112.0,95.0 130.0,100.0 112.0,105.0 121.2,121.2 105.0,112.0 100.0,130.0 95.0,112.0 78.8,121.2 88.0,105.0 70.0,100.0 88.0,95.0 78.8,78.8 95.0,88.0'/%3E%3Ccircle cx='50' cy='50' r='12'/%3E%3C/g%3E%3C/svg%3E"); background-size: 100px 100px;
-      -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
-              mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
-    }
-    .qb-hero .wrap { position: relative; text-align: center; }
-    .qb-hero .crumb { text-align: left; font-size: .88rem; margin-bottom: 1.4rem; }
-    .qb-hero .crumb, .qb-hero .crumb a { color: var(--ink-mute); }
-    .qb-hero .crumb a { text-decoration-color: var(--gold); }
-    .qb-bism { font-family: "Amiri", serif; font-size: 1.2rem; color: var(--gold); margin: 0; direction: rtl; }
-    .qb-arabic { font-family: "Amiri", serif; font-size: clamp(2rem, 6vw, 3rem); color: var(--gold-hi); margin: .3rem 0 .1rem; line-height: 1.5; direction: rtl; }
-    .qb-hero h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 600; color: var(--pale-gold); font-size: clamp(2.3rem, 6vw, 3.6rem); letter-spacing: -.01em; margin: 0; line-height: 1.1; }
-    .qb-hero h1 .dot { color: var(--gold-hi); }
-    .qb-hero .lead { color: var(--ink); max-width: 36rem; margin: 1rem auto 0; }
-    .qb-scallops { position: absolute; left: 0; right: 0; bottom: 0; height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 14 A14 14 0 0 1 28 14 Z' fill='%2523041711'/%3E%3C/svg%3E") repeat-x 0 100%; background-size: 28px 14px; }
+    .q-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    @media (min-width: 1024px) { .q-wrap { padding: 0 3rem; } }
+    .q-serif { font-family: "Playfair Display", Georgia, serif; }
+    .q-sans { font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+    .q-label { font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .q-brass { color: var(--brass-deep); }
 
-    /* ---------- Stage ---------- */
-    .qb-stage { background: var(--em-0); padding: 2.4rem 0 0; position: relative; }
-    .qb-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 1.75rem; align-items: stretch; }
-    @media (max-width: 52rem) { .qb-grid { grid-template-columns: minmax(0, 1fr); } }
-    .qb-side { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
-    .qb-panel { background: var(--em-1); border: 1px solid rgba(212,175,55,.35); border-radius: 1.25rem; padding: 1.5rem; color: var(--ink); min-width: 0; }
-    .qb-panel p { color: var(--ink); }
-    .qb-arch {
-      background: var(--em-1); border: 1px solid rgba(212,175,55,.45); color: var(--ink); min-width: 0;
-      border-radius: 50% 50% 1.25rem 1.25rem / 12% 12% 1.25rem 1.25rem;
-      padding: 2.8rem 1.25rem 1.7rem; display: flex; flex-direction: column; align-items: center; text-align: center;
-      box-shadow: inset 0 0 0 6px var(--em-1), inset 0 0 0 7px rgba(212,175,55,.25);
-    }
-    .qb-tag {
-      display: inline-block; font-family: "Space Mono", monospace; font-size: .7rem; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--gold-hi); border: 1px solid rgba(212,175,55,.4);
-      padding: .25rem .6rem; border-radius: .4rem; margin-bottom: 1.1rem;
-    }
-    .qb-panel .qb-tag { margin-bottom: 1rem; }
+    /* top bar */
+    .q-top { padding: 2.2rem 0 0; }
+    .q-topcard { background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--warm-glow); padding: 1.25rem 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: space-between; }
+    .q-title { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+    .q-badge { width: 48px; height: 48px; border-radius: 999px; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--brass-deep); flex-shrink: 0; }
+    .q-title h1 { font-family: "Playfair Display", Georgia, serif; font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 600; color: var(--emerald); margin: 0; line-height: 1.15; }
+    .q-chip { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--brass-deep); background: var(--surface); border: 1px solid var(--line); padding: .2rem .55rem; border-radius: 8px; margin-left: .5rem; vertical-align: middle; }
+    .q-sub { font-size: .95rem; color: var(--muted); margin: .3rem 0 0; }
+    .q-solar { background: var(--surface); border-radius: 12px; padding: .7rem 1rem; text-align: right; min-width: 0; }
+    .q-solar strong { display: block; font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 1.05rem; color: var(--emerald); font-weight: 600; font-variant-numeric: tabular-nums; margin-top: .15rem; }
+    .q-tabs { display: flex; gap: .25rem; background: var(--surface); padding: .3rem; border-radius: 12px; flex-wrap: wrap; }
+    .q-tabs a { font-size: .9rem; color: var(--muted); text-decoration: none; padding: .45rem .9rem; border-radius: 9px; font-weight: 500; }
+    .q-tabs a:hover { background: #fff; color: var(--ink); }
+    .q-tabs a.on { background: var(--emerald); color: var(--canvas); font-weight: 600; }
+    .q-observer { margin-top: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.25rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: .8rem; }
+    @media (min-width: 52rem) { .q-observer { grid-template-columns: auto minmax(0,1fr) minmax(0,1fr) auto; align-items: end; } }
+    .q-observer label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+    .q-observer input { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: .6rem .75rem; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .q-observer input:focus, .q-prayer-ctrl select:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
+    .q-msg { font-size: .9rem; color: var(--emerald); min-height: 1.3em; margin: .6rem 0 0; text-align: center; }
 
-    .qb-dial {
-      position: relative; width: min(340px, 80vw); aspect-ratio: 1; margin: 0 auto; border-radius: 50%;
-      background: radial-gradient(circle at 50% 45%, var(--em-2) 0%, var(--em-0) 72%, #01110c 100%);
-      box-shadow: inset 0 2px 6px rgba(255,255,255,.12), inset 0 -10px 24px rgba(0,0,0,.7),
-        0 0 0 4px var(--em-0), 0 0 0 6px var(--gold), 0 0 0 7px rgba(212,175,55,.25), 0 22px 50px -10px rgba(0,0,0,.85);
-      transition: box-shadow .4s ease;
-    }
-    .qb-dial.locked {
-      box-shadow: inset 0 2px 6px rgba(255,255,255,.12), inset 0 -10px 24px rgba(0,0,0,.7),
-        0 0 0 4px var(--em-0), 0 0 0 6px var(--gold-hi), 0 0 0 7px rgba(242,202,80,.5), 0 0 40px 6px rgba(242,202,80,.35);
-    }
-    .qb-ring { position: absolute; inset: 0; transition: transform .2s ease-out; }
-    .qb-ticks {
-      position: absolute; inset: 9px; border-radius: 50%; pointer-events: none;
-      background: repeating-conic-gradient(from -0.4deg, rgba(212,175,55,.85) 0deg .9deg, transparent .9deg 5deg);
-      -webkit-mask: radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);
-              mask: radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);
-    }
-    .qb-ring span { position: absolute; left: 50%; transform: translateX(-50%); font-family: "Space Mono", monospace; font-size: .85rem; font-weight: 700; color: var(--gold-hi); }
-    .qb-ring .n { top: 1.2rem; color: #e0785f; }
-    .qb-ring .s { bottom: 1.2rem; }
-    .qb-ring .e { left: auto; right: 1.2rem; top: 50%; transform: translateY(-50%); }
-    .qb-ring .w { left: 1.2rem; top: 50%; transform: translateY(-50%); }
-    .qb-star { position: absolute; left: 50%; top: 50%; width: 46%; height: 46%; transform: translate(-50%, -50%); pointer-events: none; }
-    .qb-needle { position: absolute; inset: 0; transform-origin: 50% 50%; transition: transform .2s ease-out; pointer-events: none; z-index: 1; }
-    .qb-needle::before {
-      content: ""; position: absolute; top: 12%; left: 50%; width: 0; height: 0; transform: translateX(-50%);
-      border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 22px solid var(--gold-hi);
-      filter: drop-shadow(0 0 4px rgba(242,202,80,.6));
-    }
-    .qb-needle::after {
-      content: ""; position: absolute; top: calc(12% + 20px); bottom: 50%; left: 50%; width: 4px; margin-left: -2px;
-      background: linear-gradient(to top, var(--gold), var(--gold-hi)); border-radius: 3px;
-    }
-    .qb-hub {
-      position: absolute; left: 50%; top: 50%; width: 42px; height: 42px; margin: -21px 0 0 -21px;
-      background: #050505; border: 2px solid var(--gold-hi); border-radius: 4px; z-index: 2; pointer-events: none;
-      box-shadow: 0 0 14px rgba(242,202,80,.35);
-    }
-    .qb-hub::before { content: ""; position: absolute; left: -2px; right: -2px; top: 7px; height: 6px; background: var(--gold-hi); }
+    /* buttons */
+    .q-btn { font: inherit; font-weight: 600; font-size: .92rem; padding: .65rem 1.2rem; border-radius: 8px; cursor: pointer; background: var(--emerald); color: var(--canvas); border: 1px solid var(--emerald); transition: box-shadow .2s, background .2s; white-space: nowrap; }
+    .q-btn:hover { box-shadow: 0 0 0 1px var(--brass); }
+    .q-btn.ghost { background: transparent; color: var(--brass-deep); border: 1px solid var(--brass); }
+    .q-btn.ghost:hover { background: var(--surface); box-shadow: none; }
+    .q-btn:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
 
-    .qb-big { font-family: "Playfair Display", Georgia, serif; font-size: clamp(2.5rem, 7vw, 3.4rem); font-weight: 600; letter-spacing: -.01em; margin: 1.2rem 0 .1rem; text-align: center; color: var(--gold-hi); line-height: 1.1; }
-    .qb-sub { text-align: center; color: var(--ink); margin: 0; }
-    .qb-turn { text-align: center; font-family: "Space Mono", monospace; font-size: .82rem; color: var(--ink-mute); min-height: 1.3em; margin: .5rem 0 0; }
-    .qb-turn.ok { color: var(--lock); }
-    .qb-btns { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; }
-    .qb-btn {
-      font: inherit; font-weight: 700; font-size: .95rem; padding: .7rem 1.25rem; border-radius: 999px; cursor: pointer;
-      border: 1px solid var(--gold-hi); background: linear-gradient(135deg, #f2ca50 0%, #aa820a 100%); color: #2a1f00;
-      box-shadow: 0 0 22px rgba(242,202,80,.25);
-    }
-    .qb-btn:hover { filter: brightness(1.06); }
-    .qb-btn.ghost { background: transparent; color: var(--gold-hi); border: 1px solid rgba(212,175,55,.6); box-shadow: none; }
-    .qb-btn.ghost:hover { background: rgba(212,175,55,.12); }
-    .qb-btn:disabled { opacity: .45; cursor: not-allowed; }
-    .qb-msg { min-height: 1.4em; text-align: center; color: var(--gold-hi); font-size: .92rem; margin: .8rem 0 0; }
+    /* main grid */
+    .q-main { margin-top: 1.75rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    @media (min-width: 64rem) { .q-main { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: stretch; } }
+    .q-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--warm-glow); padding: 1.5rem; min-width: 0; }
+    .q-dialcard { display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
+    .q-dialcard::before { content: ""; position: absolute; top: -80px; left: -80px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(253,205,116,.18), transparent 70%); pointer-events: none; }
+    .q-dialwrap { position: relative; width: min(470px, 100%); aspect-ratio: 1; user-select: none; }
+    .q-dial-static { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .q-ring { position: absolute; inset: 0; transition: transform .25s ease-out; }
+    .q-ring svg { width: 100%; height: 100%; display: block; }
+    .q-lbl { position: absolute; transform: translate(-50%, -50%); text-align: center; line-height: 1.1; pointer-events: none; }
+    .q-lbl b { display: block; font-family: "Playfair Display", Georgia, serif; font-size: 1.35rem; font-weight: 600; color: var(--emerald); }
+    .q-lbl span { display: block; font-size: 10px; font-weight: 600; letter-spacing: .04em; color: var(--brass-deep); font-variant-numeric: tabular-nums; }
+    .q-needle { position: absolute; inset: 0; transition: transform .25s ease-out; pointer-events: none; }
+    .q-head { position: absolute; left: 50%; transform: translateX(-50%); width: 34px; height: 34px; }
+    .q-head svg { width: 100%; height: 100%; display: block; }
+    .q-shaft { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 3px; }
+    .q-needle.kaaba .q-head { top: 4.5%; }
+    .q-needle.kaaba .q-shaft { top: 14%; bottom: 50%; width: 3px; background: linear-gradient(to top, var(--brass), var(--brass-soft)); }
+    .q-needle.aqsa .q-head { top: 19%; width: 28px; height: 28px; }
+    .q-needle.aqsa .q-shaft { top: 26%; bottom: 50%; width: 2px; background: var(--emerald); opacity: .85; }
+    .q-hub { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 999px; background: var(--brass); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(179,138,56,.25); z-index: 3; }
+    .q-hub i { width: 24px; height: 24px; border-radius: 999px; background: var(--canvas); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 2px rgba(0,0,0,.08); }
+    .q-hub i::after { content: ""; width: 9px; height: 9px; border-radius: 999px; background: var(--emerald); }
+    .q-dialcard.locked .q-dialwrap { filter: drop-shadow(0 0 14px rgba(179,138,56,.45)); }
+    .q-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 1.4rem; margin-top: 1.25rem; font-size: .92rem; }
+    .q-legend span { display: inline-flex; align-items: center; gap: .45rem; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .q-legend i { width: 12px; height: 12px; border-radius: 999px; display: inline-block; }
+    .q-status { margin-top: .9rem; font-size: .88rem; color: var(--brass-deep); font-weight: 600; text-align: center; min-height: 1.3em; }
+    .q-status.ok { color: var(--emerald); }
+    .q-dialcard .q-btns { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
 
-    .qb-manual { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
-    @media (max-width: 30rem) { .qb-manual { grid-template-columns: minmax(0, 1fr); } }
-    .qb-manual label { display: block; font-family: "Space Mono", monospace; font-size: .72rem; color: var(--gold); margin-bottom: .35rem; letter-spacing: .06em; }
-    .qb-manual input {
-      width: 100%; min-width: 0; font-family: "Space Mono", monospace; font-size: .95rem; padding: .6rem .7rem;
-      border: 1px solid rgba(212,175,55,.4); border-radius: .6rem; background: var(--em-0); color: var(--pale-gold);
-    }
-    .qb-manual input::placeholder { color: #5f6a62; }
-    .qb-manual input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
-    .qb-manual .qb-btns { margin-top: .9rem; }
-    .qb-note { font-size: .88rem; color: var(--ink-mute); margin: .8rem 0 0; }
+    .q-side { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
+    .q-kaaba { background: var(--emerald-deep); color: #fff; border: 0; position: relative; overflow: hidden; }
+    .q-kaaba h2 { font-family: "Playfair Display", Georgia, serif; font-size: 1.55rem; font-weight: 600; margin: .35rem 0 0; color: #fff; }
+    .q-arabic { font-family: "Amiri", serif; font-size: 1.15rem; color: var(--brass-soft); direction: rtl; text-align: left; margin-top: .15rem; }
+    .q-kaaba .q-label { color: var(--brass-soft); }
+    .q-stat { background: rgba(255,255,255,.06); border-radius: 12px; padding: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
+    .q-stat .q-label { color: rgba(253,205,116,.85); }
+    .q-big { font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 28px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.2; margin-top: .25rem; }
+    .q-big small { font-size: 15px; font-weight: 400; opacity: .8; margin-left: .2rem; }
+    .q-meta { display: flex; justify-content: space-between; gap: .8rem; flex-wrap: wrap; font-size: 12px; margin-top: 1rem; color: rgba(255,255,255,.75); font-variant-numeric: tabular-nums; }
+    .q-meta b { color: var(--brass-soft); font-weight: 600; }
+    .q-aqsa .q-big { color: var(--emerald); }
+    .q-aqsa .q-stat { background: var(--surface); }
+    .q-aqsa h2 { font-family: "Playfair Display", Georgia, serif; font-size: 1.5rem; font-weight: 600; margin: .35rem 0 0; color: var(--emerald); }
+    .q-aqsa .q-arabic { color: var(--muted); }
+    .q-aqsa .q-meta { color: var(--muted); }
+    .q-sep { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); }
+    .q-sep .ic { width: 40px; height: 40px; border-radius: 999px; background: var(--brass-soft); display: flex; align-items: center; justify-content: center; color: #271900; flex-shrink: 0; font-weight: 700; }
+    .q-sep b { display: block; color: var(--emerald); font-size: .98rem; }
+    .q-sep .q-sub { margin-top: .15rem; }
+    .q-sep .num { text-align: right; font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--brass-deep); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-    .qb-tele { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: .5rem; }
-    .qb-tele div { background: var(--em-2); border: 1px solid rgba(212,175,55,.2); border-radius: .6rem; padding: .6rem .65rem; min-width: 0; }
-    .qb-tele span { display: block; font-family: "Space Mono", monospace; font-size: .64rem; letter-spacing: .1em; color: var(--ink-mute); text-transform: uppercase; }
-    .qb-tele strong { display: block; font-family: "Space Mono", monospace; font-size: .85rem; color: var(--gold-hi); font-weight: 700; margin-top: .25rem; overflow-wrap: anywhere; }
-    .qb-tele-note { font-size: .86rem; color: var(--ink-mute); margin: .9rem 0 0; }
+    /* prayer */
+    .q-prayer { margin-top: 3rem; scroll-margin-top: 1rem; }
+    .q-prayerhead { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+    .q-prayerhead h2 { font-family: "Playfair Display", Georgia, serif; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 600; color: var(--emerald); margin: 0; }
+    .q-prayerhead h2 span { font-family: "Amiri", serif; font-size: .75em; color: var(--brass-deep); margin-left: .5rem; font-weight: 400; }
+    .q-method { display: flex; align-items: center; gap: .8rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: .7rem 1rem; box-shadow: var(--warm-glow); }
+    .q-method .q-label { display: block; margin-bottom: .2rem; }
+    .q-method select { font: inherit; font-size: .92rem; font-weight: 600; color: var(--emerald); background: transparent; border: 0; padding: 0; max-width: 100%; }
+    .q-method select:focus { outline: 2px solid var(--brass); outline-offset: 2px; border-radius: 4px; }
+    .q-times { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: 1.5rem; list-style: none; padding: 0; }
+    @media (min-width: 52rem) { .q-times { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media (min-width: 72rem) { .q-times { grid-template-columns: repeat(6, minmax(0,1fr)); } }
+    .q-pc { background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--warm-glow); padding: 1.1rem 1rem; min-height: 11rem; display: flex; flex-direction: column; justify-content: space-between; gap: .6rem; min-width: 0; transition: box-shadow .2s; }
+    .q-pc:hover { box-shadow: var(--float-glow); }
+    .q-pc .top { display: flex; justify-content: space-between; align-items: center; gap: .4rem; }
+    .q-pc .ar { font-family: "Amiri", serif; font-size: 1rem; color: var(--muted); direction: rtl; }
+    .q-pc h3 { font-family: "Playfair Display", Georgia, serif; font-size: 1.4rem; font-weight: 600; color: var(--emerald); margin: 0; }
+    .q-pc .time { font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--ink); letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .q-pc .time small { font-size: .85rem; font-weight: 500; color: var(--muted); margin-left: .2rem; }
+    .q-pc .note { font-size: 12px; color: var(--muted); }
+    .q-pc.sun h3 { color: var(--muted); }
+    .q-pc.sun .label { color: var(--brass-deep); }
+    .q-pc.now { background: var(--emerald-deep); border: 1px solid var(--brass); box-shadow: var(--float-glow); }
+    .q-pc.now h3, .q-pc.now .time { color: #fff; }
+    .q-pc.now .time { color: var(--brass-soft); }
+    .q-pc.now .label, .q-pc.now .ar { color: var(--brass-soft); }
+    .q-pc.now .note { color: rgba(255,255,255,.75); }
+    .q-pc .countdown { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,.15); padding-top: .55rem; font-size: 12px; color: rgba(255,255,255,.8); }
+    .q-pc .countdown:empty { border-top-color: transparent; }
+    .q-pc.passed h3 { opacity: .55; }
+    .q-pc .countdown b { color: var(--brass-soft); font-weight: 700; font-variant-numeric: tabular-nums; font-size: .9rem; }
+    .q-pc .empty { color: var(--muted); font-size: .9rem; }
+    .q-prayer-foot { margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; background: var(--surface); border-radius: 12px; padding: .8rem 1rem; font-size: .9rem; color: var(--muted); }
+    .q-prayer-foot b { color: var(--emerald); }
+    .q-prayer-ctrl select { font: inherit; }
 
-    /* ---------- Prayer times ---------- */
-    .qb-prayer { margin-top: 1.75rem; padding: 1.6rem 1.5rem 1.5rem; }
-    .qb-prayer-top { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
-    .qb-next-label { font-family: "Space Mono", monospace; font-size: .74rem; letter-spacing: .1em; color: var(--ink-mute); text-transform: uppercase; margin: 0; }
-    .qb-next-time { font-family: "Playfair Display", Georgia, serif; font-size: clamp(2rem, 5vw, 2.6rem); color: var(--gold-hi); margin: .2rem 0 0; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
-    .qb-prayer-ctrl label { display: block; font-family: "Space Mono", monospace; font-size: .72rem; color: var(--gold); letter-spacing: .06em; margin-bottom: .3rem; }
-    .qb-prayer-ctrl select { font: inherit; font-size: .9rem; padding: .5rem .6rem; background: var(--em-0); color: var(--pale-gold); border: 1px solid rgba(212,175,55,.4); border-radius: .6rem; max-width: 100%; }
-    .qb-times { list-style: none; margin: 1.3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: .6rem; }
-    .qb-time {
-      display: flex; flex-direction: column; gap: .25rem; background: var(--em-2); border: 1px solid rgba(212,175,55,.2);
-      border-radius: 1rem 1rem .5rem .5rem; padding: .85rem .9rem; position: relative; min-width: 0;
-    }
-    .qb-time::before { content: ""; position: absolute; left: 50%; top: -1px; transform: translateX(-50%); width: 36%; height: 6px; border: 1px solid rgba(212,175,55,.2); border-bottom: 0; border-radius: 6px 6px 0 0; }
-    .qb-time .nm { font-family: "Playfair Display", Georgia, serif; font-size: 1.08rem; color: var(--pale-gold); }
-    .qb-time .tm { font-family: "Space Mono", monospace; font-size: .92rem; color: var(--ink); white-space: nowrap; }
-    .qb-time.next { border-color: var(--gold-hi); box-shadow: 0 0 20px rgba(242,202,80,.25); background: #173a2e; }
-    .qb-time.next .nm, .qb-time.next .tm { color: var(--gold-hi); }
-    .qb-time.sunrise .nm { color: var(--ink-mute); font-size: .98rem; }
-    .qb-time.passed .tm { color: var(--ink-mute); }
-    .qb-prayer-empty { color: var(--ink-mute); text-align: center; margin: 1rem 0 0; list-style: none; grid-column: 1 / -1; }
-    .qb-prayer .qb-btns { margin-top: 1.2rem; }
+    /* calibration */
+    .q-cal { margin-top: 3rem; scroll-margin-top: 1rem; display: grid; grid-template-columns: minmax(0,1fr); gap: 1.5rem; }
+    @media (min-width: 52rem) { .q-cal { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } }
+    .q-cal h2 { font-family: "Playfair Display", Georgia, serif; font-size: 1.8rem; font-weight: 600; color: var(--emerald); margin: .2rem 0 .6rem; }
+    .q-cal ol { padding-left: 1.2rem; margin: .4rem 0 0; color: var(--ink); line-height: 1.65; }
+    .q-cal .q-status-row { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding: .7rem 0; font-size: .95rem; }
+    .q-cal .q-status-row:first-of-type { border-top: 0; }
+    .q-cal .q-status-row b { color: var(--emerald); font-variant-numeric: tabular-nums; text-align: right; }
+    .q-cal .note { font-size: .88rem; color: var(--muted); margin-top: .9rem; }
 
-    /* ---------- Dividers ---------- */
-    .qb-strip { height: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16' viewBox='0 0 24 16'%3E%3Cpath d='M12 1 L15 8 L12 15 L9 8 Z M0 8 L3 8 M21 8 L24 8' fill='none' stroke='%2523d4af37' stroke-width='1.1'/%3E%3Ccircle cx='12' cy='8' r='1.6' fill='%2523d4af37'/%3E%3C/svg%3E") repeat-x 50% 50%; background-size: 24px 16px; opacity: .8; margin: 2.2rem auto 0; max-width: min(640px, 90%); }
-
-    /* Info sections below keep the site's own styling. */
-    .qb-info { padding-top: 2.5rem; }
-
-    /* Info sections in the same dark theme */
-    .qb-info { background: var(--em-0); color: var(--ink); padding: 2.6rem 0 3.2rem; position: relative; }
-    .qb-info p, .qb-info summary, .qb-info li { color: var(--ink); }
-    .qb-info .eyebrow { color: var(--gold); }
-    .qb-info h2 { font-family: "Playfair Display", Georgia, serif; color: var(--pale-gold); font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 600; letter-spacing: -.01em; margin: .3rem 0 1rem; }
-    .qb-info h2 .dot, .qb-info h3 .dot { color: var(--gold-hi); }
-    .qb-info h3 { font-family: "Playfair Display", Georgia, serif; color: var(--pale-gold); font-size: 1.5rem; font-weight: 600; margin: 0 0 .6rem; }
-    .qb-info .wrap > p { max-width: 42rem; }
-    .qb-info details { border-top: 1px solid rgba(212,175,55,.25); padding: .9rem 0; }
-    .qb-info details:last-of-type { border-bottom: 1px solid rgba(212,175,55,.25); }
-    .qb-info summary { cursor: pointer; font-weight: 600; color: var(--pale-gold); }
-    .qb-info details p { margin: .6rem 0 0; color: var(--ink); }
-    .qb-info a { color: var(--gold-hi); }
-    .qb-info .wrap > section, .qb-info .wrap > div { margin-bottom: 2rem; }
+    .q-strip { height: 14px; margin: 3rem auto 0; max-width: 640px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16' viewBox='0 0 24 16'%3E%3Cpath d='M12 1 L15 8 L12 15 L9 8 Z M0 8 L3 8 M21 8 L24 8' fill='none' stroke='%2523B38A38' stroke-width='1.1'/%3E%3Ccircle cx='12' cy='8' r='1.6' fill='%2523B38A38'/%3E%3C/svg%3E") repeat-x 50% 50%; background-size: 24px 16px; opacity: .85; }
+    .q-info { background: var(--canvas); padding: 2.5rem 0 3rem; }
+    .q-info details { border-top: 1px solid var(--line); padding: .9rem 0; }
+    .q-info details:last-of-type { border-bottom: 1px solid var(--line); }
+    .q-info summary { cursor: pointer; font-weight: 600; color: var(--emerald); }
+    .q-info details p { margin: .6rem 0 0; }
   </style>
 </head>
 <body>
@@ -210,105 +196,163 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
   <main id="main">
-    <section class="qb-hero">
-      <div class="wrap">
-        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a> / Qibla Finder</div>
-        <p class="qb-bism" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-        <p class="qb-arabic" lang="ar">اتجاه القبلة</p>
-        <h1>Qibla Finder<span class="dot">.</span></h1>
-        <p class="lead">Find the direction of the Kaaba from where you are. Your location is used on this device only and is not sent to us.</p>
-      </div>
-      <div class="qb-scallops" aria-hidden="true"></div>
-    </section>
-
-    <section class="qb-stage">
-      <div class="wrap">
-        <div class="qb-grid">
-          <div class="qb-arch">
-            <span class="qb-tag">Live compass</span>
-            <div class="qb-dial" id="qb-dial" aria-label="Compass dial">
-              <div class="qb-ring" id="qb-ring">
-                <div class="qb-ticks"></div>
-                <span class="n">N</span><span class="e">E</span><span class="s">S</span><span class="w">W</span>
-              </div>
-              <svg class="qb-star" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="qbGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2ca50"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#aa820a"/></linearGradient></defs><g fill="none" stroke="url(#qbGold)" stroke-width="1.2"><polygon points="50.0,4.0 58.4,29.7 82.5,17.5 70.3,41.6 96.0,50.0 70.3,58.4 82.5,82.5 58.4,70.3 50.0,96.0 41.6,70.3 17.5,82.5 29.7,58.4 4.0,50.0 29.7,41.6 17.5,17.5 41.6,29.7"/><polygon points="50.0,4.0 58.4,29.7 82.5,17.5 70.3,41.6 96.0,50.0 70.3,58.4 82.5,82.5 58.4,70.3 50.0,96.0 41.6,70.3 17.5,82.5 29.7,58.4 4.0,50.0 29.7,41.6 17.5,17.5 41.6,29.7" transform="rotate(22.5 50 50)" stroke-opacity=".5"/><circle cx="50" cy="50" r="24" stroke-opacity=".7"/><circle cx="50" cy="50" r="13" stroke-opacity=".7"/></g></svg>
-              <div class="qb-needle" id="qb-needle" title="Qibla direction"></div>
-              <div class="qb-hub" aria-hidden="true"></div>
-            </div>
-            <p class="qb-big" id="qb-deg">– °</p>
-            <p class="qb-sub" id="qb-dir">Press "Use my location" to start.</p>
-            <p class="qb-sub" id="qb-dist"></p>
-            <p class="qb-turn" id="qb-turn" aria-live="polite"></p>
-            <div class="qb-btns">
-              <button class="qb-btn" id="qb-locate">Use my location</button>
-              <button class="qb-btn ghost" id="qb-compass">Turn on compass</button>
-            </div>
-            <p class="qb-msg" id="qb-msg" role="status"></p>
-          </div>
-
-          <div class="qb-side">
-            <div class="qb-panel">
-              <span class="qb-tag">Manual position</span>
-              <p class="qb-sub" style="text-align:left;margin:0">Or type your position. Use decimals, for example 34.00 and 71.58 for Peshawar.</p>
-              <div class="qb-manual">
-                <div><label for="qb-lat">LATITUDE</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0"></div>
-                <div><label for="qb-lon">LONGITUDE</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.6"></div>
-              </div>
-              <div class="qb-btns"><button class="qb-btn ghost" id="qb-calc">Calculate</button></div>
-              <p class="qb-note">Without the compass, the number is the direction from true north. Turn yourself until the arrow on the dial points to the top of the screen, or use the number with a compass app.</p>
-            </div>
-            <div class="qb-panel">
-              <span class="qb-tag">Telemetry</span>
-              <div class="qb-tele">
-                <div><span>Bearing</span><strong id="qb-t-bearing">–</strong></div>
-                <div><span>Makkah target</span><strong>21.4225°N 39.8262°E</strong></div>
-                <div><span>Range</span><strong id="qb-t-range">–</strong></div>
-              </div>
-              <p class="qb-tele-note">Phone compasses can be off near metal or magnets. Move the phone in a figure of eight to calibrate it. The dial shows "Aligned" when the phone is within 3° of the Qibla.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="qb-panel qb-prayer">
-          <span class="qb-tag">Prayer times</span>
-          <div class="qb-prayer-top">
+    <section class="q-top">
+      <div class="q-wrap">
+        <div class="q-topcard">
+          <div class="q-title">
+            <div class="q-badge" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13 13l-4.5 2.5L11 11z"/></svg></div>
             <div>
-              <p class="qb-next-label" id="qb-next-label">Set your location to see prayer times</p>
-              <p class="qb-next-time" id="qb-next-time">–</p>
-            </div>
-            <div class="qb-prayer-ctrl">
-              <label for="qb-method">METHOD</label>
-              <select id="qb-method">
-                <option value="karachi_hanafi">Karachi (Hanafi Asr)</option>
-                <option value="karachi_shafi">Karachi (Shafi'i Asr)</option>
-                <option value="mwl">Muslim World League</option>
-                <option value="isna">ISNA (North America)</option>
-              </select>
+              <h1>Sacred Directional Horizons<span class="q-chip">Qibla and Al-Aqsa</span></h1>
+              <p class="q-sub" id="obs-line">Set your position to see the bearings from where you are.</p>
             </div>
           </div>
-          <ul class="qb-times" id="qb-times" aria-label="Prayer times for today"></ul>
-          <div class="qb-btns"><button class="qb-btn ghost" id="qb-adhan">Preview adhan</button></div>
-          <p class="qb-note">Times are worked out in your browser from your location and the method you choose, and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</p>
+          <div class="q-solar">
+            <span class="q-label">Sun now</span>
+            <strong id="sun-out">–</strong>
+          </div>
         </div>
+        <div class="q-tabs" role="navigation" aria-label="On this page" style="margin-top:1rem">
+          <a href="#compass" class="on">Compass dial</a><a href="#prayer">Prayer times</a><a href="#calibration">Calibration</a>
+          <span style="margin-left:auto;align-self:center;padding:.45rem .9rem;font-size:.9rem;color:var(--muted)" id="top-next">Next prayer: set location</span>
+        </div>
+        <div class="q-observer">
+          <div><span class="q-label" style="display:block;margin-bottom:.4rem">Your position</span>
+            <button class="q-btn" id="qb-locate" type="button">Use my location</button></div>
+          <div><label for="qb-lat">Latitude</label><input id="qb-lat" inputmode="decimal" placeholder="e.g. 34.0151"></div>
+          <div><label for="qb-lon">Longitude</label><input id="qb-lon" inputmode="decimal" placeholder="e.g. 71.5249"></div>
+          <div><button class="q-btn ghost" id="qb-calc" type="button">Calculate</button></div>
+        </div>
+        <p class="q-msg" id="qb-msg" role="status"></p>
       </div>
-      <div class="qb-strip" aria-hidden="true"></div>
     </section>
 
-    <section class="section tight qb-info">
-      <div class="wrap">
-        <p class="eyebrow">// about/</p>
-        <h2>About this tool<span class="dot">.</span></h2>
-        <p>The Qibla is the direction of the Kaaba in Makkah. This tool works out the direction from your position using the great-circle bearing, and shows the distance to the Kaaba.</p>
-        <p>Your location is read by your browser only when you press the button, and it is used only to calculate the direction. It is not stored, uploaded or shared. The tool does not use a map service.</p>
+    <section class="q-wrap" id="compass" style="scroll-margin-top:1rem">
+      <div class="q-main">
+        <div class="q-card q-dialcard" id="qb-card">
+          <div class="q-dialwrap" id="qb-dial" aria-label="Compass dial">
+            <svg class="q-dial-static" viewBox="0 0 500 500" aria-hidden="true" fill="none"><circle cx="250" cy="250" r="242" stroke="#E6DFD3" stroke-dasharray="2 3" stroke-width="1"/><circle cx="250" cy="250" r="218" stroke="#E6DFD3" stroke-width=".8"/><circle cx="250" cy="250" r="185" stroke="#B38A38" stroke-opacity=".45" stroke-dasharray="6 4" stroke-width="1"/><circle cx="250" cy="250" r="120" stroke="#B38A38" stroke-opacity=".35" stroke-width=".8"/><circle cx="250" cy="250" r="42" stroke="#E6DFD3" stroke-width="1"/><g stroke="#B38A38" stroke-opacity=".3" stroke-width=".9"><polygon points="250.0,140.0 272.2,196.4 327.8,172.2 303.6,227.8 360.0,250.0 303.6,272.2 327.8,327.8 272.2,303.6 250.0,360.0 227.8,303.6 172.2,327.8 196.4,272.2 140.0,250.0 196.4,227.8 172.2,172.2 227.8,196.4"/><polygon points="250.0,140.0 272.2,196.4 327.8,172.2 303.6,227.8 360.0,250.0 303.6,272.2 327.8,327.8 272.2,303.6 250.0,360.0 227.8,303.6 172.2,327.8 196.4,272.2 140.0,250.0 196.4,227.8 172.2,172.2 227.8,196.4" transform="rotate(22.5 250 250)"/><rect x="175" y="175" width="150" height="150"/><rect x="175" y="175" width="150" height="150" transform="rotate(45 250 250)"/></g></svg>
+            <div class="q-ring" id="qb-ring">
+              <svg viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="236" fill="none" stroke="#B38A38" stroke-width="1.5"/><line x1="250.0" y1="36.0" x2="250.0" y2="14.0" stroke="#B38A38" stroke-width="1.6"/><line x1="269.7" y1="24.9" x2="270.6" y2="14.9" stroke="#B38A38" stroke-width="0.8"/><line x1="289.2" y1="27.4" x2="291.0" y2="17.6" stroke="#B38A38" stroke-width="0.8"/><line x1="308.5" y1="31.7" x2="311.1" y2="22.0" stroke="#B38A38" stroke-width="0.8"/><line x1="327.3" y1="37.6" x2="330.7" y2="28.2" stroke="#B38A38" stroke-width="0.8"/><line x1="345.5" y1="45.2" x2="349.7" y2="36.1" stroke="#B38A38" stroke-width="0.8"/><line x1="357.0" y1="64.7" x2="368.0" y2="45.6" stroke="#B38A38" stroke-width="1.6"/><line x1="379.6" y1="64.9" x2="385.4" y2="56.7" stroke="#B38A38" stroke-width="0.8"/><line x1="395.3" y1="76.9" x2="401.7" y2="69.2" stroke="#B38A38" stroke-width="0.8"/><line x1="409.8" y1="90.2" x2="416.9" y2="83.1" stroke="#B38A38" stroke-width="0.8"/><line x1="423.1" y1="104.7" x2="430.8" y2="98.3" stroke="#B38A38" stroke-width="0.8"/><line x1="435.1" y1="120.4" x2="443.3" y2="114.6" stroke="#B38A38" stroke-width="0.8"/><line x1="435.3" y1="143.0" x2="454.4" y2="132.0" stroke="#B38A38" stroke-width="1.6"/><line x1="454.8" y1="154.5" x2="463.9" y2="150.3" stroke="#B38A38" stroke-width="0.8"/><line x1="462.4" y1="172.7" x2="471.8" y2="169.3" stroke="#B38A38" stroke-width="0.8"/><line x1="468.3" y1="191.5" x2="478.0" y2="188.9" stroke="#B38A38" stroke-width="0.8"/><line x1="472.6" y1="210.8" x2="482.4" y2="209.0" stroke="#B38A38" stroke-width="0.8"/><line x1="475.1" y1="230.3" x2="485.1" y2="229.4" stroke="#B38A38" stroke-width="0.8"/><line x1="464.0" y1="250.0" x2="486.0" y2="250.0" stroke="#B38A38" stroke-width="1.6"/><line x1="475.1" y1="269.7" x2="485.1" y2="270.6" stroke="#B38A38" stroke-width="0.8"/><line x1="472.6" y1="289.2" x2="482.4" y2="291.0" stroke="#B38A38" stroke-width="0.8"/><line x1="468.3" y1="308.5" x2="478.0" y2="311.1" stroke="#B38A38" stroke-width="0.8"/><line x1="462.4" y1="327.3" x2="471.8" y2="330.7" stroke="#B38A38" stroke-width="0.8"/><line x1="454.8" y1="345.5" x2="463.9" y2="349.7" stroke="#B38A38" stroke-width="0.8"/><line x1="435.3" y1="357.0" x2="454.4" y2="368.0" stroke="#B38A38" stroke-width="1.6"/><line x1="435.1" y1="379.6" x2="443.3" y2="385.4" stroke="#B38A38" stroke-width="0.8"/><line x1="423.1" y1="395.3" x2="430.8" y2="401.7" stroke="#B38A38" stroke-width="0.8"/><line x1="409.8" y1="409.8" x2="416.9" y2="416.9" stroke="#B38A38" stroke-width="0.8"/><line x1="395.3" y1="423.1" x2="401.7" y2="430.8" stroke="#B38A38" stroke-width="0.8"/><line x1="379.6" y1="435.1" x2="385.4" y2="443.3" stroke="#B38A38" stroke-width="0.8"/><line x1="357.0" y1="435.3" x2="368.0" y2="454.4" stroke="#B38A38" stroke-width="1.6"/><line x1="345.5" y1="454.8" x2="349.7" y2="463.9" stroke="#B38A38" stroke-width="0.8"/><line x1="327.3" y1="462.4" x2="330.7" y2="471.8" stroke="#B38A38" stroke-width="0.8"/><line x1="308.5" y1="468.3" x2="311.1" y2="478.0" stroke="#B38A38" stroke-width="0.8"/><line x1="289.2" y1="472.6" x2="291.0" y2="482.4" stroke="#B38A38" stroke-width="0.8"/><line x1="269.7" y1="475.1" x2="270.6" y2="485.1" stroke="#B38A38" stroke-width="0.8"/><line x1="250.0" y1="464.0" x2="250.0" y2="486.0" stroke="#B38A38" stroke-width="1.6"/><line x1="230.3" y1="475.1" x2="229.4" y2="485.1" stroke="#B38A38" stroke-width="0.8"/><line x1="210.8" y1="472.6" x2="209.0" y2="482.4" stroke="#B38A38" stroke-width="0.8"/><line x1="191.5" y1="468.3" x2="188.9" y2="478.0" stroke="#B38A38" stroke-width="0.8"/><line x1="172.7" y1="462.4" x2="169.3" y2="471.8" stroke="#B38A38" stroke-width="0.8"/><line x1="154.5" y1="454.8" x2="150.3" y2="463.9" stroke="#B38A38" stroke-width="0.8"/><line x1="143.0" y1="435.3" x2="132.0" y2="454.4" stroke="#B38A38" stroke-width="1.6"/><line x1="120.4" y1="435.1" x2="114.6" y2="443.3" stroke="#B38A38" stroke-width="0.8"/><line x1="104.7" y1="423.1" x2="98.3" y2="430.8" stroke="#B38A38" stroke-width="0.8"/><line x1="90.2" y1="409.8" x2="83.1" y2="416.9" stroke="#B38A38" stroke-width="0.8"/><line x1="76.9" y1="395.3" x2="69.2" y2="401.7" stroke="#B38A38" stroke-width="0.8"/><line x1="64.9" y1="379.6" x2="56.7" y2="385.4" stroke="#B38A38" stroke-width="0.8"/><line x1="64.7" y1="357.0" x2="45.6" y2="368.0" stroke="#B38A38" stroke-width="1.6"/><line x1="45.2" y1="345.5" x2="36.1" y2="349.7" stroke="#B38A38" stroke-width="0.8"/><line x1="37.6" y1="327.3" x2="28.2" y2="330.7" stroke="#B38A38" stroke-width="0.8"/><line x1="31.7" y1="308.5" x2="22.0" y2="311.1" stroke="#B38A38" stroke-width="0.8"/><line x1="27.4" y1="289.2" x2="17.6" y2="291.0" stroke="#B38A38" stroke-width="0.8"/><line x1="24.9" y1="269.7" x2="14.9" y2="270.6" stroke="#B38A38" stroke-width="0.8"/><line x1="36.0" y1="250.0" x2="14.0" y2="250.0" stroke="#B38A38" stroke-width="1.6"/><line x1="24.9" y1="230.3" x2="14.9" y2="229.4" stroke="#B38A38" stroke-width="0.8"/><line x1="27.4" y1="210.8" x2="17.6" y2="209.0" stroke="#B38A38" stroke-width="0.8"/><line x1="31.7" y1="191.5" x2="22.0" y2="188.9" stroke="#B38A38" stroke-width="0.8"/><line x1="37.6" y1="172.7" x2="28.2" y2="169.3" stroke="#B38A38" stroke-width="0.8"/><line x1="45.2" y1="154.5" x2="36.1" y2="150.3" stroke="#B38A38" stroke-width="0.8"/><line x1="64.7" y1="143.0" x2="45.6" y2="132.0" stroke="#B38A38" stroke-width="1.6"/><line x1="64.9" y1="120.4" x2="56.7" y2="114.6" stroke="#B38A38" stroke-width="0.8"/><line x1="76.9" y1="104.7" x2="69.2" y2="98.3" stroke="#B38A38" stroke-width="0.8"/><line x1="90.2" y1="90.2" x2="83.1" y2="83.1" stroke="#B38A38" stroke-width="0.8"/><line x1="104.7" y1="76.9" x2="98.3" y2="69.2" stroke="#B38A38" stroke-width="0.8"/><line x1="120.4" y1="64.9" x2="114.6" y2="56.7" stroke="#B38A38" stroke-width="0.8"/><line x1="143.0" y1="64.7" x2="132.0" y2="45.6" stroke="#B38A38" stroke-width="1.6"/><line x1="154.5" y1="45.2" x2="150.3" y2="36.1" stroke="#B38A38" stroke-width="0.8"/><line x1="172.7" y1="37.6" x2="169.3" y2="28.2" stroke="#B38A38" stroke-width="0.8"/><line x1="191.5" y1="31.7" x2="188.9" y2="22.0" stroke="#B38A38" stroke-width="0.8"/><line x1="210.8" y1="27.4" x2="209.0" y2="17.6" stroke="#B38A38" stroke-width="0.8"/><line x1="230.3" y1="24.9" x2="229.4" y2="14.9" stroke="#B38A38" stroke-width="0.8"/></svg>
+              <div class="q-lbl" style="left:50%;top:8.5%"><b>N</b><span>0°</span></div>
+              <div class="q-lbl" style="left:91.5%;top:50%"><b>E</b><span>90°</span></div>
+              <div class="q-lbl" style="left:50%;top:91.5%"><b>S</b><span>180°</span></div>
+              <div class="q-lbl" style="left:8.5%;top:50%"><b>W</b><span>270°</span></div>
+            </div>
+            <div class="q-needle aqsa" id="qb-needle-aqsa" title="Al-Aqsa bearing">
+              <div class="q-head"><svg viewBox="0 0 36 36" aria-hidden="true"><polygon points="6,24 10,18 26,18 30,24 28,31 8,31" fill="#144234"/><ellipse cx="18" cy="17" rx="8" ry="7" fill="#B38A38"/><circle cx="18" cy="8" r="1.5" fill="#B38A38"/><line x1="18" y1="9.5" x2="18" y2="11" stroke="#B38A38" stroke-width="1.5"/></svg></div><div class="q-shaft"></div>
+            </div>
+            <div class="q-needle kaaba" id="qb-needle" title="Qibla bearing">
+              <div class="q-head"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M18 4 L30 11 L18 18 L6 11 Z" fill="#28332F"/><path d="M6 11 L18 18 L18 32 L6 25 Z" fill="#141E1B"/><path d="M30 11 L18 18 L18 32 L30 25 Z" fill="#002117"/><path d="M6 14.5 L18 21.5 L18 23.5 L6 16.5 Z" fill="#B38A38"/><path d="M30 14.5 L18 21.5 L18 23.5 L30 16.5 Z" fill="#FDCD74"/><rect x="21" y="21" width="3" height="6.5" fill="#B38A38"/></svg></div><div class="q-shaft"></div>
+            </div>
+            <div class="q-hub" aria-hidden="true"><i></i></div>
+          </div>
+          <div class="q-legend">
+            <span><i style="background:#B38A38"></i>Qibla <b id="leg-qibla">–</b></span>
+            <span><i style="background:#144234"></i>Al-Aqsa <b id="leg-aqsa">–</b></span>
+          </div>
+          <p class="q-status" id="qb-turn" aria-live="polite"></p>
+          <div class="q-btns">
+            <button class="q-btn ghost" id="qb-compass" type="button">Turn on compass</button>
+          </div>
+        </div>
+
+        <div class="q-side">
+          <div class="q-card q-kaaba">
+            <span class="q-label">Qibla bearing</span>
+            <h2>Al-Ka‘bah Al-Musharrafah</h2>
+            <p class="q-arabic" lang="ar">الكعبة المشرفة • Makkah</p>
+            <div class="q-stat">
+              <div><span class="q-label">Bearing</span><div class="q-big" id="qb-deg">–</div></div>
+              <div><span class="q-label">Distance</span><div class="q-big" id="qb-dist-km">–</div></div>
+            </div>
+            <div class="q-meta"><span>Coordinates: 21.4225° N, 39.8262° E</span><b id="qb-dir">Set your position</b></div>
+          </div>
+
+          <div class="q-card q-aqsa">
+            <span class="q-label q-brass">The first Qibla • Al-Qiblah Al-Ula</span>
+            <h2>Masjid Al-Aqsa</h2>
+            <p class="q-arabic" lang="ar">المسجد الأقصى المبارك • Al-Quds</p>
+            <div class="q-stat">
+              <div><span class="q-label">Bearing</span><div class="q-big" id="qb-t-aqsa">–</div></div>
+              <div><span class="q-label">Distance</span><div class="q-big" id="qb-t-aqsa-km">–</div></div>
+            </div>
+            <div class="q-meta"><span>Coordinates: 31.7761° N, 35.2358° E</span><b style="color:var(--brass-deep)">Al-Haram Al-Sharif</b></div>
+          </div>
+
+          <div class="q-card q-sep">
+            <div style="display:flex;gap:.8rem;align-items:center;min-width:0">
+              <div class="ic" aria-hidden="true">Δ</div>
+              <div style="min-width:0"><b>Angle between the two bearings</b><p class="q-sub">Makkah and Jerusalem, seen from your position.</p></div>
+            </div>
+            <div style="text-align:right">
+              <div class="num" id="qb-sep">–</div>
+              <p class="q-sub" style="font-size:12px;margin:0">Makkah to Jerusalem <span id="qb-mj">–</span></p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="section tight qb-info">
-      <div class="wrap">
-        <p class="eyebrow">// faq/</p>
-        <h2>Questions<span class="dot">.</span></h2>
+
+    <section class="q-wrap q-prayer" id="prayer">
+      <div class="q-prayerhead">
+        <div>
+          <h2>Awqat As-Salah<span lang="ar">أوقات الصلاة</span></h2>
+          <p class="q-sub" id="prayer-sub">Set your position to see prayer times for where you are.</p>
+        </div>
+        <div class="q-method">
+          <div>
+            <span class="q-label">Computation method</span>
+            <select id="qb-method" aria-label="Computation method">
+              <option value="karachi_hanafi">Karachi (Hanafi Asr)</option>
+              <option value="karachi_shafi">Karachi (Shafi'i Asr)</option>
+              <option value="mwl">Muslim World League (18° / 17°)</option>
+              <option value="isna">ISNA (15° / 15°)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <ul class="q-times" id="qb-times" aria-label="Prayer times for today"></ul>
+      <div class="q-prayer-foot">
+        <span>Times are worked out in your browser and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</span>
+        <button class="q-btn ghost" id="qb-adhan" type="button">Preview adhan</button>
+      </div>
+    </section>
+
+    <section class="q-wrap q-cal" id="calibration" style="scroll-margin-top:1rem">
+      <div class="q-card">
+        <span class="q-label">Calibration</span>
+        <h2>Keep the dial true</h2>
+        <ol>
+          <li>Hold the phone flat, then move it in a figure of eight.</li>
+          <li>Keep metal objects, magnets and speakers away from the phone.</li>
+          <li>Check the arrow against a compass app if you need a final check.</li>
+        </ol>
+      </div>
+      <div class="q-card">
+        <span class="q-label">Status</span>
+        <div style="margin-top:.5rem">
+          <div class="q-status-row"><span>Compass sensor</span><b id="cal-sensor">Not started</b></div>
+          <div class="q-status-row"><span>Heading source</span><b id="cal-source">–</b></div>
+          <div class="q-status-row"><span>Aligned with the Qibla</span><b id="cal-lock">–</b></div>
+          <div class="q-status-row"><span>Location</span><b id="cal-loc">Not set</b></div>
+        </div>
+        <p class="q-sub">The alignment check counts as aligned within 3°, because phone compasses are rarely more accurate than that. Location and compass readings stay on this device.</p>
+      </div>
+    </section>
+
+    <div class="q-strip" aria-hidden="true"></div>
+
+    <section class="q-info">
+      <div class="q-wrap">
+        <p class="q-label">// about/</p>
+        <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">About this tool.</h2>
+        <p>The Qibla is the direction of the Kaaba in Makkah. This tool works out the great-circle bearing from your position, and shows the bearing and distance to Masjid Al-Aqsa and the angle between the two. The sun's position and prayer times are worked out from your position and the date.</p>
+        <p>Your location is read by your browser only when you press the button, and it is used only for these calculations. It is not stored, uploaded or shared. The tool does not use a map service.</p>
+        <p class="q-label" style="margin-top:2rem">// faq/</p>
+        <h2 class="q-serif" style="font-size:2rem;color:var(--emerald);margin:.3rem 0 .8rem">Questions.</h2>
         <details>
           <summary>Why does it ask for my location?</summary>
-          <p>To work out the Qibla from where you are. Without your location, no direction can be calculated. If you prefer not to share it, type your latitude and longitude instead.</p>
+          <p>To work out the bearings and prayer times from where you are. Without your location, no direction can be calculated. If you prefer not to share it, type your latitude and longitude instead.</p>
         </details>
         <details>
           <summary>Is the direction exact?</summary>
@@ -316,17 +360,15 @@
         </details>
         <details>
           <summary>Does it work on iPhone?</summary>
-          <p>Yes. On iPhone, the compass needs your permission, which you give when you press "Turn on compass". Without it, the direction and distance still work.</p>
+          <p>Yes. On iPhone, the compass needs your permission, which you give when you press "Turn on compass". Without it, the bearings, distances and prayer times still work.</p>
         </details>
-      </div>
-    </section>
-    <section class="section tight qb-info">
-      <div class="wrap">
-        <h3>Your privacy</h3>
+        <p class="q-label" style="margin-top:2rem">// privacy/</p>
+        <h3 class="q-serif" style="font-size:1.5rem;color:var(--emerald)">Your privacy</h3>
         <p>Your location and compass reading stay on your device. We do not store them or send them to our servers. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
       </div>
     </section>
   </main>
+  
   <footer class="site-footer">
     <div class="wrap">
       <div class="foot-cols">
@@ -341,280 +383,329 @@
     </div>
   </footer>
 <script>
-(function () {
-  var KAABA_LAT = 21.4225, KAABA_LON = 39.8262;
-  var ALIGN_TOLERANCE = 3; // degrees; phone compasses are rarely better than this
-  var $ = function (id) { return document.getElementById(id); };
-  var deg = $('qb-deg'), dir = $('qb-dir'), dist = $('qb-dist'), msg = $('qb-msg'), turn = $('qb-turn');
-  var dial = $('qb-dial'), ring = $('qb-ring'), needle = $('qb-needle'), compassBtn = $('qb-compass');
-  var qibla = null;
-  var shown = null;                         // heading currently drawn on the dial
-  var sx = 0, sy = 0, haveSmooth = false;   // smoothed heading as a unit vector
-  var gotAbsolute = false, useRelativeFallback = false, compassOn = false;
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var KAABA = [21.4225, 39.8262], AQSA = [31.7761, 35.2358];
+  var ALIGN = 3, DEAD = 1.5, ALPHA = 0.08;
+  var R = Math.PI / 180;
+  var PM = { karachi_hanafi:[18,18,2], karachi_shafi:[18,18,1], mwl:[18,17,1], isna:[15,15,1] };
+  var PM_LABEL = { karachi_hanafi:'Karachi, Hanafi Asr', karachi_shafi:"Karachi, Shafi'i Asr", mwl:'Muslim World League', isna:'ISNA' };
+  var NAMES16 = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  var PRAYERS = [
+    {key:'fajr', name:'Fajr', ar:'الفجر'}, {key:'shuruq', name:'Sunrise', ar:'الشروق', sun:true},
+    {key:'dhuhr', name:'Dhuhr', ar:'الظهر'}, {key:'asr', name:'Asr', ar:'العصر'},
+    {key:'maghrib', name:'Maghrib', ar:'المغرب'}, {key:'isha', name:'Isha', ar:'العشاء'}
+  ];
 
-  function toRad(d) { return d * Math.PI / 180; }
-  function toDeg(r) { return r * 180 / Math.PI; }
-  function bearingTo(lat, lon) {
-    var p1 = toRad(lat), p2 = toRad(KAABA_LAT), dl = toRad(KAABA_LON - lon);
+  function rad(d){ return d * R; }
+  function deg(r){ return r / R; }
+  function norm360(x){ return ((x % 360) + 360) % 360; }
+  function bearingTo(la1, lo1, la2, lo2){
+    var p1 = rad(la1), p2 = rad(la2), dl = rad(lo2 - lo1);
     var y = Math.sin(dl) * Math.cos(p2);
     var x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(dl);
-    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+    return norm360(deg(Math.atan2(y, x)));
   }
-  function distanceKm(lat, lon) {
-    var R = 6371, p1 = toRad(lat), p2 = toRad(KAABA_LAT);
-    var dp = toRad(KAABA_LAT - lat), dl = toRad(KAABA_LON - lon);
-    var a = Math.sin(dp / 2) * Math.sin(dp / 2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2);
-    return 2 * R * Math.asin(Math.sqrt(a));
+  function distanceKm(la1, lo1, la2, lo2){
+    var dp = rad(la2 - la1), dl = rad(lo2 - lo1);
+    var a = Math.sin(dp/2)*Math.sin(dp/2) + Math.cos(rad(la1))*Math.cos(rad(la2))*Math.sin(dl/2)*Math.sin(dl/2);
+    return 2 * 6371 * Math.asin(Math.sqrt(a));
   }
-  function cardinal(b) {
-    var names = ['N','NE','E','SE','S','SW','W','NW'];
-    return names[Math.round(b / 45) % 8];
+  function cardinal(b){ return NAMES16[Math.round(b / 22.5) % 16]; }
+  function fmtKm(v){ return Math.round(v).toLocaleString('en-US') + ' km'; }
+
+  // Sun position and equation of time (low-precision almanac)
+  function astroAt(ms){
+    var T = ms / 86400000 + 2440587.5, n = T - 2451545;
+    var L = 280.460 + 0.9856474 * n;
+    var g = rad(norm360(357.528 + 0.9856003 * n));
+    var lam = rad(norm360(L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)));
+    var eps = rad(23.439 - 0.0000004 * n);
+    var dec = Math.asin(Math.sin(eps) * Math.sin(lam));
+    var ra = norm360(deg(Math.atan2(Math.cos(eps) * Math.sin(lam), Math.cos(lam))));
+    var eqt = norm360(L) - ra;
+    eqt = ((eqt + 540) % 360) - 180;
+    return { dec: dec, eqt: eqt };
   }
-  function show(lat, lon) {
-    if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-      msg.textContent = 'Please enter a latitude between -90 and 90, and a longitude between -180 and 180.'; return;
+  function astroDay(y, m, d){ return astroAt(Date.UTC(y, m - 1, d, 12)); }
+
+  function computeDay(la, lo, y, m, d, method){
+    var p = PM[method] || PM.karachi_hanafi, a = astroDay(y, m, d);
+    var phi = rad(la), dec = a.dec;
+    var noon = 12 - lo / 15 - a.eqt * 4 / 60;
+    function ha(alt){
+      var c = (Math.sin(rad(alt)) - Math.sin(phi) * Math.sin(dec)) / (Math.cos(phi) * Math.cos(dec));
+      c = Math.max(-1, Math.min(1, c));
+      return deg(Math.acos(c)) / 15;
     }
-    qibla = bearingTo(lat, lon);
-    prayerCoords = { lat: lat, lon: lon };
-    renderPrayers();
-    var km = distanceKm(lat, lon);
-    deg.textContent = Math.round(qibla) + '°';
-    dir.textContent = 'From true north, ' + cardinal(qibla) + '.' + (shown === null ? ' Turn until the arrow points up.' : '');
-    dist.textContent = 'About ' + Math.round(km).toLocaleString() + ' km to the Kaaba.';
-    $('qb-t-bearing').textContent = Math.round(qibla) + '° ' + cardinal(qibla);
-    $('qb-t-range').textContent = Math.round(km).toLocaleString() + ' km';
-    msg.textContent = '';
-    drawDial();
+    var asrAlt = deg(Math.atan(1 / (p[2] + Math.abs(Math.tan(phi - dec)))));
+    return {
+      fajr: noon - ha(-p[0]), shuruq: noon - ha(-0.833), dhuhr: noon,
+      asr: noon + ha(asrAlt), maghrib: noon + ha(-0.833), isha: noon + ha(-p[1])
+    };
+  }
+  function toDate(y, m, d, h){ return new Date(Date.UTC(y, m - 1, d) + h * 3600000); }
+  function fmtTime(dt){ return isNaN(dt) ? '–' : dt.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
+  function sunNow(la, lo, now){
+    var a = astroAt(now.getTime());
+    var h = now.getUTCHours() + now.getUTCMinutes()/60 + now.getUTCSeconds()/3600;
+    var solar = h + lo / 15 + a.eqt * 4 / 60;
+    var H = rad((solar - 12) * 15), phi = rad(la), dec = a.dec;
+    var alt = deg(Math.asin(Math.sin(phi)*Math.sin(dec) + Math.cos(phi)*Math.cos(dec)*Math.cos(H)));
+    var az = deg(Math.atan2(Math.sin(H), Math.cos(H)*Math.sin(phi) - Math.tan(dec)*Math.cos(phi)));
+    return { alt: alt, az: norm360(az + 180) };
   }
 
-  // Draw the dial, and update the turn guidance and aligned state.
-  function drawDial() {
-    if (shown === null) {
+  // Elements
+  var dial = $('qb-dial'), ring = $('qb-ring'), needK = $('qb-needle'), needA = $('qb-needle-aqsa');
+  var latIn = $('qb-lat'), lonIn = $('qb-lon'), msg = $('qb-msg'), turn = $('qb-turn');
+  var compassBtn = $('qb-compass'), methodSel = $('qb-method'), timesUl = $('qb-times');
+  var sunOut = $('sun-out'), topNext = $('top-next'), subEl = $('prayer-sub'), obsLine = $('obs-line');
+
+  var observer = null, qibla = null, aqsa = null, shown = null, sx = null, cx = null;
+  var compassOn = false, sensorMode = null, lastEvt = 0, dayTimes = [], renderedKey = '';
+
+  $('qb-t-aqsa') && 0;
+  var kaabaKm = distanceKm(KAABA[0], KAABA[1], AQSA[0], AQSA[1]);
+  $('qb-mj').textContent = fmtKm(kaabaKm);
+
+  function setMsg(t){ msg.textContent = t || ''; }
+
+  function drawDial(){
+    if (qibla === null){
       ring.style.transform = 'rotate(0deg)';
-      needle.style.transform = 'rotate(' + (qibla || 0) + 'deg)';
+      needK.style.transform = 'rotate(0deg)'; needA.style.transform = 'rotate(0deg)';
       dial.classList.remove('locked');
-      turn.textContent = '';
-      turn.classList.remove('ok');
+      turn.textContent = 'Set your position to see the Qibla from where you are.';
+      $('cal-lock').textContent = '–';
+      return;
+    }
+    if (shown === null){
+      ring.style.transform = 'rotate(0deg)';
+      needK.style.transform = 'rotate(' + qibla + 'deg)';
+      needA.style.transform = 'rotate(' + aqsa + 'deg)';
+      dial.classList.remove('locked');
+      turn.textContent = 'Turn on the compass to see which way to turn. Until then the needles show bearings from north.';
+      $('cal-lock').textContent = '–';
       return;
     }
     ring.style.transform = 'rotate(' + (-shown) + 'deg)';
-    needle.style.transform = 'rotate(' + ((qibla - shown + 360) % 360) + 'deg)';
-    if (qibla === null) { turn.textContent = ''; return; }
-    var diff = ((qibla - shown + 540) % 360) - 180;   // positive = turn right
-    var ad = Math.abs(diff);
-    if (ad <= ALIGN_TOLERANCE) {
-      dial.classList.add('locked');
-      turn.textContent = 'Aligned with the Qibla';
-      turn.classList.add('ok');
-    } else {
-      dial.classList.remove('locked');
-      turn.textContent = 'Turn ' + Math.round(ad) + '° ' + (diff > 0 ? 'right' : 'left') + ' to face the Qibla';
-      turn.classList.remove('ok');
-    }
+    needK.style.transform = 'rotate(' + norm360(qibla - shown) + 'deg)';
+    needA.style.transform = 'rotate(' + norm360(aqsa - shown) + 'deg)';
+    var diff = ((qibla - shown + 540) % 360) - 180;
+    var aligned = Math.abs(diff) <= ALIGN;
+    dial.classList.toggle('locked', aligned);
+    $('cal-lock').textContent = aligned ? 'Yes' : 'Not yet';
+    if (aligned) turn.textContent = 'Aligned with the Qibla.';
+    else if (diff > 0) turn.textContent = 'Turn right ' + Math.round(diff) + '° to face the Qibla.';
+    else turn.textContent = 'Turn left ' + Math.round(-diff) + '° to face the Qibla.';
   }
 
-  // Average headings as vectors so the value never jumps across 0/360.
-  // A dead band stops the dial redrawing for tiny sensor changes.
-  function feedHeading(h) {
-    var r = toRad(h);
-    if (!haveSmooth) { sx = Math.cos(r); sy = Math.sin(r); haveSmooth = true; }
-    else {
-      var a = 0.08; // lower = steadier, higher = quicker
-      sx = sx * (1 - a) + Math.cos(r) * a;
-      sy = sy * (1 - a) + Math.sin(r) * a;
-    }
-    var smooth = (toDeg(Math.atan2(sy, sx)) + 360) % 360;
-    if (shown === null || Math.abs(((smooth - shown + 540) % 360) - 180) >= 1.5) {
-      shown = smooth;
-      drawDial();
-    }
+  function feedHeading(h){
+    if (h == null || isNaN(h)) return;
+    var r = h * R;
+    if (sx === null){ sx = Math.sin(r); cx = Math.cos(r); }
+    else { sx += (Math.sin(r) - sx) * ALPHA; cx += (Math.cos(r) - cx) * ALPHA; }
+    var s = norm360(deg(Math.atan2(sx, cx)));
+    if (shown === null || Math.abs(((s - shown + 540) % 360) - 180) >= DEAD){ shown = s; drawDial(); }
   }
-
-  // Android: only the absolute event is used, because the relative one drifts.
-  function onAbsolute(e) {
-    if (typeof e.alpha !== 'number') return;
-    gotAbsolute = true;
-    feedHeading((360 - e.alpha) % 360);
+  function markLive(src){
+    lastEvt = Date.now();
+    $('cal-sensor').textContent = 'Live';
+    $('cal-source').textContent = src;
   }
-  // iOS sends the true heading as webkitCompassHeading on this event.
-  // Other browsers only use it as a fallback if no absolute event arrives.
-  function onOrientation(e) {
-    if (typeof e.webkitCompassHeading === 'number' && e.webkitCompassHeading >= 0) {
+  function onAbsolute(e){
+    if (e.alpha == null) return;
+    sensorMode = 'abs';
+    markLive('Absolute (Android)');
+    feedHeading(norm360(360 - e.alpha));
+  }
+  function onOrientation(e){
+    if (sensorMode === 'abs') return;
+    if (typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)){
+      sensorMode = 'ios';
+      markLive('iOS compass');
       feedHeading(e.webkitCompassHeading);
-      return;
-    }
-    if (useRelativeFallback && !gotAbsolute && typeof e.alpha === 'number') {
-      feedHeading((360 - e.alpha) % 360);
+    } else if (e.absolute === true && e.alpha != null){
+      sensorMode = 'abs';
+      markLive('Absolute');
+      feedHeading(norm360(360 - e.alpha));
     }
   }
-
-  // auto: called on page load. Only used where no permission prompt is needed (Android, desktop).
-  function startCompass(auto) {
+  function attachSensors(){
+    window.addEventListener('deviceorientationabsolute', onAbsolute);
+    window.addEventListener('deviceorientation', onOrientation);
+    compassOn = true;
+    compassBtn.textContent = 'Compass on';
+    $('cal-sensor').textContent = 'Waiting for data';
+    setTimeout(function(){
+      if (!lastEvt){
+        $('cal-sensor').textContent = 'No sensor data';
+        $('cal-source').textContent = 'None';
+        turn.textContent = 'This device sends no compass data. The bearings above still work.';
+      }
+    }, 3000);
+  }
+  function startCompass(auto){
     if (compassOn) return;
-    var needsPrompt = window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function';
-    if (auto && needsPrompt) return;
-    var req = needsPrompt ? DeviceOrientationEvent.requestPermission() : Promise.resolve('granted');
-    req.then(function (state) {
-      if (state !== 'granted') { if (!auto) msg.textContent = 'Compass permission was not given. The direction number still works.'; return; }
-      window.addEventListener('deviceorientationabsolute', onAbsolute, true);
-      window.addEventListener('deviceorientation', onOrientation, true);
-      setTimeout(function () { if (!gotAbsolute) useRelativeFallback = true; }, 1500);
-      if (!auto) msg.textContent = 'Compass on. Move the phone in a figure of eight to calibrate it.';
-      compassOn = true;
-      compassBtn.disabled = true;
-    }).catch(function () { if (!auto) msg.textContent = 'This phone or browser cannot give a compass reading. The direction number still works.'; });
-  }
-
-  // ---- Prayer times (standard solar formulas, computed on this device) ----
-  var PRAYER_METHODS = {
-    karachi_hanafi: { fajr: 18, isha: 18, asr: 2 },
-    karachi_shafi:  { fajr: 18, isha: 18, asr: 1 },
-    mwl:            { fajr: 18, isha: 17, asr: 1 },
-    isna:           { fajr: 15, isha: 15, asr: 1 }
-  };
-  var prayerCoords = null, schedule = [], scheduleDay = null;
-  var listEl = $('qb-times'), nextLabel = $('qb-next-label'), nextTime = $('qb-next-time');
-  var methodSel = $('qb-method');
-
-  // Returns the day's times as {name, date} in order. date is null if the sun does not rise or set.
-  function computeDay(lat, lon, y, m, d, mth) {
-    var n = (Date.UTC(y, m, d, 12) / 86400000 + 2440587.5) - 2451545.0;
-    var L = (280.460 + 0.9856474 * n) % 360;
-    var g = toRad((357.528 + 0.9856003 * n) % 360);
-    var lam = toRad(((L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) % 360 + 360) % 360);
-    var eps = toRad(23.439 - 0.0000004 * n);
-    var decl = Math.asin(Math.sin(eps) * Math.sin(lam));
-    var ra = toDeg(Math.atan2(Math.cos(eps) * Math.sin(lam), Math.cos(lam)));
-    var eqt = ((((L - 0.0057183 - ra) % 360) + 540) % 360) - 180;   // degrees
-    var noon = 12 - lon / 15 - (eqt * 4) / 60;                        // hours UTC
-    var phi = toRad(lat);
-    function halfArc(h0) {                                             // hours either side of noon
-      var c = (Math.sin(toRad(h0)) - Math.sin(phi) * Math.sin(decl)) / (Math.cos(phi) * Math.cos(decl));
-      if (c < -1 || c > 1) return null;
-      return toDeg(Math.acos(c)) / 15;
-    }
-    var base = Date.UTC(y, m, d);
-    function at(h) { return h === null ? null : new Date(base + h * 3600000); }
-    var asrAlt = toDeg(Math.atan(1 / (mth.asr + Math.tan(Math.abs(phi - decl)))));
-    var rise = halfArc(-0.833), fajr = halfArc(-mth.fajr), isha = halfArc(-mth.isha), asr = halfArc(asrAlt);
-    return [
-      { name: 'Fajr',    date: at(fajr === null ? null : noon - fajr) },
-      { name: 'Shuruq',  date: at(rise === null ? null : noon - rise) },
-      { name: 'Dhuhr',   date: at(noon) },
-      { name: 'Asr',     date: at(asr === null ? null : noon + asr) },
-      { name: 'Maghrib', date: at(rise === null ? null : noon + rise) },
-      { name: 'Isha',    date: at(isha === null ? null : noon + isha) }
-    ];
-  }
-
-  function fmtTime(dt) {
-    return dt ? dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—';
-  }
-
-  function renderPrayers() {
-    listEl.innerHTML = '';
-    if (!prayerCoords) {
-      schedule = []; scheduleDay = null;
-      nextLabel.textContent = 'Set your location to see prayer times';
-      nextTime.textContent = '–';
-      var empty = document.createElement('li');
-      empty.className = 'qb-prayer-empty';
-      empty.style.listStyle = 'none';
-      empty.textContent = 'Use my location, or type your position below.';
-      listEl.appendChild(empty);
+    if (typeof DeviceOrientationEvent === 'undefined'){
+      turn.textContent = 'This device has no motion sensors. The bearings above still work.';
       return;
     }
-    var mth = PRAYER_METHODS[methodSel.value] || PRAYER_METHODS.karachi_hanafi;
-    var now = new Date();
-    var y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
-    var today = computeDay(prayerCoords.lat, prayerCoords.lon, y, m, d, mth);
-    var tomorrow = computeDay(prayerCoords.lat, prayerCoords.lon, y, m, d + 1, mth);
-    schedule = today.concat([{ name: 'Fajr (tomorrow)', date: tomorrow[0].date, tomorrowFajr: true }]);
-    scheduleDay = now.toDateString();
-    today.forEach(function (p) {
-      var li = document.createElement('li');
-      li.className = 'qb-time' + (p.name === 'Shuruq' ? ' sunrise' : '');
-      li.setAttribute('data-name', p.name);
-      var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
-      var tm = document.createElement('span'); tm.className = 'tm'; tm.textContent = fmtTime(p.date);
-      li.appendChild(nm); li.appendChild(tm);
-      listEl.appendChild(li);
-    });
-    tick();
-  }
-
-  // Countdown to the next prayer (Shuruq is not a prayer, so it is skipped).
-  function tick() {
-    if (!prayerCoords) return;
-    var now = new Date();
-    if (scheduleDay !== now.toDateString()) { renderPrayers(); return; }
-    var next = null;
-    for (var i = 0; i < schedule.length; i++) {
-      var p = schedule[i];
-      if (p.name === 'Shuruq' || !p.date) continue;
-      if (p.date.getTime() > now.getTime()) { next = p; break; }
+    if (typeof DeviceOrientationEvent.requestPermission === 'function'){
+      if (auto){ turn.textContent = 'Press "Turn on compass" to allow motion sensors.'; return; }
+      DeviceOrientationEvent.requestPermission().then(function(state){
+        if (state === 'granted') attachSensors();
+        else turn.textContent = 'Motion permission was not given. The bearings above still work.';
+      }).catch(function(){
+        turn.textContent = 'Could not ask for motion permission on this device.';
+      });
+      return;
     }
-    Array.prototype.forEach.call(listEl.querySelectorAll('.qb-time'), function (li) {
-      var name = li.getAttribute('data-name');
-      var done = schedule.some(function (p) { return p.name === name && p.date && p.date.getTime() <= now.getTime(); });
-      li.classList.toggle('next', !!next && next.name.indexOf(name) === 0);
-      li.classList.toggle('passed', done && !(next && next.name.indexOf(name) === 0));
-    });
-    if (!next) { nextLabel.textContent = 'No more prayers today'; nextTime.textContent = '–'; return; }
-    var left = Math.max(0, Math.floor((next.date.getTime() - now.getTime()) / 1000));
-    var hh = Math.floor(left / 3600), mm = Math.floor((left % 3600) / 60), ss = left % 60;
-    var pad = function (v) { return (v < 10 ? '0' : '') + v; };
-    nextLabel.textContent = next.name.replace(' (tomorrow)', '') + (next.tomorrowFajr ? ' tomorrow in' : ' in');
-    nextTime.textContent = pad(hh) + ':' + pad(mm) + ':' + pad(ss);
+    attachSensors();
   }
 
-  // Adhan preview. Plays adhan.mp3 from this folder if it exists; otherwise a short chime.
-  var chimePlayed = false;
-  function playChime() {
-    if (chimePlayed) return; chimePlayed = true;
+  function playChime(){
     try {
       var AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return;
       var ctx = new AC();
-      [523.25, 659.25, 783.99].forEach(function (f, i) {
+      [0, 0.9, 1.8].forEach(function(t, i){
         var o = ctx.createOscillator(), g = ctx.createGain();
-        o.type = 'sine'; o.frequency.value = f;
-        var t0 = ctx.currentTime + i * 0.9;
-        g.gain.setValueAtTime(0.0001, t0);
-        g.gain.exponentialRampToValueAtTime(0.25, t0 + 0.05);
-        g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.4);
-        o.connect(g); g.connect(ctx.destination);
-        o.start(t0); o.stop(t0 + 2.5);
+        o.type = 'sine'; o.frequency.value = [440, 554, 659][i];
+        g.gain.setValueAtTime(0, ctx.currentTime + t);
+        g.gain.linearRampToValueAtTime(0.25, ctx.currentTime + t + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 1.2);
+        o.connect(g).connect(ctx.destination);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 1.3);
       });
-      setTimeout(function () { chimePlayed = false; }, 3000);
-    } catch (e) { chimePlayed = false; }
+    } catch(e){}
   }
-  $('qb-adhan').addEventListener('click', function () {
-    chimePlayed = false;
-    var a = new Audio('adhan.mp3');
-    a.addEventListener('error', playChime, { once: true });
-    a.play().catch(playChime);
-  });
-  methodSel.addEventListener('change', renderPrayers);
 
-  $('qb-locate').addEventListener('click', function () {
-    if (!navigator.geolocation) { msg.textContent = 'Your browser cannot share location. Type your position below.'; return; }
-    msg.textContent = 'Getting your location…';
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      show(pos.coords.latitude, pos.coords.longitude);
-    }, function () {
-      msg.textContent = 'Location was not shared. You can type your position below.';
-    }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 600000 });
+  function todayList(){
+    var now = new Date(), y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+    var t = computeDay(observer[0], observer[1], y, m, d, methodSel.value);
+    return PRAYERS.map(function(p){ return { key:p.key, name:p.name, ar:p.ar, sun:!!p.sun, date: toDate(y, m, d, t[p.key]) }; });
+  }
+
+  function renderPrayers(){
+    timesUl.innerHTML = '';
+    if (!observer){
+      subEl.textContent = 'Set your position to see prayer times for where you are.';
+      renderedKey = ''; dayTimes = [];
+      return;
+    }
+    dayTimes = todayList();
+    renderedKey = new Date().toDateString();
+    dayTimes.forEach(function(p){
+      var li = document.createElement('li');
+      li.className = 'q-pc' + (p.sun ? ' sun' : '');
+      li.dataset.key = p.key;
+      var top = document.createElement('div'); top.className = 'top';
+      var h3 = document.createElement('h3'); h3.textContent = p.name;
+      var ar = document.createElement('span'); ar.className = 'ar'; ar.setAttribute('lang', 'ar'); ar.textContent = p.ar;
+      top.appendChild(h3); top.appendChild(ar);
+      var tm = document.createElement('div'); tm.className = 'time'; tm.textContent = fmtTime(p.date);
+      var cd = document.createElement('em'); cd.className = 'countdown';
+      li.appendChild(top); li.appendChild(tm); li.appendChild(cd);
+      timesUl.appendChild(li);
+    });
+    var hijri = '';
+    try { hijri = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {day:'numeric', month:'long', year:'numeric'}).format(new Date()); } catch(e){}
+    subEl.textContent = (hijri ? hijri + ' · ' : '') + PM_LABEL[methodSel.value] + ' · times in your device time zone';
+  }
+
+  function tick(){
+    var now = new Date();
+    if (observer){
+      var s = sunNow(observer[0], observer[1], now);
+      sunOut.textContent = (s.alt >= 0 ? 'Altitude ' : 'Below horizon, ') + (s.alt >= 0 ? Math.round(s.alt) + '°' : Math.round(-s.alt) + '° under') + ' · Azimuth ' + Math.round(s.az) + '°';
+    }
+    if (!observer) return;
+    if (new Date().toDateString() !== renderedKey) renderPrayers();
+    var next = null;
+    for (var i = 0; i < dayTimes.length; i++){
+      if (dayTimes[i].sun) continue;
+      if (dayTimes[i].date > now){ next = dayTimes[i]; break; }
+    }
+    var nextIsToday = !!next;
+    if (!next){
+      var tm = new Date(now.getTime() + 86400000);
+      var t2 = computeDay(observer[0], observer[1], tm.getFullYear(), tm.getMonth()+1, tm.getDate(), methodSel.value);
+      next = { key:'fajr', name:'Fajr', date: toDate(tm.getFullYear(), tm.getMonth()+1, tm.getDate(), t2.fajr) };
+    }
+    var ms = next.date - now;
+    var hh = Math.floor(ms / 3600000), mm = Math.floor(ms / 60000) % 60;
+    var txt = (hh > 0 ? hh + 'h ' : '') + mm + 'm';
+    var lis = timesUl.children;
+    for (var j = 0; j < lis.length; j++){
+      var li = lis[j], k = li.dataset.key, p = dayTimes.filter(function(x){ return x.key === k; })[0];
+      var isNext = nextIsToday && k === next.key;
+      li.classList.toggle('now', isNext);
+      li.classList.toggle('passed', !!p && p.date < now && !isNext);
+      var cd = li.querySelector('.countdown');
+      if (cd) cd.textContent = isNext ? 'Next prayer · in ' + txt : '';
+    }
+    topNext.textContent = 'Next prayer: ' + next.name + ' in ' + txt;
+    if (!nextIsToday) topNext.textContent = 'Next prayer: Fajr tomorrow in ' + txt;
+  }
+
+  function setObserver(la, lo){
+    observer = [la, lo];
+    qibla = bearingTo(la, lo, KAABA[0], KAABA[1]);
+    aqsa = bearingTo(la, lo, AQSA[0], AQSA[1]);
+    var kmK = distanceKm(la, lo, KAABA[0], KAABA[1]), kmA = distanceKm(la, lo, AQSA[0], AQSA[1]);
+    var sep = norm360(qibla - aqsa); if (sep > 180) sep = 360 - sep;
+    $('qb-deg').textContent = Math.round(qibla) + '°';
+    $('qb-dir').textContent = cardinal(qibla);
+    $('qb-dist-km').textContent = fmtKm(kmK);
+    $('qb-t-aqsa').textContent = Math.round(aqsa) + '°';
+    $('qb-t-aqsa-km').textContent = fmtKm(kmA);
+    $('qb-sep').textContent = Math.round(sep) + '°';
+    $('leg-qibla').textContent = Math.round(qibla) + '°';
+    $('leg-aqsa').textContent = Math.round(aqsa) + '°';
+    $('cal-loc').textContent = la.toFixed(2) + ', ' + lo.toFixed(2);
+    obsLine.textContent = 'Position ' + la.toFixed(2) + '°, ' + lo.toFixed(2) + '°. Bearings and prayer times are from this point.';
+    drawDial();
+    renderPrayers();
+    tick();
+  }
+
+  // Events
+  methodSel.addEventListener('change', function(){ renderPrayers(); tick(); });
+  $('qb-calc').addEventListener('click', function(){
+    var la = parseFloat(latIn.value), lo = parseFloat(lonIn.value);
+    if (isNaN(la) || isNaN(lo) || la < -90 || la > 90 || lo < -180 || lo > 180){
+      setMsg('Enter a latitude between -90 and 90, and a longitude between -180 and 180.'); return;
+    }
+    setMsg(''); setObserver(la, lo);
   });
-  $('qb-calc').addEventListener('click', function () {
-    show(parseFloat($('qb-lat').value), parseFloat($('qb-lon').value));
+  $('qb-locate').addEventListener('click', function(){
+    if (!navigator.geolocation){ setMsg('Location is not available on this device. Type your position instead.'); return; }
+    setMsg('Finding your position…');
+    navigator.geolocation.getCurrentPosition(function(p){
+      var la = p.coords.latitude, lo = p.coords.longitude;
+      latIn.value = la.toFixed(4); lonIn.value = lo.toFixed(4);
+      setMsg(''); setObserver(la, lo);
+    }, function(err){
+      setMsg(err.code === 1 ? 'Location permission was refused. You can type your position instead.' : 'Could not get your location. Type your position instead.');
+    }, { enableHighAccuracy:true, timeout:15000, maximumAge:300000 });
   });
-  compassBtn.addEventListener('click', function () { startCompass(false); });
+  compassBtn.addEventListener('click', function(){ startCompass(false); });
+  $('qb-adhan').addEventListener('click', function(){
+    var a = new Audio('adhan.mp3');
+    a.play().catch(function(){
+      setMsg('The adhan recording is not on this site yet, so a short chime plays instead.');
+      playChime();
+    });
+  });
+
   drawDial();
-  renderPrayers();
   setInterval(tick, 1000);
+  tick();
   startCompass(true);
 })();
+
 </script>
 </body>
 </html>
