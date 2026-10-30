@@ -260,27 +260,6 @@
       </div>
     </section>
 
-    <section class="q-wrap q-cal" id="calibration" style="scroll-margin-top:1rem">
-      <div class="q-card">
-        <span class="q-label">Calibration</span>
-        <h2>Keep the dial true</h2>
-        <ol>
-          <li>Hold the phone flat, then move it in a figure of eight.</li>
-          <li>Keep metal objects, magnets and speakers away from the phone.</li>
-          <li>Check the arrow against a compass app if you need a final check.</li>
-        </ol>
-      </div>
-      <div class="q-card">
-        <span class="q-label">Status</span>
-        <div style="margin-top:.5rem">
-          <div class="q-status-row"><span>Compass sensor</span><b id="cal-sensor">Not started</b></div>
-          <div class="q-status-row"><span>Heading source</span><b id="cal-source">–</b></div>
-          <div class="q-status-row"><span>Aligned with the Qibla</span><b id="cal-lock">–</b></div>
-          <div class="q-status-row"><span>Location</span><b id="cal-loc">Not set</b></div>
-        </div>
-        <p class="q-sub">The alignment check counts as aligned within 3°, because phone compasses are rarely more accurate than that. Location and compass readings stay on this device.</p>
-      </div>
-    </section>
 
     <div class="q-strip" aria-hidden="true"></div>
 
@@ -421,7 +400,7 @@
       needK.style.transform = 'rotate(0deg)'; needA.style.transform = 'rotate(0deg)';
       dial.classList.remove('locked');
       turn.textContent = 'Set your position to see the Qibla from where you are.';
-      $('cal-lock').textContent = '–';
+      setT('cal-lock', '–');
       return;
     }
     if (shown === null){
@@ -430,7 +409,7 @@
       needA.style.transform = 'rotate(' + aqsa + 'deg)';
       dial.classList.remove('locked');
       turn.textContent = 'Turn on the compass to see which way to turn. Until then the needles show bearings from north.';
-      $('cal-lock').textContent = '–';
+      setT('cal-lock', '–');
       return;
     }
     ring.style.transform = 'rotate(' + (-shown) + 'deg)';
@@ -439,7 +418,7 @@
     var diff = ((qibla - shown + 540) % 360) - 180;
     var aligned = Math.abs(diff) <= ALIGN;
     dial.classList.toggle('locked', aligned);
-    $('cal-lock').textContent = aligned ? 'Yes' : 'Not yet';
+    setT('cal-lock', aligned ? 'Yes' : 'Not yet');
     if (aligned) turn.textContent = 'Aligned with the Qibla.';
     else if (diff > 0) turn.textContent = 'Turn right ' + Math.round(diff) + '° to face the Qibla.';
     else turn.textContent = 'Turn left ' + Math.round(-diff) + '° to face the Qibla.';
@@ -455,8 +434,8 @@
   }
   function markLive(src){
     lastEvt = Date.now();
-    $('cal-sensor').textContent = 'Live';
-    $('cal-source').textContent = src;
+    setT('cal-sensor', 'Live');
+    setT('cal-source', src);
   }
   function onAbsolute(e){
     if (e.alpha == null) return;
@@ -481,11 +460,11 @@
     window.addEventListener('deviceorientation', onOrientation);
     compassOn = true;
     compassBtn.textContent = 'Compass on';
-    $('cal-sensor').textContent = 'Waiting for data';
+    setT('cal-sensor', 'Waiting for data');
     setTimeout(function(){
       if (!lastEvt){
-        $('cal-sensor').textContent = 'No sensor data';
-        $('cal-source').textContent = 'None';
+        setT('cal-sensor', 'No sensor data');
+        setT('cal-source', 'None');
         turn.textContent = 'This device sends no compass data. The bearings above still work.';
       }
     }, 3000);
@@ -608,7 +587,7 @@
     setT('qb-sep', Math.round(sep) + '°');
     $('leg-qibla').textContent = Math.round(qibla) + '°';
     $('leg-aqsa').textContent = Math.round(aqsa) + '°';
-    $('cal-loc').textContent = la.toFixed(2) + ', ' + lo.toFixed(2);
+    setT('cal-loc', la.toFixed(2) + ', ' + lo.toFixed(2));
     obsLine.textContent = 'Position ' + la.toFixed(2) + '°, ' + lo.toFixed(2) + '°. Bearings and prayer times are from this point.';
     drawDial();
     renderPrayers();
