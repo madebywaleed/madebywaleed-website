@@ -194,6 +194,21 @@
     .qb-divider::before, .qb-divider::after { content:""; height:1px; width:min(120px, 25vw); background: linear-gradient(to right, transparent, var(--gold)); }
     .qb-divider::after { background: linear-gradient(to left, transparent, var(--gold)); }
     .qb-divider svg { width: 26px; height: 26px; }
+
+    .qb-prayer { margin-top: 2rem; }
+    .qb-prayer-top { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; align-items:flex-end; }
+    .qb-next-label { font-family:"Space Mono", monospace; font-size:.75rem; letter-spacing:.1em; color: var(--ink-mute); text-transform:uppercase; margin:0; }
+    .qb-next-time { font-family:"Playfair Display", Georgia, serif; font-size:clamp(1.9rem,5vw,2.5rem); color: var(--gold-hi); margin:.25rem 0 0; font-weight:600; line-height:1.2; }
+    .qb-prayer-ctrl label { display:block; font-family:"Space Mono", monospace; font-size:.72rem; color: var(--gold); letter-spacing:.06em; margin-bottom:.3rem; }
+    .qb-prayer-ctrl select { font: inherit; font-size:.9rem; padding:.5rem .6rem; background: var(--em-0); color: var(--pale-gold); border:1px solid rgba(212,175,55,.4); border-radius:.6rem; }
+    .qb-times { list-style:none; margin:1.1rem 0 0; padding:0; display:grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap:.5rem; }
+    .qb-time { display:flex; justify-content:space-between; align-items:center; gap:.5rem; background: var(--em-2); border:1px solid rgba(212,175,55,.18); border-radius:.7rem; padding:.7rem .8rem; }
+    .qb-time .nm { font-family:"Playfair Display", Georgia, serif; font-size:1.05rem; color: var(--pale-gold); }
+    .qb-time .tm { font-family:"Space Mono", monospace; font-size:.9rem; color: var(--ink); white-space:nowrap; }
+    .qb-time.next { border-color: var(--gold-hi); box-shadow: 0 0 18px rgba(242,202,80,.25); }
+    .qb-time.next .nm, .qb-time.next .tm { color: var(--gold-hi); }
+    .qb-time.sunrise .nm { color: var(--ink-mute); font-size:.95rem; }
+    .qb-prayer-empty { color: var(--ink-mute); text-align:center; margin: 1rem 0 0; }
   </style>
 </head>
 <body>
@@ -266,6 +281,27 @@
             <p class="qb-note">Phone compasses can be off near metal or magnets. Move the phone in a figure of eight to calibrate it. The dial shows "Aligned" when the phone is within 3° of the Qibla.</p>
           </div>
         </div>
+          <div class="qb-panel qb-prayer">
+            <span class="qb-tag">Prayer times</span>
+            <div class="qb-prayer-top">
+              <div>
+                <p class="qb-next-label" id="qb-next-label">Set your location to see prayer times</p>
+                <p class="qb-next-time" id="qb-next-time">–</p>
+              </div>
+              <div class="qb-prayer-ctrl">
+                <label for="qb-method">METHOD</label>
+                <select id="qb-method">
+                  <option value="karachi_hanafi">Karachi (Hanafi Asr)</option>
+                  <option value="karachi_shafi">Karachi (Shafi'i Asr)</option>
+                  <option value="mwl">Muslim World League</option>
+                  <option value="isna">ISNA (North America)</option>
+                </select>
+              </div>
+            </div>
+            <ul class="qb-times" id="qb-times" aria-label="Prayer times for today"></ul>
+            <div class="qb-btns"><button class="qb-btn ghost" id="qb-adhan">Preview adhan</button></div>
+            <p class="qb-note">Times are worked out in your browser from your location and the method you choose, and shown in your device's time zone. They are approximate, within about two minutes. Check them against your local mosque's timetable.</p>
+          </div>
         <div class="qb-divider" aria-hidden="true">
           <svg viewBox="0 0 26 26"><path d="M13 1 L16 9 L24 13 L16 17 L13 25 L10 17 L2 13 L10 9 Z" fill="none" stroke="#d4af37" stroke-width="1.5"/></svg>
         </div>
@@ -352,6 +388,8 @@
       msg.textContent = 'Please enter a latitude between -90 and 90, and a longitude between -180 and 180.'; return;
     }
     qibla = bearingTo(lat, lon);
+    prayerCoords = { lat: lat, lon: lon };
+    renderPrayers();
     var km = distanceKm(lat, lon);
     deg.textContent = Math.round(qibla) + '°';
     dir.textContent = 'From true north, ' + cardinal(qibla) + '.' + (shown === null ? ' Turn until the arrow points up.' : '');
@@ -440,6 +478,138 @@
     }).catch(function () { if (!auto) msg.textContent = 'This phone or browser cannot give a compass reading. The direction number still works.'; });
   }
 
+  // ---- Prayer times (standard solar formulas, computed on this device) ----
+  var PRAYER_METHODS = {
+    karachi_hanafi: { fajr: 18, isha: 18, asr: 2 },
+    karachi_shafi:  { fajr: 18, isha: 18, asr: 1 },
+    mwl:            { fajr: 18, isha: 17, asr: 1 },
+    isna:           { fajr: 15, isha: 15, asr: 1 }
+  };
+  var prayerCoords = null, schedule = [], scheduleDay = null;
+  var listEl = $('qb-times'), nextLabel = $('qb-next-label'), nextTime = $('qb-next-time');
+  var methodSel = $('qb-method');
+
+  // Returns the day's times as {name, date} in order. date is null if the sun does not rise or set.
+  function computeDay(lat, lon, y, m, d, mth) {
+    var n = (Date.UTC(y, m, d, 12) / 86400000 + 2440587.5) - 2451545.0;
+    var L = (280.460 + 0.9856474 * n) % 360;
+    var g = toRad((357.528 + 0.9856003 * n) % 360);
+    var lam = toRad(((L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) % 360 + 360) % 360);
+    var eps = toRad(23.439 - 0.0000004 * n);
+    var decl = Math.asin(Math.sin(eps) * Math.sin(lam));
+    var ra = toDeg(Math.atan2(Math.cos(eps) * Math.sin(lam), Math.cos(lam)));
+    var eqt = ((((L - 0.0057183 - ra) % 360) + 540) % 360) - 180;   // degrees
+    var noon = 12 - lon / 15 - (eqt * 4) / 60;                        // hours UTC
+    var phi = toRad(lat);
+    function halfArc(h0) {                                             // hours either side of noon
+      var c = (Math.sin(toRad(h0)) - Math.sin(phi) * Math.sin(decl)) / (Math.cos(phi) * Math.cos(decl));
+      if (c < -1 || c > 1) return null;
+      return toDeg(Math.acos(c)) / 15;
+    }
+    var base = Date.UTC(y, m, d);
+    function at(h) { return h === null ? null : new Date(base + h * 3600000); }
+    var asrAlt = toDeg(Math.atan(1 / (mth.asr + Math.tan(Math.abs(phi - decl)))));
+    var rise = halfArc(-0.833), fajr = halfArc(-mth.fajr), isha = halfArc(-mth.isha), asr = halfArc(asrAlt);
+    return [
+      { name: 'Fajr',    date: at(fajr === null ? null : noon - fajr) },
+      { name: 'Shuruq',  date: at(rise === null ? null : noon - rise) },
+      { name: 'Dhuhr',   date: at(noon) },
+      { name: 'Asr',     date: at(asr === null ? null : noon + asr) },
+      { name: 'Maghrib', date: at(rise === null ? null : noon + rise) },
+      { name: 'Isha',    date: at(isha === null ? null : noon + isha) }
+    ];
+  }
+
+  function fmtTime(dt) {
+    return dt ? dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—';
+  }
+
+  function renderPrayers() {
+    listEl.innerHTML = '';
+    if (!prayerCoords) {
+      schedule = []; scheduleDay = null;
+      nextLabel.textContent = 'Set your location to see prayer times';
+      nextTime.textContent = '–';
+      var empty = document.createElement('li');
+      empty.className = 'qb-prayer-empty';
+      empty.style.listStyle = 'none';
+      empty.textContent = 'Use my location, or type your position below.';
+      listEl.appendChild(empty);
+      return;
+    }
+    var mth = PRAYER_METHODS[methodSel.value] || PRAYER_METHODS.karachi_hanafi;
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
+    var today = computeDay(prayerCoords.lat, prayerCoords.lon, y, m, d, mth);
+    var tomorrow = computeDay(prayerCoords.lat, prayerCoords.lon, y, m, d + 1, mth);
+    schedule = today.concat([{ name: 'Fajr (tomorrow)', date: tomorrow[0].date, tomorrowFajr: true }]);
+    scheduleDay = now.toDateString();
+    today.forEach(function (p) {
+      var li = document.createElement('li');
+      li.className = 'qb-time' + (p.name === 'Shuruq' ? ' sunrise' : '');
+      li.setAttribute('data-name', p.name);
+      var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
+      var tm = document.createElement('span'); tm.className = 'tm'; tm.textContent = fmtTime(p.date);
+      li.appendChild(nm); li.appendChild(tm);
+      listEl.appendChild(li);
+    });
+    tick();
+  }
+
+  // Countdown to the next prayer (Shuruq is not a prayer, so it is skipped).
+  function tick() {
+    if (!prayerCoords) return;
+    var now = new Date();
+    if (scheduleDay !== now.toDateString()) { renderPrayers(); return; }
+    var next = null;
+    for (var i = 0; i < schedule.length; i++) {
+      var p = schedule[i];
+      if (p.name === 'Shuruq' || !p.date) continue;
+      if (p.date.getTime() > now.getTime()) { next = p; break; }
+    }
+    Array.prototype.forEach.call(listEl.querySelectorAll('.qb-time'), function (li) {
+      var name = li.getAttribute('data-name');
+      var done = schedule.some(function (p) { return p.name === name && p.date && p.date.getTime() <= now.getTime(); });
+      li.classList.toggle('next', !!next && next.name.indexOf(name) === 0);
+      li.classList.toggle('passed', done && !(next && next.name.indexOf(name) === 0));
+    });
+    if (!next) { nextLabel.textContent = 'No more prayers today'; nextTime.textContent = '–'; return; }
+    var left = Math.max(0, Math.floor((next.date.getTime() - now.getTime()) / 1000));
+    var hh = Math.floor(left / 3600), mm = Math.floor((left % 3600) / 60), ss = left % 60;
+    var pad = function (v) { return (v < 10 ? '0' : '') + v; };
+    nextLabel.textContent = next.name.replace(' (tomorrow)', '') + (next.tomorrowFajr ? ' tomorrow in' : ' in');
+    nextTime.textContent = pad(hh) + ':' + pad(mm) + ':' + pad(ss);
+  }
+
+  // Adhan preview. Plays adhan.mp3 from this folder if it exists; otherwise a short chime.
+  var chimePlayed = false;
+  function playChime() {
+    if (chimePlayed) return; chimePlayed = true;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      var ctx = new AC();
+      [523.25, 659.25, 783.99].forEach(function (f, i) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        var t0 = ctx.currentTime + i * 0.9;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(0.25, t0 + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.4);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(t0); o.stop(t0 + 2.5);
+      });
+      setTimeout(function () { chimePlayed = false; }, 3000);
+    } catch (e) { chimePlayed = false; }
+  }
+  $('qb-adhan').addEventListener('click', function () {
+    chimePlayed = false;
+    var a = new Audio('adhan.mp3');
+    a.addEventListener('error', playChime, { once: true });
+    a.play().catch(playChime);
+  });
+  methodSel.addEventListener('change', renderPrayers);
+
   $('qb-locate').addEventListener('click', function () {
     if (!navigator.geolocation) { msg.textContent = 'Your browser cannot share location. Type your position below.'; return; }
     msg.textContent = 'Getting your location…';
@@ -454,6 +624,8 @@
   });
   compassBtn.addEventListener('click', function () { startCompass(false); });
   drawDial();
+  renderPrayers();
+  setInterval(tick, 1000);
   startCompass(true);
 })();
 </script>
