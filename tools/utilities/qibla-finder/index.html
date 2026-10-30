@@ -159,7 +159,7 @@
             <p class="qb-sub" id="qb-dist"></p>
             <div class="qb-btns">
               <button class="qb-btn" id="qb-locate">Use my location</button>
-              <button class="qb-btn ghost" id="qb-compass" disabled>Turn on compass</button>
+              <button class="qb-btn ghost" id="qb-compass">Turn on compass</button>
             </div>
             <p class="qb-msg" id="qb-msg" role="status"></p>
           </div>
@@ -234,7 +234,7 @@
   var qibla = null;
   var shown = null;            // heading currently drawn on the dial
   var sx = 0, sy = 0, haveSmooth = false;  // smoothed heading as a unit vector
-  var gotAbsolute = false, useRelativeFallback = false;
+  var gotAbsolute = false, useRelativeFallback = false, compassOn = false;
 
   function toRad(d) { return d * Math.PI / 180; }
   function toDeg(r) { return r * 180 / Math.PI; }
@@ -263,7 +263,6 @@
     dir.textContent = 'From true north, ' + cardinal(qibla) + '. Turn until the arrow points up.';
     dist.textContent = 'About ' + Math.round(distanceKm(lat, lon)).toLocaleString() + ' km to the Kaaba.';
     msg.textContent = '';
-    compassBtn.disabled = false;
     drawDial();
   }
 
@@ -313,17 +312,21 @@
     }
   }
 
-  function startCompass() {
-    var req = window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'
-      ? DeviceOrientationEvent.requestPermission() : Promise.resolve('granted');
+  // auto: called on page load. Only used where no permission prompt is needed (Android, desktop).
+  function startCompass(auto) {
+    if (compassOn) return;
+    var needsPrompt = window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function';
+    if (auto && needsPrompt) return;
+    var req = needsPrompt ? DeviceOrientationEvent.requestPermission() : Promise.resolve('granted');
     req.then(function (state) {
-      if (state !== 'granted') { msg.textContent = 'Compass permission was not given. The direction number still works.'; return; }
+      if (state !== 'granted') { if (!auto) msg.textContent = 'Compass permission was not given. The direction number still works.'; return; }
       window.addEventListener('deviceorientationabsolute', onAbsolute, true);
       window.addEventListener('deviceorientation', onOrientation, true);
       setTimeout(function () { if (!gotAbsolute) useRelativeFallback = true; }, 1500);
-      msg.textContent = 'Compass on. Move the phone in a figure of eight to calibrate it.';
+      if (!auto) msg.textContent = 'Compass on. Move the phone in a figure of eight to calibrate it.';
+      compassOn = true;
       compassBtn.disabled = true;
-    }).catch(function () { msg.textContent = 'This phone or browser cannot give a compass reading. The direction number still works.'; });
+    }).catch(function () { if (!auto) msg.textContent = 'This phone or browser cannot give a compass reading. The direction number still works.'; });
   }
 
   $('qb-locate').addEventListener('click', function () {
@@ -338,8 +341,9 @@
   $('qb-calc').addEventListener('click', function () {
     show(parseFloat($('qb-lat').value), parseFloat($('qb-lon').value));
   });
-  compassBtn.addEventListener('click', startCompass);
+  compassBtn.addEventListener('click', function () { startCompass(false); });
   drawDial();
+  startCompass(true);
 })();
 </script>
 </body>
