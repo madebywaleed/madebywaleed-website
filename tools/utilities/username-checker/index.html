@@ -55,6 +55,12 @@
 .uc-ok { color: #1f7a3a; } .uc-bad { color: #b42318; } .uc-na { opacity: .7; }
 .uc-card a.uc-btn { margin-top: .3rem; align-self: flex-start; }
 .uc-section { margin-top: 1.4rem; }
+.uc-tabs { display: inline-flex; gap: .3rem; padding: .3rem; border-radius: 999px; border: 1px solid #dcdcd8; background: #fff; margin-top: 1rem; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .uc-tabs { background: #1a1f28; border-color: #2c3441; } }
+.uc-tab { font: inherit; font-size: .92rem; font-weight: 600; padding: .5rem 1rem; border-radius: 999px; border: 0; background: transparent; color: inherit; cursor: pointer; opacity: .75; }
+.uc-tab.on { background: #4f46e5; color: #fff; opacity: 1; }
+.uc-dom-ext { font-size: 1.25rem; font-weight: 700; color: #4f46e5; }
+.uc-pill.checking { background: rgba(127,127,127,.15); }
 .uc-section h2 { font-size: 1.15rem; margin: 0 0 .5rem; }
 .uc-var { display: flex; gap: .5rem; flex-wrap: wrap; }
 .uc-var button { font: inherit; font-size: .92rem; padding: .45rem .8rem; border-radius: 10px; border: 1px solid #8a8a8a; background: transparent; color: inherit; cursor: pointer; }
@@ -85,6 +91,10 @@
         <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / Username Checker</div>
         <h1 class="uc-h1">Username Checker<span class="dot">.</span></h1>
         <p class="uc-note">Check a name against the rules of 32 platforms, then open each profile in one tap. Free, no sign-up.</p>
+        <div class="uc-tabs" role="tablist" aria-label="What to check">
+          <button type="button" role="tab" id="tab-social" aria-selected="true" aria-controls="panel-social" class="uc-tab on">Social Media</button>
+          <button type="button" role="tab" id="tab-domains" aria-selected="false" aria-controls="panel-domains" class="uc-tab">Domain Names</button>
+        </div>
         <form class="uc-search" id="uc-form" role="search">
           <label for="uc-q" class="sr-only" style="position:absolute;left:-9999px">Username</label>
           <input id="uc-q" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type a username, for example mybrand" maxlength="40">
@@ -93,6 +103,7 @@
         <p class="uc-err" id="uc-err" role="status"></p>
         <div class="uc-recent" id="uc-recent"></div>
 
+        <div id="panel-social" role="tabpanel" aria-labelledby="tab-social">
         <div class="uc-section">
           <h2>Platforms</h2>
           <div class="uc-filters" role="group" aria-label="Filter platforms">
@@ -109,6 +120,14 @@
           <h2>Name variants</h2>
           <p class="uc-note">When your main name is taken, try one of these. Select one to check it.</p>
           <div class="uc-var" id="uc-vars"></div>
+        </div>
+        </div>
+        <div id="panel-domains" role="tabpanel" aria-labelledby="tab-domains" hidden>
+          <div class="uc-section">
+            <h2>Domain extensions</h2>
+            <p class="uc-note">Each extension is checked against the public registry lookup. "Likely free" means no registration was found when we checked. Confirm with a registrar before you buy, because reserved, premium and expiring names can look different.</p>
+            <div class="uc-grid" id="dom-grid"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -223,7 +242,68 @@
     var c=document.createElement('button'); c.type='button'; c.textContent='Clear'; c.addEventListener('click', function(){ try{localStorage.removeItem('uc-recent');}catch(e){} showRecent(); });
     recent.appendChild(c);
   }
+  var mode='social';
+  var TLDS=['com','net','org','io','co','app','ai','xyz','info','biz','tech','store','shop','blog','media','studio','design','dev','me','online'];
+  var domGrid=$('dom-grid');
+  function setMode(m){
+    mode=m;
+    $('tab-social').setAttribute('aria-selected', m==='social'?'true':'false');
+    $('tab-domains').setAttribute('aria-selected', m==='domains'?'true':'false');
+    $('tab-social').classList.toggle('on', m==='social');
+    $('tab-domains').classList.toggle('on', m==='domains');
+    $('panel-social').hidden = m!=='social';
+    $('panel-domains').hidden = m!=='domains';
+    err.textContent='';
+    if(input.value.trim()) run(input.value);
+  }
+  $('tab-social').addEventListener('click', function(){ setMode('social'); });
+  $('tab-domains').addEventListener('click', function(){ setMode('domains'); });
+  function domainName(raw){
+    var s=clean(raw).toLowerCase();
+    if(s.indexOf('.')>-1) s=s.split('.')[0];
+    return s;
+  }
+  function setDomPill(card, status){
+    var pill=card.querySelector('.uc-pill');
+    if(status==='available'){ pill.className='uc-pill ok'; pill.textContent='Likely free'; }
+    else if(status==='registered'){ pill.className='uc-pill bad'; pill.textContent='Registered'; }
+    else { pill.className='uc-pill na'; pill.textContent='Could not check'; }
+  }
+  function runDomains(name){
+    domGrid.innerHTML='';
+    var cards={};
+    TLDS.forEach(function(t){
+      var full=name+'.'+t;
+      var a=document.createElement('a'); a.className='uc-tile'; a.target='_blank'; a.rel='noopener noreferrer';
+      a.href='https://lookup.icann.org/en/lookup?name='+encodeURIComponent(full);
+      var ext=document.createElement('span'); ext.className='uc-dom-ext'; ext.textContent='.'+t;
+      var b=document.createElement('b'); b.textContent=full; b.style.wordBreak='break-all';
+      var pill=document.createElement('span'); pill.className='uc-pill checking'; pill.textContent='Checking…';
+      a.appendChild(ext); a.appendChild(b); a.appendChild(pill);
+      domGrid.appendChild(a); cards[t]=a;
+    });
+    var queue=TLDS.slice(), active=0, max=4;
+    function next(){
+      while(active<max && queue.length){
+        (function(t){
+          active++;
+          fetch('/api/domain?name='+encodeURIComponent(name)+'&tld='+t)
+            .then(function(r){ return r.ok ? r.json() : {status:'unknown'}; })
+            .catch(function(){ return {status:'unknown'}; })
+            .then(function(j){ setDomPill(cards[t], j.status); })
+            .then(function(){ active--; next(); });
+        })(queue.shift());
+      }
+    }
+    next();
+  }
   function run(raw){
+    if(mode==='domains'){
+      var dn=domainName(raw||input.value);
+      if(!dn){ err.textContent='Type a name without the extension, for example mybrand.'; domGrid.innerHTML=''; return; }
+      if(!/^[a-z0-9-]+$/.test(dn) || dn[0]==='-' || dn[dn.length-1]==='-' || dn.length>63){ err.textContent='Use only letters, numbers and hyphens, without the extension.'; return; }
+      err.textContent=''; input.value=dn; runDomains(dn); return;
+    }
     var name=clean(raw||input.value);
     if(!name){ err.textContent='Type a username to check.'; grid.innerHTML=''; vars.innerHTML=''; return; }
     if(!/^[A-Za-z0-9._-]+$/.test(name)){ err.textContent='Use only letters, numbers, dots, underscores and hyphens.'; return; }
