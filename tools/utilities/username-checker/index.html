@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/dev.css">
+  <link rel="stylesheet" href="/header.css">
   <style>
 .uc-wrap { max-width: 1100px; }
 .uc-search { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.2rem; }
@@ -31,7 +32,17 @@
 .uc-filters { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
 .uc-filters button { font: inherit; font-size: .9rem; padding: .4rem .85rem; border-radius: 999px; border: 1px solid #8a8a8a; background: transparent; color: inherit; cursor: pointer; }
 .uc-filters button[aria-pressed="true"] { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
-.uc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .7rem; }
+.uc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .75rem; }
+.uc-tile { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .45rem; padding: 1rem .7rem; border-radius: 16px; border: 1px solid #dcdcd8; background: #fff; color: #0a0a0a; text-decoration: none; transition: transform .15s, box-shadow .15s; }
+.uc-tile:hover, .uc-tile:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 20px -10px rgba(0,0,0,.25); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .uc-tile { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } }
+.uc-mono { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 1rem; letter-spacing: .02em; }
+.uc-mono.Social { background: #5b4bdb; } .uc-mono.Business { background: #0f766e; } .uc-mono.Developer { background: #334155; } .uc-mono.Creative { background: #b45309; }
+.uc-tile b { font-size: .92rem; line-height: 1.25; }
+.uc-pill { font-size: .72rem; font-weight: 600; padding: .18rem .55rem; border-radius: 999px; }
+.uc-pill.ok { background: rgba(31,122,58,.12); color: #1f7a3a; }
+.uc-pill.bad { background: rgba(180,35,24,.12); color: #b42318; }
+.uc-pill.na { background: rgba(127,127,127,.15); opacity: .9; }
 .uc-card { border: 1px solid #dcdcd8; border-radius: 12px; padding: .85rem .9rem; background: #fff; color: #0a0a0a; display: flex; flex-direction: column; gap: .35rem; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .uc-card { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } }
 .uc-card b { font-size: .98rem; }
@@ -170,17 +181,18 @@
     PLATFORMS.forEach(function(p){
       if(current!=='all' && p.c!==current) return;
       var r=checkRule(lastName, p.rule);
-      var card=document.createElement('div'); card.className='uc-card';
-      var tag=document.createElement('span'); tag.className='uc-tag'; tag.textContent=p.c;
-      var b=document.createElement('b'); b.textContent=p.n;
-      var status=document.createElement('span');
-      status.className = r.ok===true ? 'uc-ok' : (r.ok===false ? 'uc-bad' : 'uc-na');
-      status.textContent = r.text;
       var url=p.url.split('{u}').join(encodeURIComponent(lastName));
-      var sm=document.createElement('small'); sm.textContent=url.replace(/^https?:\/\//,'');
-      var a=document.createElement('a'); a.className='uc-btn sm alt'; a.href=url; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Open profile page';
-      card.appendChild(tag); card.appendChild(b); card.appendChild(status); card.appendChild(sm); card.appendChild(a);
-      grid.appendChild(card);
+      var a=document.createElement('a'); a.className='uc-tile'; a.href=url; a.target='_blank'; a.rel='noopener noreferrer';
+      a.setAttribute('aria-label', p.n+': open profile page');
+      var m=document.createElement('span'); m.className='uc-mono '+p.c; m.setAttribute('aria-hidden','true');
+      m.textContent=p.n.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();
+      var b=document.createElement('b'); b.textContent=p.n;
+      var pill=document.createElement('span'); pill.title=r.text;
+      if(r.ok===true){ pill.className='uc-pill ok'; pill.textContent='Fits rules'; }
+      else if(r.ok===false){ pill.className='uc-pill bad'; pill.textContent = r.text.indexOf('short')>-1 ? 'Too short' : (r.text.indexOf('long')>-1 ? 'Too long' : (r.text.indexOf('hyphen')>-1 ? 'Hyphen rule' : 'Not allowed')); }
+      else { pill.className='uc-pill na'; pill.textContent='Check site'; }
+      a.appendChild(m); a.appendChild(b); a.appendChild(pill);
+      grid.appendChild(a);
     });
   }
   function renderVariants(base){
