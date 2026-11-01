@@ -58,3 +58,6 @@ header.site-header { display:block; flex-wrap:nowrap; margin:0; padding-inline:0
 
 /* Mobile menu: Apps and Tools line up with the other items (no box padding, no dot). */
 .menu .nav-dd-m > summary { padding: 0; margin: 0; background: none; color: #fff; border-radius: 0; }
+
+/* Wordmark clipping fix: overflow:hidden needs room for ascenders and descenders, so give the line box enough height. */
+.site-header .wordmark { line-height: 1.5; padding-top: .3rem; padding-bottom: .3rem; }
