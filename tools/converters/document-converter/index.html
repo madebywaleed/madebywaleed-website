@@ -93,8 +93,8 @@
     /* Side ad rails: shown only on wide screens so the converter stays first on phones and laptops */
     .rail { display: none; position: fixed; top: 6rem; width: 160px; flex-direction: column; align-items: center; }
     .rail ins { display: inline-block; width: 160px; height: 600px; }
-    .rail-left { left: calc(50% - 28rem - 176px); }
-    .rail-right { right: calc(50% - 28rem - 176px); }
+    .rail-left { left: 0.75rem; }
+    .rail-right { right: 0.75rem; }
     @media (min-width: 1280px) { .rail { display: flex; } }
 
     /* Ads */
@@ -316,9 +316,8 @@
     @media (min-width: 900px) { .hub .protocols { grid-template-columns: repeat(4, 1fr); } }
     @media (min-width: 1100px) { .hub .protocols { grid-template-columns: repeat(6, 1fr); } }
     .hub .mode-card { padding: 0.875rem; }
-    /* The wide hub leaves no room for the side ads below 1640px, so hide them there. */
+    /* The wide hub leaves no room for the side ads below 1840px, so hide them there. */
     @media (max-width: 1839px) { .hub-page .rail { display: none !important; } }
-    @media (min-width: 1840px) { .hub-page .rail-left { left: calc(50% - 45rem - 176px); } .hub-page .rail-right { right: calc(50% - 45rem - 176px); } }
     .hub { text-align: center; }
     .hub-head { margin: 0 auto 1.5rem; max-width: none; }
     .hub-title { font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.03em; line-height: 1.2; margin: 0 0 0.875rem; }
