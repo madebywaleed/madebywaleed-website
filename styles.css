@@ -339,7 +339,7 @@ h3 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); }
 .actions-row .button { gap: 0.6rem; }
 
 .finale h2 { padding-bottom: 0.08em; }
-.foot-side { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; text-align: left; }
+.foot-side { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; text-align: right; max-width: 24rem; }
 .foot-side a { font-weight: 500; }
 
 @media (max-width: 46rem) {
