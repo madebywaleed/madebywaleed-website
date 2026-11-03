@@ -1,5 +1,6 @@
-// Domain availability lookups for the Username Checker.
-// Only /api/domain is handled here; everything else is served from the static assets.
+// Domain availability lookups for the Username Checker, and email authentication lookups for the Email Checker.
+// /api/domain and /api/email are handled here; everything else is served from the static assets.
+import { handleEmail } from "./email.js";
 
 const TLDS = ["com","net","org","io","co","app","ai","xyz","info","biz","tech","store","shop","blog","media","studio","design","dev","me","online"];
 const ALLOWED = new Set(TLDS);
@@ -15,6 +16,9 @@ function json(body, status = 200, extra = {}) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/email") {
+      return handleEmail(request, env);
+    }
     if (url.pathname !== "/api/domain") {
       return env.ASSETS.fetch(request);
     }

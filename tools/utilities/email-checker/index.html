@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Email Checker – SPF, DKIM and DMARC Test | Made by Waleed</title>
+  <meta name="description" content="Free email checker. Test a domain's SPF, DKIM, DMARC and MX records in one go, with a plain-English result and fix for each. No sign-up.">
+  <meta name="theme-color" content="#fbfbfa">
+  <meta property="og:title" content="Email Checker – SPF, DKIM and DMARC Test | Made by Waleed">
+  <meta property="og:description" content="Check SPF, DKIM, DMARC and MX for any domain, with plain-English results and fixes. Free, no sign-up.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Waleed">
+  <meta property="og:url" content="https://madeby.waleedkhan.agency/tools/utilities/email-checker/">
+  <link rel="canonical" href="https://madeby.waleedkhan.agency/tools/utilities/email-checker/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <link rel="stylesheet" href="/header.css">
+  <style>
+.faq details { border-top: 1px solid #dcdcd8; padding: .9rem 0; }
+.faq details:last-child { border-bottom: 1px solid #dcdcd8; }
+.faq summary { font-weight: 600; cursor: pointer; }
+.faq details p { margin: .5rem 0 0; line-height: 1.65; }
+.ec-wrap { max-width: 1100px; }
+.ec-h1 { font-size: 1.9rem; line-height: 1.15; margin: .5rem 0 .3rem; letter-spacing: -.02em; }
+.ec-form { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.ec-form input { flex: 1; min-width: 14rem; font: inherit; font-size: 1.05rem; padding: .8rem 1rem; border-radius: 12px; border: 1px solid #8a8a8a; background: transparent; color: inherit; }
+.ec-form input.sel { flex: 0 1 14rem; min-width: 9rem; }
+.ec-btn { font: inherit; font-weight: 600; padding: .75rem 1.2rem; border-radius: 999px; border: 1px solid #0a0a0a; background: #0a0a0a; color: #fff; cursor: pointer; }
+.ec-btn:disabled { opacity: .5; cursor: wait; }
+.ec-note { font-size: .92rem; opacity: .85; line-height: 1.6; }
+.ec-err { color: #b42318; font-weight: 600; min-height: 1.4em; }
+.ec-summary { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.2rem 0 .4rem; }
+.ec-chip { font-family: var(--mono, "JetBrains Mono", monospace); font-size: .82rem; font-weight: 700; padding: .35rem .8rem; border-radius: 999px; border: 1px solid #dcdcd8; }
+.ec-chip.pass { background: #e8f7ee; color: #0a6b33; border-color: #bfe6cf; }
+.ec-chip.warn { background: #fff6e0; color: #8a5a00; border-color: #f2d98f; }
+.ec-chip.fail { background: #fdecec; color: #b42318; border-color: #f4bcbc; }
+.ec-chip.info { background: #eef2f7; color: #334155; border-color: #cbd5e1; }
+.ec-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .6rem; }
+.ec-item { border: 1px solid #dcdcd8; border-radius: 14px; padding: .9rem 1rem; background: #fff; color: #0a0a0a; }
+.ec-item .t { font-weight: 700; display: flex; align-items: center; gap: .5rem; }
+.ec-item .d { font-size: .92rem; line-height: 1.6; margin-top: .3rem; opacity: .9; }
+.ec-dot { width: .6rem; height: .6rem; border-radius: 999px; flex-shrink: 0; }
+.ec-dot.pass { background: #12a150; } .ec-dot.warn { background: #e0a100; } .ec-dot.fail { background: #d92d20; } .ec-dot.info { background: #94a3b8; }
+.ec-raw { font-family: var(--mono, "JetBrains Mono", monospace); font-size: .8rem; word-break: break-all; background: #f4f4f1; border-radius: 10px; padding: .6rem .75rem; margin: .4rem 0 0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ec-item { background: #1a1f28; border-color: #2c3441; color: #e6ebf3; } :root:not([data-theme="light"]) .ec-raw { background: #222833; } }
+.tbox h2 { font-size: 1.15rem; margin: 0 0 .5rem; }
+</style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-5ZCFGLFVLV');</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Email Checker", "url": "https://madeby.waleedkhan.agency/tools/utilities/email-checker/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"></svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">Made by Waleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <main id="main">
+    <section class="section tight">
+      <div class="wrap ec-wrap">
+        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/utilities/">Utilities</a> / Email Checker</div>
+        <h1 class="ec-h1">Email Checker<span class="dot">.</span></h1>
+        <p class="ec-note">Check a domain's SPF, DKIM, DMARC and MX records in one go, with a plain-English result for each. Free, no sign-up.</p>
+        <form class="ec-form" id="ec-form" role="search">
+          <label class="sr-only" for="ec-domain">Domain</label>
+          <input id="ec-domain" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="yourdomain.com" maxlength="253">
+          <label class="sr-only" for="ec-sel">DKIM selector (optional)</label>
+          <input id="ec-sel" class="sel" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="DKIM selector (optional)" maxlength="63">
+          <button class="ec-btn" id="ec-go" type="submit">Check domain</button>
+        </form>
+        <p class="ec-err" id="ec-err" role="status"></p>
+        <div id="ec-out" aria-live="polite"></div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap" style="max-width:1100px">
+        <div class="tbox" style="background:transparent;border:1px solid #dcdcd8;border-radius:14px;padding:1.2rem;line-height:1.7">
+          <h2>What the checks mean</h2>
+          <ul>
+            <li><strong>SPF</strong> lists the servers allowed to send mail for your domain. Receivers check the sending server against it.</li>
+            <li><strong>DKIM</strong> signs each message with a key published in DNS. Your mail provider gives you the selector name.</li>
+            <li><strong>DMARC</strong> tells receivers what to do when SPF or DKIM fail, and where to send reports.</li>
+            <li><strong>MX</strong> shows which servers receive mail for the domain.</li>
+          </ul>
+          <p class="ec-note">Results come from public DNS records at the moment you check. DNS changes can take a few hours to spread, so check again after you edit a record.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap" style="max-width:1100px">
+        <div class="tbox" style="background:transparent;border:1px solid #dcdcd8;border-radius:14px;padding:1.2rem;line-height:1.7">
+          <h2>How to fix the common problems</h2>
+          <ol>
+            <li><strong>No SPF record.</strong> Add a TXT record at the domain that starts with v=spf1, lists your sending services, and ends with -all or ~all.</li>
+            <li><strong>SPF lookup limit exceeded.</strong> Each include: and a/mx entry costs one lookup. Remove services you no longer use, or flatten the record with your provider's help.</li>
+            <li><strong>+all in SPF.</strong> Replace +all with -all or ~all. +all lets anyone send as your domain.</li>
+            <li><strong>No DMARC record.</strong> Add a TXT record at _dmarc with v=DMARC1; p=none; rua=mailto:you@yourdomain. Start with p=none to collect reports.</li>
+            <li><strong>DMARC stuck on none.</strong> Read the reports for a few weeks, fix any legitimate senders that fail, then move to p=quarantine and later p=reject.</li>
+            <li><strong>No DKIM key found.</strong> Turn on DKIM in your mail provider's settings, publish the record it gives you, then enter the selector above.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+    <section class="section tight">
+      <div class="wrap faq" style="max-width:1100px">
+        <p class="eyebrow">// questions/</p><h2>Questions<span class="dot">.</span></h2>
+          <details><summary>What is an email authentication check?</summary><p>It reads the DNS records that tell receiving mail servers whether a message really came from your domain. The three main records are SPF, DKIM and DMARC. Together they reduce spam and stop criminals sending fake mail in your name.</p></details>
+          <details><summary>Why does DKIM show "no key found"?</summary><p>DKIM keys are published under a selector name chosen by your mail provider, such as google or selector1, so the tool can only check the common names. Enter your selector in the box to check it directly.</p></details>
+          <details><summary>What is a good DMARC policy?</summary><p>Start with p=none to watch reports, move to p=quarantine when the reports look clean, and finish at p=reject. Adding a rua address lets you receive those reports.</p></details>
+          <details><summary>Why does SPF have a 10-lookup limit?</summary><p>Each include, a, mx, ptr, exists and redirect entry can trigger more DNS lookups. Receivers stop after 10 and treat SPF as failed, so a long record can break mail even when every service is listed.</p></details>
+          <details><summary>Is my domain stored?</summary><p>No. The tool looks up the public DNS records for the domain you enter, and nothing is saved on our servers. The result is cached for a few minutes only to speed up repeat checks.</p></details>
+          <details><summary>Does a pass mean my email will reach the inbox?</summary><p>Not always. Authentication is one signal among many. Good sending habits, clean lists and engaged recipients also matter. A pass means the basics are in place.</p></details>
+          <details><summary>Can I check a domain I do not own?</summary><p>Yes, it is public DNS data. Use the tool to review your own domains, or to check a sender you receive mail from.</p></details>
+        <h3 style="margin-top:2rem">Your privacy</h3>
+        <p>The lookup runs through our server only to read public DNS records. We do not store the domains you check. Read the <a href="/privacy-policy/">website privacy policy</a> for details.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a></nav>
+        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
+        <nav aria-label="Made by Waleed"><p class="foot-h">// made by waleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
+      </div>
+      <div class="foot-side">
+        <a href="mailto:madeby@waleedkhan.agency">madeby@waleedkhan.agency</a>
+        <p>&copy; 2026 Made by Waleed, a brand of Waleed Khan Agency. Made in Peshawar.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+(function () {
+  var form = document.getElementById('ec-form');
+  var dom = document.getElementById('ec-domain');
+  var sel = document.getElementById('ec-sel');
+  var go = document.getElementById('ec-go');
+  var err = document.getElementById('ec-err');
+  var out = document.getElementById('ec-out');
+  var labels = { spf: 'SPF', dmarc: 'DMARC', dkim: 'DKIM', mx: 'MX' };
+  var order = ['spf', 'dmarc', 'dkim', 'mx'];
+
+  function clean(v) { return v.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0].replace(/\.$/, ''); }
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+
+  function render(d) {
+    out.textContent = '';
+    var counts = { pass: 0, warn: 0, fail: 0, info: 0 };
+    d.findings.forEach(function (f) { counts[f.level]++; });
+    var sum = el('div', 'ec-summary');
+    sum.appendChild(el('span', 'ec-chip ' + (counts.fail ? 'fail' : counts.warn ? 'warn' : 'pass'),
+      counts.fail ? counts.fail + ' problem' + (counts.fail > 1 ? 's' : '') : counts.warn ? counts.warn + ' to review' : 'All checks passed'));
+    sum.appendChild(el('span', 'ec-chip info', d.domain));
+    out.appendChild(sum);
+
+    var list = el('ul', 'ec-list');
+    order.forEach(function (key) {
+      d.findings.filter(function (f) { return f.check === key; }).forEach(function (f) {
+        var li = el('li', 'ec-item');
+        var t = el('div', 't');
+        t.appendChild(el('span', 'ec-dot ' + f.level));
+        t.appendChild(el('span', null, labels[key] + ': ' + f.title));
+        li.appendChild(t);
+        li.appendChild(el('div', 'd', f.detail));
+        list.appendChild(li);
+      });
+    });
+    out.appendChild(list);
+
+    var raw = el('details', 'ec-item');
+    raw.style.marginTop = '.8rem';
+    raw.appendChild(el('summary', null, 'Show the DNS records found'));
+    function block(label, recs) {
+      raw.appendChild(el('p', 'ec-note', label));
+      if (!recs || !recs.length) { raw.appendChild(el('div', 'ec-raw', 'None found')); return; }
+      recs.forEach(function (r) { raw.appendChild(el('div', 'ec-raw', r.host ? r.preference + ' ' + r.host : r)); });
+    }
+    block('SPF (TXT at the domain)', d.spf);
+    block('DMARC (TXT at _dmarc)', d.dmarc);
+    block('MX', d.mx);
+    if (d.dkim) Object.keys(d.dkim).forEach(function (s) { block('DKIM selector ' + s, d.dkim[s]); });
+    out.appendChild(raw);
+    out.appendChild(el('p', 'ec-note', 'Checked ' + new Date(d.checked).toLocaleString() + '. Results reflect public DNS when you checked.'));
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var domain = clean(dom.value);
+    var selector = sel.value.trim().toLowerCase();
+    err.textContent = '';
+    out.textContent = '';
+    if (!/^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(domain)) {
+      err.textContent = 'Enter a domain such as yourdomain.com.';
+      return;
+    }
+    if (selector && !/^[a-z0-9]([a-z0-9._-]{0,61}[a-z0-9])?$/.test(selector)) {
+      err.textContent = 'The DKIM selector can use letters, numbers, dots, dashes and underscores.';
+      return;
+    }
+    go.disabled = true;
+    go.textContent = 'Checking...';
+    var url = '/api/email?domain=' + encodeURIComponent(domain) + (selector ? '&selector=' + encodeURIComponent(selector) : '');
+    fetch(url, { headers: { accept: 'application/json' } })
+      .then(function (r) {
+        if (!r.ok) throw new Error('bad');
+        return r.json();
+      })
+      .then(render)
+      .catch(function () {
+        err.textContent = 'Could not check this domain right now. Try again in a few minutes.';
+      })
+      .finally(function () {
+        go.disabled = false;
+        go.textContent = 'Check domain';
+      });
+  });
+})();
+</script>
+</body>
+</html>
