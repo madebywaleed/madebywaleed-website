@@ -40,6 +40,11 @@
 .ec-chip.warn { background: #fff6e0; color: #8a5a00; border-color: #f2d98f; }
 .ec-chip.fail { background: #fdecec; color: #b42318; border-color: #f4bcbc; }
 .ec-chip.info { background: #eef2f7; color: #334155; border-color: #cbd5e1; }
+.ec-verdict { display: inline-flex; align-items: center; gap: .6rem; font-family: var(--mono, "JetBrains Mono", monospace); font-size: 1.15rem; font-weight: 700; padding: .75rem 1.2rem; border-radius: 14px; color: #fff; }
+.ec-verdict.pass { background: #12a150; }
+.ec-verdict.warn { background: #e0a100; color: #1a1200; }
+.ec-verdict.fail { background: #d92d20; }
+.ec-verdict .ec-count { font-size: .85rem; font-weight: 600; opacity: .9; }
 .ec-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .6rem; }
 .ec-item { border: 1px solid #dcdcd8; border-radius: 14px; padding: .9rem 1rem; background: #fff; color: #0a0a0a; }
 .ec-item .t { font-weight: 700; display: flex; align-items: center; gap: .5rem; }
@@ -151,10 +156,12 @@
     out.textContent = '';
     var counts = { pass: 0, warn: 0, fail: 0, info: 0 };
     d.findings.forEach(function (f) { counts[f.level]++; });
+    var level = counts.fail ? 'fail' : counts.warn ? 'warn' : 'pass';
     var sum = el('div', 'ec-summary');
-    sum.appendChild(el('span', 'ec-chip ' + (counts.fail ? 'fail' : counts.warn ? 'warn' : 'pass'),
-      counts.fail ? counts.fail + ' problem' + (counts.fail > 1 ? 's' : '') : counts.warn ? counts.warn + ' to review' : 'All checks passed'));
-    sum.appendChild(el('span', 'ec-chip info', d.domain));
+    var verdict = el('div', 'ec-verdict ' + level);
+    verdict.appendChild(el('span', null, counts.fail ? 'Failed: ' + counts.fail + ' check' + (counts.fail > 1 ? 's' : '') + ' need fixing' : counts.warn ? 'Passed with ' + counts.warn + ' warning' + (counts.warn > 1 ? 's' : '') : 'All checks passed'));
+    verdict.appendChild(el('span', 'ec-count', d.domain));
+    sum.appendChild(verdict);
     out.appendChild(sum);
 
     var list = el('ul', 'ec-list');
