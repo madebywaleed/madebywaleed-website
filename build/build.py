@@ -3,12 +3,13 @@
 
 Usage: python3 build/build.py
 - Replaces each <header class="site-header"> block with build/partials/header.html.
+- Replaces each <footer class="site-footer"> block with build/partials/footer.html.
+  Pages with no site-footer block (and the converter pages, which have their own
+  footer design) are left as they are.
 - Sets aria-current="page" on the top-level nav link for the page's section
   (Apps, Tools, Guides, About) and removes it from every other link.
 - Safe to run more than once: a second run changes nothing.
 
-The footer partial (build/partials/footer.html) is kept for later use; this
-script does not apply it yet, because footers differ between page families.
 """
 import pathlib
 import re
@@ -16,9 +17,11 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PARTIAL = (ROOT / "build" / "partials" / "header.html").read_text(encoding="utf-8").rstrip("\n")
+FOOTER_PARTIAL = (ROOT / "build" / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
 SKIP_DIRS = {"build", "node_modules", ".git"}
 
 HEADER_RE = re.compile(r'<header class="site-header">.*?</header>', re.S)
+FOOTER_RE = re.compile(r'<footer class="site-footer">.*?</footer>', re.S)
 SECTIONS = {"apps": "/apps/", "tools": "/tools/", "guides": "/guides/", "about": "/about/", "support": "/support/"}
 
 
@@ -57,6 +60,7 @@ def build_page(path: pathlib.Path) -> bool:
     section = section_for(rel)
     new_header = mark_current(PARTIAL, section)
     new_text = HEADER_RE.sub(lambda _m: new_header, text, count=1)
+    new_text = FOOTER_RE.sub(lambda _m: FOOTER_PARTIAL, new_text, count=1)
     if new_text == text:
         return False
     path.write_text(new_text, encoding="utf-8")
