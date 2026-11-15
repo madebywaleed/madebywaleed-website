@@ -20,7 +20,7 @@
 .sm-glass{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:16px;
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
 .sm-flow{padding:.5rem;margin-bottom:1rem}
-.sm-flow svg{display:block;width:100%;height:auto}
+.sm-flow svg{display:block;width:100%;max-width:640px;margin:0 auto;height:auto}
 .sm-flow text{fill:var(--sm-text);font-family:inherit}
 .sm-flow .lbl{font-size:16px;font-weight:600;text-anchor:middle}
 .sm-flow .val{font-size:21px;font-weight:700;text-anchor:middle}
@@ -42,8 +42,7 @@
 .sm-chart-head b{color:var(--sm-text)}
 .sm-legend span{display:inline-flex;align-items:center;gap:.35rem;margin-left:.8rem}
 .sm-legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
-.sm-chart canvas{display:block;width:100%;height:210px}
 .sm-note{font-size:.78rem;color:var(--sm-dim);margin:.75rem 0 0}
 @media (prefers-reduced-motion:reduce){.sm-line.fwd,.sm-line.rev{animation:none}}
 
-@media (max-width:480px){.sm-gauge svg{width:50px;height:50px}.sm-card{padding:.75rem}.sm-card .v{font-size:1.25rem}.sm-gauge{gap:.5rem}.sm-flow{padding:.25rem}}
+@media (max-width:480px){.sm-gauge svg{width:50px;height:50px}.sm-card{padding:.75rem}.sm-card .v{font-size:1.25rem}.sm-gauge{gap:.5rem}.sm-flow{padding:.25rem}.sm-flow .lbl{font-size:19px}.sm-flow .val{font-size:30px}}

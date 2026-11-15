@@ -3,8 +3,8 @@
   var root = document.getElementById('sm-app');
   if (!root) return;
   var $ = function (id) { return document.getElementById(id); };
-  var TICK = 3000, KEEP = 600;               // 3 s updates, 30 min of history
-  var hist = [], soc = 55, daily = 6.4, timer = null;
+  var TICK = 3000;                           // 3 s updates
+  var soc = 55, daily = 6.4, timer = null;
 
   function sim(minute) {                      // minute of day, 0..1440
     var sun = Math.max(0, Math.sin((minute - 360) / 720 * Math.PI));   // 06:00 to 18:00
@@ -34,10 +34,10 @@
   }
 
   // power-flow SVG
-  var svg = '<svg viewBox="0 0 600 300" role="img" aria-label="Live power flow between solar panels, inverter, battery, grid and home">';
+  var svg = '<svg viewBox="0 0 600 360" role="img" aria-label="Live power flow between solar panels, inverter, battery, grid and home">';
   var paths = {
-    sol: 'M163 62 C225 62 225 118 246 130', grid: 'M437 62 C375 62 375 118 354 130',
-    bat: 'M163 238 C225 238 225 182 246 170', home: 'M437 238 C375 238 375 182 354 170'
+    sol: 'M300 82 L300 145', grid: 'M163 180 L240 180',
+    bat: 'M300 278 L300 215', home: 'M360 180 L437 180'
   };
   var colors = { sol: 'var(--sm-solar)', grid: 'var(--sm-grid)', bat: 'var(--sm-batt)', home: 'var(--sm-home)' };
   Object.keys(paths).forEach(function (k) { svg += '<path id="sm-p-' + k + '" class="sm-line idle" d="' + paths[k] + '" style="stroke:' + colors[k] + '"/>'; });
@@ -45,9 +45,10 @@
     return '<rect class="node" x="' + (x - 75) + '" y="' + (y - 38) + '" width="150" height="76" rx="16"/>' +
       '<text class="lbl" x="' + x + '" y="' + (y - 9) + '">' + label + '</text><text class="val" id="sm-n-' + k + '" x="' + x + '" y="' + (y + 21) + '">0 W</text>';
   }
-  svg += node('sol', 'Solar panels', 88, 62) + node('grid', 'Grid (WAPDA)', 512, 62) +
-    node('bat', 'Battery', 88, 238) + node('home', 'Home load', 512, 238) +
-    '<rect class="node" x="240" y="115" width="120" height="70" rx="16"/><text class="lbl" x="300" y="143">Inverter</text><text class="val" id="sm-n-inv" x="300" y="170">0 W</text></svg>';
+  // layout: grid on the left, solar on top, inverter in the middle, battery at the bottom, home on the right
+  svg += node('sol', 'Solar panels', 300, 44) + node('grid', 'Grid (WAPDA)', 88, 180) +
+    node('bat', 'Battery', 300, 316) + node('home', 'Home load', 512, 180) +
+    '<rect class="node" x="240" y="145" width="120" height="70" rx="16"/><text class="lbl" x="300" y="173">Inverter</text><text class="val" id="sm-n-inv" x="300" y="200">0 W</text></svg>';
   $('sm-flow').innerHTML = svg;
 
   function setLine(k, watts, forward) {      // forward = flowing toward the inverter
@@ -81,44 +82,13 @@
     $('sm-grid-sub').textContent = fmtW(Math.abs(d.grid)) + ' · ' + d.gridV.toFixed(0) + ' V · ' + d.hz.toFixed(2) + ' Hz';
     $('sm-temp').textContent = d.temp.toFixed(1) + ' °C';
     $('sm-temp-sub').textContent = 'Battery ' + d.battV.toFixed(1) + ' V';
-    drawChart();
   }
 
-  // rolling chart on a canvas (no external library)
-  function drawChart() {
-    var c = $('sm-canvas'), r = c.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
-    if (!r.width) return;
-    c.width = r.width * dpr; c.height = r.height * dpr;
-    var g = c.getContext('2d'); g.scale(dpr, dpr);
-    var W = r.width, H = r.height, L = 44, B = 22, T = 8, max = 1000;
-    hist.forEach(function (p) { max = Math.max(max, p.pv, p.load); });
-    max = Math.ceil(max / 1000) * 1000;
-    g.font = '11px sans-serif'; g.fillStyle = '#9aa4c4'; g.strokeStyle = 'rgba(255,255,255,.1)'; g.lineWidth = 1;
-    var n = max / 1000;
-    for (var i = 0; i <= n; i++) {
-      var y = T + (H - T - B) * i / n;
-      g.beginPath(); g.moveTo(L, y); g.lineTo(W, y); g.stroke();
-      g.fillText((n - i) + ' kW', 2, y + 4);
-    }
-    g.fillText('-30 min', L, H - 6); g.fillText('now', W - 24, H - 6);
-    function line(key, col) {
-      g.strokeStyle = col; g.lineWidth = 2; g.beginPath();
-      hist.forEach(function (p, i) {
-        var x = L + (W - L) * i / (KEEP - 1) + (W - L) * (KEEP - hist.length) / (KEEP - 1);
-        var y = T + (H - T - B) * (1 - p[key] / max);
-        i ? g.lineTo(x, y) : g.moveTo(x, y);
-      });
-      g.stroke();
-    }
-    line('pv', '#ffc233'); line('load', '#5aa9ff');
-  }
-
-  function tick() { var d = step(); hist.push(d); if (hist.length > KEEP) hist.shift(); render(d); }
+  function tick() { render(step()); }
   function setBadge(state, text) { var b = $('sm-badge'); b.className = 'sm-badge ' + state; $('sm-badge-t').textContent = text; }
 
   function startDemo() {
     clearInterval(timer);
-    hist = []; for (var i = KEEP - 1; i >= 1; i--) hist.push(step(i * TICK, true));
     setBadge('online', 'Online (demo)'); tick(); timer = setInterval(tick, TICK);
   }
   function stopDemo() {
@@ -126,6 +96,8 @@
     ['sol', 'grid', 'bat', 'home'].forEach(function (k) { $('sm-p-' + k).setAttribute('class', 'sm-line idle'); });
   }
   $('sm-demo').addEventListener('change', function (e) { e.target.checked ? startDemo() : stopDemo(); });
-  window.addEventListener('resize', drawChart);
+  if (window.LmarAnalytics && $('sm-analytics')) {
+    LmarAnalytics.mount($('sm-analytics'), { fetchStats: function (r) { return Promise.resolve(LmarAnalytics.demoStats(r)); }, csvUrl: null });
+  }
   startDemo();
 })();

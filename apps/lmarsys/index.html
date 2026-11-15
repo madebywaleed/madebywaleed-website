@@ -72,13 +72,10 @@
             <div class="sm-glass sm-card"><div class="k">Grid (WAPDA)</div><div class="v" id="sm-gridst">&mdash;</div><div class="s" id="sm-grid-sub">&nbsp;</div></div>
             <div class="sm-glass sm-card"><div class="k">Inverter</div><div class="v" id="sm-temp">0 &deg;C</div><div class="s" id="sm-temp-sub">&nbsp;</div></div>
           </div>
-          <div class="sm-glass sm-chart">
-            <div class="sm-chart-head"><span><b>Solar vs home load</b> &middot; last 30 minutes</span>
-              <span class="sm-legend"><span><i style="background:#ffc233"></i>Solar</span><span><i style="background:#5aa9ff"></i>Home load</span></span></div>
-            <canvas id="sm-canvas" aria-label="Line chart of solar power and home load over the last 30 minutes"></canvas>
-          </div>
-          <p class="sm-note">Switch Demo mode off to see the Offline state. Moving dots show which way power flows, and move faster when more power is flowing.</p>
+          <div class="sm-glass sm-chart"><div id="sm-analytics"></div></div>
+          <p class="sm-note">Switch Demo mode off to see the Offline state. Moving dots show which way power flows, and move faster when more power is flowing. The analytics section below uses simulated history, so you can try the 60 minute to all-time views.</p>
         </div>
+        <script src="/apps/lmarsys/analytics.js" defer></script>
         <script src="/apps/lmarsys/solar.js" defer></script>
       </div>
     </section>
