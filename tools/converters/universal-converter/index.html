@@ -226,6 +226,18 @@
     table.quick-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
     .hint { font-size: 0.82rem; color: var(--muted); margin: 0.45rem 0 0; }
     @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+
+    /* Two-column tool: type list on the left, converter on the right */
+    @media (min-width: 860px) {
+      .page { max-width: 62rem; }
+      .tool { display: grid; grid-template-columns: 15rem minmax(0, 1fr); grid-template-rows: repeat(7, auto) 1fr; column-gap: 1.75rem; align-content: start; }
+      .tool > h1, .tool > .intro { grid-column: 1 / -1; }
+      #converter { display: contents; }
+      #converter > .field:first-child { grid-column: 1; grid-row: 3 / span 6; align-self: start; padding-right: 1.5rem; border-right: 1px solid var(--glass-line); }
+      #converter > :not(:first-child), .tool > .result, .tool > .quick { grid-column: 2; }
+      #tabs { flex-direction: column; flex-wrap: nowrap; gap: 0.35rem; }
+      #tabs .tab { width: 100%; text-align: left; border-radius: 10px; }
+    }
 </style>
 <link rel="stylesheet" href="/header.css"><style>.site-header{font-family:"Instrument Sans",system-ui,sans-serif;font-size:17px;line-height:1.5}.site-header .nav > a,.site-header .nav-dd-btn{font-size:.82rem}</style>
   <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
