@@ -18,7 +18,7 @@
     'Area and land': { base: 'm2', units: {
       'Square millimetre': 0.000001, 'Square centimetre': 0.0001, 'Square metre (m²)': 1, 'Square kilometre': 1000000,
       'Hectare': 10000, 'Acre': 4046.8564224, 'Square foot': 0.09290304, 'Square yard': 0.83612736,
-      'Square mile': 2589988.110336, 'Marla (Pakistan)': 25.29295, 'Kanal (Pakistan)': 505.857 } },
+      'Square mile': 2589988.110336, 'Marla (Pakistan)': 25.2928526, 'Kanal (Pakistan)': 505.857052 } },
     'Speed': { base: 'ms', units: {
       'Metre per second': 1, 'Kilometre per hour': 0.2777777778, 'Mile per hour': 0.44704,
       'Foot per second': 0.3048, 'Knot': 0.5144444444 } },

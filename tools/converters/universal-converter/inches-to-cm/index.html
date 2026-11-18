@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inches to Centimetres Converter | MadeByWaleed</title>
+  <meta name="description" content="Convert inches to centimetres instantly. 1 inch is exactly 2.54 cm. Free, no sign-up, works in your browser.">
+  <meta name="theme-color" content="#0f172a">
+  <meta property="og:title" content="Inches to Centimetres Converter">
+  <meta property="og:description" content="Convert inches to centimetres instantly. 1 inch is exactly 2.54 cm. Free, no sign-up, works in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madebywaleed.com/tools/converters/universal-converter/inches-to-cm/">
+  <link rel="canonical" href="https://madebywaleed.com/tools/converters/universal-converter/inches-to-cm/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dev.css">
+  <style>
+    :root {
+      --base: #fbfbfa;
+      --glass: #ffffff;
+      --glass-line: #dcdcd8;
+      --text: #0a0a0a;
+      --muted: #55554f;
+      --violet: #0a0a0a;
+      --cyan: #0a0a0a;
+      --amber: #55554f;
+      --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--base);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 1rem;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Site design: no coloured orbs */
+    .orb { display: none !important; }
+    /* Blurred colour orbs behind everything */
+    .orb { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.55; z-index: 0; pointer-events: none; animation: drift 22s ease-in-out infinite alternate; }
+    .orb-1 { width: 42rem; height: 42rem; background: var(--violet); top: -12rem; left: -10rem; }
+    .orb-2 { width: 36rem; height: 36rem; background: var(--cyan); top: 30%; right: -12rem; animation-duration: 28s; }
+    .orb-3 { width: 30rem; height: 30rem; background: var(--amber); bottom: -10rem; left: 20%; opacity: 0.35; animation-duration: 24s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,-30px) scale(1.08); } }
+
+    .page { position: relative; z-index: 1; max-width: 46rem; margin: 0 auto; padding: 1.25rem 1.1rem 3rem; }
+
+    /* Frosted glass */
+    .glass {
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-line);
+      border-radius: 20px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    /* Top bar */
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.7rem 1rem; margin-bottom: 1.25rem; }
+    .topbar a { color: var(--text); text-decoration: none; font-family: var(--mono); font-size: 0.85rem; }
+    .topbar nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .topbar nav a:hover { color: var(--cyan); }
+    .brand { font-family: var(--display) !important; font-weight: 700; font-size: 0.95rem !important; }
+
+    /* Ad slots: spaced clear of buttons so nothing overlaps or invites accidental clicks */
+    .ad-slot { margin: 1.5rem 0; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+    .ad-label { display: block; text-align: center; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.04em; }
+    .ad-slot ins { display: block; width: 100%; }
+
+    /* Tool card */
+    .tool { padding: 1.6rem 1.4rem 1.7rem; }
+    h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 7vw, 3.2rem); line-height: 0.98; letter-spacing: -0.045em; margin: 0 0 0.6rem; }
+    h1 .dot { color: var(--cyan); }
+    .intro { color: var(--muted); margin: 0 0 1.6rem; font-size: 1rem; }
+
+    label { display: block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.45rem; }
+    .field { margin-bottom: 1.25rem; }
+    .row { display: flex; gap: 0.5rem; align-items: stretch; }
+    input[type="text"], input[type="number"], input[type="password"], select { background: #ffffff !important; color: var(--text) !important; border: 1px solid var(--glass-line) !important;
+      width: 100%;
+      background: rgba(15,23,42,0.6);
+      color: var(--text);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font: inherit;
+      font-size: 1rem;
+    }
+    input:focus { outline: 2px solid var(--cyan); outline-offset: 2px; border-color: transparent; }
+    .toggle {
+      flex: 0 0 auto;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 0 0.9rem;
+      font: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .toggle:hover { color: var(--text); }
+    .hint { font-size: 0.82rem; color: var(--muted); margin: 0.45rem 0 0; }
+
+    /* Glowing accent button, with space around it */
+    .convert {
+      display: block;
+      width: 100%;
+      margin: 1.6rem 0 0;
+      padding: 1rem 1.2rem;
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      box-shadow: 0 0 22px rgba(124,58,237,0.55), 0 0 40px rgba(6,182,212,0.25);
+      transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s;
+    }
+    .convert:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(124,58,237,0.75), 0 0 52px rgba(6,182,212,0.35); }
+    .convert:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    .convert:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+    /* Output panel */
+    .output { margin-top: 1.6rem; padding: 1.2rem 1.25rem; min-height: 4.5rem; }
+    .output .label { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0 0 0.4rem; }
+    .output .answer { font-family: var(--display); font-size: clamp(1.25rem, 4vw, 1.6rem); font-weight: 600; line-height: 1.25; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .output .note { color: var(--muted); font-size: 0.92rem; margin: 0.7rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .output.error { border-color: rgba(248,113,113,0.6); }
+    .output.error .answer { color: #fca5a5; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
+    .placeholder { color: var(--muted); font-size: 0.95rem; margin: 0; }
+
+    /* Content section */
+    .content { margin-top: 2.5rem; }
+    .glass.content-card { padding: 1.6rem 1.4rem; margin-bottom: 1.25rem; }
+    .content h2 { font-family: var(--display); font-size: clamp(1.5rem, 4vw, 1.9rem); letter-spacing: -0.03em; margin: 0 0 0.8rem; }
+    .content h3 { font-family: var(--display); font-size: 1.15rem; margin: 1.2rem 0 0.4rem; }
+    .content p, .content li { color: #cbd5e1; }
+    .content ol, .content ul { padding-left: 1.25rem; margin: 0.4rem 0 0; display: grid; gap: 0.4rem; }
+    .content a { color: var(--cyan); }
+
+    /* FAQ accordion */
+    details.faq { border-top: 1px solid var(--glass-line); padding: 0.9rem 0; }
+    details.faq:last-child { border-bottom: 1px solid var(--glass-line); }
+    details.faq summary { cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after { content: "+"; font-family: var(--mono); color: var(--cyan); font-size: 1.2rem; }
+    details.faq[open] summary::after { content: "–"; }
+    details.faq p { margin: 0.6rem 0 0; }
+
+    footer.site { margin-top: 2rem; padding: 1.4rem 1.2rem; text-align: center; font-size: 0.9rem; color: var(--muted); }
+    footer.site nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-bottom: 0.9rem; }
+    footer.site a { color: var(--text); text-decoration: none; font-family: var(--mono); font-size: 0.85rem; }
+    footer.site a:hover { color: var(--cyan); text-decoration: underline; }
+    footer.site p { margin: 0; }
+
+    @media (max-width: 480px) {
+      .row { flex-direction: column; }
+      .toggle { padding: 0.7rem; }
+      .tool { padding: 1.3rem 1.05rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .orb { animation: none; } .convert { transition: none; } }
+  
+    /* Conversion type tabs: every type visible at once */
+    .flabel { display: block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.6rem; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tab {
+      font: inherit; font-size: 0.88rem; font-weight: 600;
+      color: var(--text); background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-line); border-radius: 999px;
+      padding: 0.5rem 0.95rem; cursor: pointer; line-height: 1.2;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .tab:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+    .tab[aria-selected="true"] {
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      border-color: transparent; color: #fff;
+      box-shadow: 0 0 18px rgba(124,58,237,0.45);
+    }
+    .tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .chip {
+      font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--text);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-line);
+      border-radius: 10px; padding: 0.45rem 0.7rem; cursor: pointer; line-height: 1.2;
+    }
+    .chip:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+    .chip[aria-pressed="true"] { background: linear-gradient(135deg, var(--violet), var(--cyan)); border-color: transparent; color: #fff; box-shadow: 0 0 14px rgba(124,58,237,0.4); }
+    .chip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .flabel + .chips, .flabel + .tabs { margin-top: 0; }
+    .toolLinks { margin-top: 0.8rem; }
+    .toolLinks a { text-decoration: none; }
+    .tabs-note { font-size: 0.82rem; color: var(--muted); margin: 0.6rem 0 0; }
+
+    /* Converter controls */
+    select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 2.2rem; }
+    select option { background: #ffffff; color: var(--text); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .swap { align-self: end; width: 3rem; height: 3rem; border-radius: 12px; border: 1px solid var(--glass-line); background: transparent; color: var(--text); font-size: 1.2rem; cursor: pointer; flex: 0 0 auto; }
+    .swap:hover { color: var(--cyan); }
+    .swaprow { display: flex; gap: 0.6rem; align-items: flex-end; }
+    .swaprow > div { flex: 1; min-width: 0; }
+    .result { margin-top: 1.4rem; padding: 1.2rem 1.25rem; }
+    .result .label { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0 0 0.4rem; }
+    .result .answer { font-family: var(--display); font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 700; line-height: 1.15; margin: 0; overflow-wrap: anywhere; }
+    .result .formula { color: var(--muted); font-size: 0.92rem; margin: 0.6rem 0 0; overflow-wrap: anywhere; }
+    .result.error .answer { color: #fca5a5; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
+    .quick { margin-top: 1.1rem; }
+    .quick h2 { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; margin: 0 0 0.5rem; }
+    table.quick-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    table.quick-table td { padding: 0.45rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); overflow-wrap: anywhere; }
+    table.quick-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+    .hint { font-size: 0.82rem; color: var(--muted); margin: 0.45rem 0 0; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+<link rel="stylesheet" href="/header.css"><style>.site-header{font-family:"Instrument Sans",system-ui,sans-serif;font-size:17px;line-height:1.5}.site-header .nav > a,.site-header .nav-dd-btn{font-size:.82rem}</style>
+  <meta name="monetag" content="ca2bc7ef7fb8ecdd89c37c0d3be71914">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5ZCFGLFVLV');
+  </script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "name": "Inches to Centimetres Converter", "url": "https://madebywaleed.com/tools/converters/universal-converter/inches-to-cm/", "description": "Convert inches to centimetres instantly. 1 inch is exactly 2.54 cm. Free, no sign-up, works in your browser.", "isPartOf": {"@type": "WebSite", "name": "MadeByWaleed", "url": "https://madebywaleed.com/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Converters", "item": "https://madebywaleed.com/tools/converters/"}, {"@type": "ListItem", "position": 2, "name": "Universal Converter", "item": "https://madebywaleed.com/tools/converters/universal-converter/"}, {"@type": "ListItem", "position": 3, "name": "Inches to Centimetres", "item": "https://madebywaleed.com/tools/converters/universal-converter/inches-to-cm/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How many cm is 1 inch?", "acceptedAnswer": {"@type": "Answer", "text": "1 inch is exactly 2.54 centimetres."}}, {"@type": "Question", "name": "How many cm is 1 foot?", "acceptedAnswer": {"@type": "Answer", "text": "1 foot is 12 inches, which is 30.48 centimetres."}}, {"@type": "Question", "name": "How many inches is 1 cm?", "acceptedAnswer": {"@type": "Answer", "text": "1 centimetre is about 0.3937 inches."}}]}]}</script>
+</head>
+<body>
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">MadeByWaleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <div class="page"><div aria-hidden="true" style="height:5.5rem"></div>
+
+    <!-- Header ad: responsive leaderboard above the tool -->
+    <div class="ad-slot" aria-label="Advertisement">
+      <div>
+        <span class="ad-label">Advertisement</span>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+    </div>
+
+    <main>
+      <section class="tool glass" aria-labelledby="tool-title">
+        <h1 id="tool-title">Inches to Centimetres Converter<span class="dot">.</span></h1>
+        <p class="intro">Convert inches to centimetres. 1 inch = 2.54 centimetres. Type an amount and the answer updates as you type. Use the swap button to go the other way, or pick any other unit.</p>
+
+        <form id="converter" novalidate data-category="Length" data-from="Inch (in)" data-to="Centimetre (cm)" data-amount="1">
+          <div class="field">
+            <span class="flabel" id="cat-label">Choose a type of conversion</span>
+            <div class="tabs" role="tablist" aria-labelledby="cat-label" id="tabs"></div>
+            <input type="hidden" id="category" value="Length">
+          </div>
+
+          <div class="field">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" inputmode="decimal" step="any" value="1" aria-describedby="amount-hint">
+            <p class="hint" id="amount-hint">Type any amount. Decimals work too.</p>
+          </div>
+
+          <div class="swaprow swapgrid">
+            <div class="field">
+              <span class="flabel">From</span>
+              <div class="chips" id="fromChips" role="group" aria-label="From unit"></div>
+            </div>
+            <button type="button" class="swap" id="swap" aria-label="Swap from and to units">&#8646;</button>
+            <div class="field">
+              <span class="flabel">To</span>
+              <div class="chips" id="toChips" role="group" aria-label="To unit"></div>
+            </div>
+          </div>
+
+          <div class="field" id="extra" hidden></div>
+          <input type="hidden" id="from"><input type="hidden" id="to">
+        </form>
+
+        <div class="result glass" id="result" role="status" aria-live="polite">
+          <p class="label">Result</p>
+          <p class="answer" id="answer"></p>
+          <p class="formula" id="formula"></p>
+        </div>
+
+        <div class="quick glass" style="padding:1rem 1.1rem">
+          <h2 id="quick-title">Common values</h2>
+          <table class="quick-table" aria-labelledby="quick-title"><tbody id="quick"></tbody></table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer ad: in-feed below the tool -->
+    <div class="ad-slot" aria-label="Advertisement">
+      <div>
+        <span class="ad-label">Advertisement</span>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1356293872894760" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+    </div>
+
+    <section class="content" aria-labelledby="guide-title">
+      <div class="glass content-card">
+        <h2 id="guide-title">How to convert inches to centimetres</h2>
+        <p>The inch is used for everyday lengths in the US and the UK, such as screen sizes and heights. One inch is exactly 2.54 centimetres.</p>
+        <p>To convert inches to centimetres, multiply the inches by 2.54. To go the other way, divide the centimetres by 2.54.</p>
+        <p>Example: 12 in = 30.48 cm.</p>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Inches to Centimetres chart</h2>
+        <table class="quick-table"><tbody><tr><td>1 in</td><td>2.54 cm</td></tr><tr><td>2 in</td><td>5.08 cm</td></tr><tr><td>5 in</td><td>12.7 cm</td></tr><tr><td>6 in</td><td>15.24 cm</td></tr><tr><td>10 in</td><td>25.4 cm</td></tr><tr><td>12 in</td><td>30.48 cm</td></tr><tr><td>24 in</td><td>60.96 cm</td></tr><tr><td>36 in</td><td>91.44 cm</td></tr></tbody></table>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Centimetres to Inches chart</h2>
+        <table class="quick-table"><tbody><tr><td>1 cm</td><td>0.3937 in</td></tr><tr><td>5 cm</td><td>1.9685 in</td></tr><tr><td>10 cm</td><td>3.937 in</td></tr><tr><td>30 cm</td><td>11.811 in</td></tr><tr><td>50 cm</td><td>19.685 in</td></tr><tr><td>100 cm</td><td>39.3701 in</td></tr><tr><td>150 cm</td><td>59.0551 in</td></tr><tr><td>180 cm</td><td>70.8661 in</td></tr></tbody></table>
+      </div>
+
+      <div class="glass content-card">
+        <h2>Common questions</h2>
+        <details class="faq"><summary>How many cm is 1 inch?</summary><p>1 inch is exactly 2.54 centimetres.</p></details>
+<details class="faq"><summary>How many cm is 1 foot?</summary><p>1 foot is 12 inches, which is 30.48 centimetres.</p></details>
+<details class="faq"><summary>How many inches is 1 cm?</summary><p>1 centimetre is about 0.3937 inches.</p></details>
+
+      </div>
+
+      <div class="glass content-card">
+        <h2>More conversions</h2>
+        <div class="tabs toolLinks">
+          <a class="tab" href="/tools/converters/universal-converter/miles-to-km/">Miles to Kilometres</a>
+          <a class="tab" href="/tools/converters/universal-converter/">All unit conversions</a>
+          <a class="tab" href="/tools/converters/">All converters</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site glass">
+      <nav aria-label="Footer">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/about/">About Us</a>
+        <a href="/support/">Support</a>
+        <a href="mailto:support@madebywaleed.com">Contact</a>
+      </nav>
+      <p>&copy; 2026 MadeByWaleed, a brand of MBW Technologies (SMC-Private) Limited (CUIN 0366589). Free tool by MadeByWaleed.</p>
+    </footer>
+  </div>
+  <script src="/tools/converters/universal-converter/converter.js"></script>
+<script src="/script.js"></script>
+</body>
+</html>
