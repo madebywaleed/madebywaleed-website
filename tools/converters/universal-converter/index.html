@@ -139,24 +139,26 @@
     .output .answer { font-family: var(--display); font-size: clamp(1.25rem, 4vw, 1.6rem); font-weight: 600; line-height: 1.25; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
     .output .note { color: var(--muted); font-size: 0.92rem; margin: 0.7rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
     .output.error { border-color: rgba(248,113,113,0.6); }
-    .output.error .answer { color: #fca5a5; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
+    .output.error .answer { color: #b91c1c; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
     .placeholder { color: var(--muted); font-size: 0.95rem; margin: 0; }
 
     /* Content section */
     .content { margin-top: 2.5rem; }
     .glass.content-card { padding: 1.6rem 1.4rem; margin-bottom: 1.25rem; }
     .content h2 { font-family: var(--display); font-size: clamp(1.5rem, 4vw, 1.9rem); letter-spacing: -0.03em; margin: 0 0 0.8rem; }
-    .content h3 { font-family: var(--display); font-size: 1.15rem; margin: 1.2rem 0 0.4rem; }
-    .content p, .content li { color: #cbd5e1; }
+    .content h3 { font-family: var(--display); font-size: 1.15rem; margin: 1.4rem 0 0.5rem; }
+    .content li::marker { color: var(--muted); }
+    .content p, .content li { color: #2f2f2b; font-size: 1.02rem; line-height: 1.65; }
     .content ol, .content ul { padding-left: 1.25rem; margin: 0.4rem 0 0; display: grid; gap: 0.4rem; }
-    .content a { color: var(--cyan); }
+    .content a { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+    .content a.tab { text-decoration: none; }
 
     /* FAQ accordion */
     details.faq { border-top: 1px solid var(--glass-line); padding: 0.9rem 0; }
     details.faq:last-child { border-bottom: 1px solid var(--glass-line); }
     details.faq summary { cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
     details.faq summary::-webkit-details-marker { display: none; }
-    details.faq summary::after { content: "+"; font-family: var(--mono); color: var(--cyan); font-size: 1.2rem; }
+    details.faq summary::after { content: "+"; font-family: var(--mono); color: var(--text); font-size: 1.2rem; }
     details.faq[open] summary::after { content: "–"; }
     details.faq p { margin: 0.6rem 0 0; }
 
@@ -178,26 +180,26 @@
     .tabs { display: flex; flex-wrap: wrap; gap: 0.45rem; }
     .tab {
       font: inherit; font-size: 0.88rem; font-weight: 600;
-      color: var(--text); background: rgba(255,255,255,0.05);
+      color: var(--text); background: #fff;
       border: 1px solid var(--glass-line); border-radius: 999px;
       padding: 0.5rem 0.95rem; cursor: pointer; line-height: 1.2;
       transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
-    .tab:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+    .tab:hover { border-color: #0a0a0a; background: #f1f1ee; }
     .tab[aria-selected="true"] {
       background: linear-gradient(135deg, var(--violet), var(--cyan));
       border-color: transparent; color: #fff;
-      box-shadow: 0 0 18px rgba(124,58,237,0.45);
+      box-shadow: none;
     }
     .tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
     .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .chip {
       font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--text);
-      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-line);
+      background: #fff; border: 1px solid var(--glass-line);
       border-radius: 10px; padding: 0.45rem 0.7rem; cursor: pointer; line-height: 1.2;
     }
-    .chip:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
-    .chip[aria-pressed="true"] { background: linear-gradient(135deg, var(--violet), var(--cyan)); border-color: transparent; color: #fff; box-shadow: 0 0 14px rgba(124,58,237,0.4); }
+    .chip:hover { border-color: #0a0a0a; background: #f1f1ee; }
+    .chip[aria-pressed="true"] { background: linear-gradient(135deg, var(--violet), var(--cyan)); border-color: transparent; color: #fff; box-shadow: none; }
     .chip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
     .flabel + .chips, .flabel + .tabs { margin-top: 0; }
     .toolLinks { margin-top: 0.8rem; }
@@ -216,11 +218,11 @@
     .result .label { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0 0 0.4rem; }
     .result .answer { font-family: var(--display); font-size: clamp(1.5rem, 5vw, 2.1rem); font-weight: 700; line-height: 1.15; margin: 0; overflow-wrap: anywhere; }
     .result .formula { color: var(--muted); font-size: 0.92rem; margin: 0.6rem 0 0; overflow-wrap: anywhere; }
-    .result.error .answer { color: #fca5a5; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
+    .result.error .answer { color: #b91c1c; font-size: 1.05rem; font-weight: 500; font-family: var(--body); }
     .quick { margin-top: 1.1rem; }
     .quick h2 { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; margin: 0 0 0.5rem; }
     table.quick-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-    table.quick-table td { padding: 0.45rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); overflow-wrap: anywhere; }
+    table.quick-table td { padding: 0.45rem 0.2rem; border-top: 1px solid var(--glass-line); overflow-wrap: anywhere; }
     table.quick-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
     .hint { font-size: 0.82rem; color: var(--muted); margin: 0.45rem 0 0; }
     @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
@@ -307,6 +309,37 @@
       </div>
     </div>
 
+    <section class="content" aria-labelledby="pages-title">
+      <div class="glass content-card">
+        <h2 id="pages-title">Popular conversion pages</h2>
+        <p>Jump straight to a ready-made converter for a common conversion.</p>
+        <h3>Weight</h3>
+        <div class="tabs toolLinks">
+          <a class="tab" href="/tools/converters/universal-converter/tola-to-grams/">Tola to Grams</a>
+          <a class="tab" href="/tools/converters/universal-converter/seer-to-kg/">Seer to Kg</a>
+          <a class="tab" href="/tools/converters/universal-converter/maund-to-kg/">Maund to Kg</a>
+          <a class="tab" href="/tools/converters/universal-converter/kg-to-pounds/">Kg to Pounds</a>
+          <a class="tab" href="/tools/converters/universal-converter/pounds-to-kg/">Pounds to Kg</a>
+        </div>
+        <h3>Land area</h3>
+        <div class="tabs toolLinks">
+          <a class="tab" href="/tools/converters/universal-converter/marla-to-square-feet/">Marla to Square Feet</a>
+          <a class="tab" href="/tools/converters/universal-converter/kanal-to-marla/">Kanal to Marla</a>
+          <a class="tab" href="/tools/converters/universal-converter/kanal-to-square-feet/">Kanal to Square Feet</a>
+        </div>
+        <h3>Temperature</h3>
+        <div class="tabs toolLinks">
+          <a class="tab" href="/tools/converters/universal-converter/celsius-to-fahrenheit/">Celsius to Fahrenheit</a>
+          <a class="tab" href="/tools/converters/universal-converter/fahrenheit-to-celsius/">Fahrenheit to Celsius</a>
+        </div>
+        <h3>Length</h3>
+        <div class="tabs toolLinks">
+          <a class="tab" href="/tools/converters/universal-converter/miles-to-km/">Miles to Kilometres</a>
+          <a class="tab" href="/tools/converters/universal-converter/inches-to-cm/">Inches to Centimetres</a>
+        </div>
+      </div>
+    </section>
+
     <section class="content" aria-labelledby="guide-title">
       <div class="glass content-card">
         <h2 id="guide-title">How to use the Universal Converter</h2>
@@ -386,37 +419,6 @@
           <summary>What is a tola, seer or maund?</summary>
           <p>They are traditional units of weight used in Pakistan and parts of South Asia. A tola is about 11.66 grams, a seer is about 933 grams, and a maund is 40 seers, or about 37.32 kilograms.</p>
         </details>
-      </div>
-    </section>
-
-    <section class="content" aria-labelledby="pages-title">
-      <div class="glass content-card">
-        <h2 id="pages-title">Popular conversion pages</h2>
-        <p>Jump straight to a ready-made converter for a common conversion.</p>
-        <h3>Weight</h3>
-        <div class="tabs toolLinks">
-          <a class="tab" href="/tools/converters/universal-converter/tola-to-grams/">Tola to Grams</a>
-          <a class="tab" href="/tools/converters/universal-converter/seer-to-kg/">Seer to Kg</a>
-          <a class="tab" href="/tools/converters/universal-converter/maund-to-kg/">Maund to Kg</a>
-          <a class="tab" href="/tools/converters/universal-converter/kg-to-pounds/">Kg to Pounds</a>
-          <a class="tab" href="/tools/converters/universal-converter/pounds-to-kg/">Pounds to Kg</a>
-        </div>
-        <h3>Land area</h3>
-        <div class="tabs toolLinks">
-          <a class="tab" href="/tools/converters/universal-converter/marla-to-square-feet/">Marla to Square Feet</a>
-          <a class="tab" href="/tools/converters/universal-converter/kanal-to-marla/">Kanal to Marla</a>
-          <a class="tab" href="/tools/converters/universal-converter/kanal-to-square-feet/">Kanal to Square Feet</a>
-        </div>
-        <h3>Temperature</h3>
-        <div class="tabs toolLinks">
-          <a class="tab" href="/tools/converters/universal-converter/celsius-to-fahrenheit/">Celsius to Fahrenheit</a>
-          <a class="tab" href="/tools/converters/universal-converter/fahrenheit-to-celsius/">Fahrenheit to Celsius</a>
-        </div>
-        <h3>Length</h3>
-        <div class="tabs toolLinks">
-          <a class="tab" href="/tools/converters/universal-converter/miles-to-km/">Miles to Kilometres</a>
-          <a class="tab" href="/tools/converters/universal-converter/inches-to-cm/">Inches to Centimetres</a>
-        </div>
       </div>
     </section>
 
