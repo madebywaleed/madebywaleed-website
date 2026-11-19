@@ -226,3 +226,7 @@ for p in P:
         sm = sm.replace(a, a + '  <url><loc>%s</loc></url>\n' % loc, 1)
 open('sitemap.xml', 'w', encoding='utf-8').write(sm)
 print('built', len(P))
+
+# re-apply the ad units to the freshly generated pages
+import subprocess as _sp
+_sp.run(["python3", "build/add_ads.py"], check=False)
