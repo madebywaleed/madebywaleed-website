@@ -2473,9 +2473,6 @@
 
   // Ads: request each slot once the page is ready.
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('ins.adsbygoogle').forEach(function () {
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* ad blocked or unavailable */ }
-    });
   });
 
   renderHeader();

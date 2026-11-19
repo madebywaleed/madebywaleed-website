@@ -5,7 +5,7 @@ import re, json, os
 D = 'tools/converters/universal-converter/'
 H = open(D + 'index.html', encoding='utf-8').read()
 top0 = H[:H.index('</main>') + 7]
-ad = re.search(r'    <!-- Footer ad.*?</div>\n    </div>\n', H, re.S).group(0)
+ad = ''
 
 F = {  # factor to base unit
  'Tola (Pakistan)': 0.0116638, 'Seer (South Asia)': 0.9331, 'Maund (South Asia)': 37.3242,
