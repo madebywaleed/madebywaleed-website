@@ -54,6 +54,7 @@
 .faq summary { font-weight: 600; cursor: pointer; }
 .faq details p { margin: .5rem 0 0; line-height: 1.65; }
 </style>
+  <link rel="stylesheet" href="/tester-shell.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZCFGLFVLV"></script>
   <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-5ZCFGLFVLV');</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Webcam and Camera Tester", "url": "https://madebywaleed.com/tools/device-testers/camera-tester/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any web browser", "isAccessibleForFree": true, "description": "Free online webcam test. See a live camera preview, check resolution and frame rate, switch cameras and save a test snapshot, all in your browser with nothing uploaded.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is the frame rate lower than the camera's advertised rate?", "acceptedAnswer": {"@type": "Answer", "text": "Low light, the camera's own settings and the browser can all lower the frame rate. The number shown is what the browser reports for the stream."}}, {"@type": "Question", "name": "Is my camera image uploaded?", "acceptedAnswer": {"@type": "Answer", "text": "No. The preview and snapshot are made in your browser. A snapshot is saved to your device only when you press Save snapshot."}}, {"@type": "Question", "name": "Why does the preview stay blank?", "acceptedAnswer": {"@type": "Answer", "text": "Check that you allowed camera access, that no other app is using the camera, and that the page is loaded over HTTPS. Closing video calls or other camera apps often fixes it."}}, {"@type": "Question", "name": "Why is the preview mirrored?", "acceptedAnswer": {"@type": "Answer", "text": "Most laptop and front phone cameras show a mirror image by default, which feels natural when you look at yourself. Untick Mirror to see the image as the camera captures it."}}, {"@type": "Question", "name": "Can I use this with a USB webcam?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. USB webcams usually appear in the camera list once you allow access. Choose the one you want from the Camera list."}}]}]}</script>
@@ -61,22 +62,13 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1356293872894760"
      crossorigin="anonymous"></script>
 </head>
-<body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <filter id="wk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-  </svg>
+<body class="tester">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">MadeByWaleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>  <main id="main">
-    <section class="hero page-hero">
-      <div class="wrap">
-        <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/device-testers/">Device testers</a> / Camera Test</div>
-        <h1>Webcam and Camera Tester<span class="dot">.</span></h1>
-        <p class="lead">Check your webcam or phone camera with a live preview, see the resolution and frame rate it reports, and save a test snapshot. Free, no sign-up, and nothing is uploaded.</p>
-      </div>
-    </section>
+  <div class="wrap">
+  <header class="site-header"><div class="wrap"><a class="wordmark" href="/">MadeByWaleed</a><nav class="nav" aria-label="Main"><div class="nav-dd"><a class="nav-dd-btn" href="/apps/">Apps</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div></div></div><div class="nav-dd"><a class="nav-dd-btn" href="/tools/" aria-current="page">Tools</a><div class="dd"><div class="dd-panel"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></div></div><a href="/guides/">Guides</a><a href="/about/">About</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav><a class="button" href="/support/">Support</a><details class="menu"><summary>Menu</summary><nav aria-label="Mobile"><details class="nav-dd-m"><summary>Apps</summary><div class="dd-panel-m"><a class="dd-all" href="/apps/">All apps</a><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div></details><details class="nav-dd-m"><summary>Tools</summary><div class="dd-panel-m"><a class="dd-all" href="/tools/">All tools</a><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div></details><a href="/guides/">Guides.</a><a href="/about/">About.</a><a href="/support/">Support.</a><a href="https://waleedkhan.agency/">Agency ↗</a></nav></details></div></header>
+  <div class="crumb"><a href="/tools/">Tools</a> / <a href="/tools/device-testers/">Device testers</a> / Camera Test</div>
+  <div class="thead"><h1>Webcam and Camera Tester</h1><p class="sub">Check your webcam or phone camera with a live preview, see the resolution and frame rate it reports, and save a test snapshot. Free, no sign-up, and nothing is uploaded.</p></div>
+  <main id="main">
     <section class="section tight">
       <div class="wrap">
         <div class="tool">
@@ -135,19 +127,15 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="foot-cols">
-        <nav aria-label="Apps"><p class="foot-h">// apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></nav>
-        <nav aria-label="Tools"><p class="foot-h">// tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a></nav>
-        <nav aria-label="MadeByWaleed"><p class="foot-h">// madebywaleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a><a href="https://waleedkhan.agency/">Waleed Khan Agency ↗</a></nav>
-      </div>
-      <div class="foot-side">
-        <a href="mailto:support@madebywaleed.com">support@madebywaleed.com</a>
-        <p>&copy; 2026 MadeByWaleed, a brand of MBW Technologies (SMC-Private) Limited (CUIN 0366589).</p>
-      </div>
+  <footer class="mbw-foot">
+    <div class="mbw-cols">
+      <div><p>Apps</p><a href="/apps/istiqamah/">Istiqamah</a><a href="/apps/status-saver/">Status Saver</a><a href="/apps/waraq-scanner/">Waraq Scanner</a><a href="/apps/devicescanpro/">DeviceScan Pro</a><a href="/apps/yadawana/">Yadawana</a><a href="/apps/myrides/">MyRides</a><a href="/apps/lmarsys/">LmarSys</a></div>
+      <div><p>Tools</p><a href="/tools/device-testers/">Device testers</a><a href="/tools/converters/">Converters</a><a href="/tools/calculators/">Calculators</a><a href="/tools/utilities/">Utilities</a></div>
+      <div><p>MadeByWaleed</p><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/support/">Support</a><a href="/support/#privacy">App privacy policies</a><a href="/privacy-policy/">Website privacy policy</a></div>
     </div>
+    <p class="mbw-legal">support@madebywaleed.com &middot; &copy; 2026 MadeByWaleed, a brand of MBW Technologies (SMC-Private) Limited (CUIN 0366589). Nothing you do on this page leaves your computer.</p>
   </footer>
+</div>
 <script>
 (function(){
   var stream=null;
