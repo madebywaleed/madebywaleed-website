@@ -228,7 +228,7 @@
 
     /* Two-column tool: type list on the left, converter on the right */
     @media (min-width: 860px) {
-      .page { max-width: 62rem; }
+      .page { max-width: calc(1232px + 2.2rem); }
       .tool { display: grid; grid-template-columns: 15rem minmax(0, 1fr); grid-template-rows: repeat(7, auto) 1fr; column-gap: 1.75rem; align-content: start; }
       .tool > h1, .tool > .intro { grid-column: 1 / -1; }
       #converter { display: contents; }

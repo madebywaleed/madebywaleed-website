@@ -4,7 +4,7 @@
 html { color-scheme: light; }
 body.tester { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--display); font-size: 15px; line-height: 1.5;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 84px 40px; }
-body.tester .wrap { max-width: 1180px; margin: 0 auto; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+body.tester .wrap { max-width: 1232px; margin: 0 auto; padding: 0; display: flex; flex-direction: column; gap: 20px; }
 body.tester .site-header .wrap { flex-direction: row; gap: 0; }
 body.tester .crumb { display: block; margin: 0; font-size: 0.85rem; font-weight: 400; color: var(--muted); text-decoration: none; }
 body.tester .crumb a { color: var(--fg); }
